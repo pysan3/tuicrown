@@ -1,3 +1,7 @@
+### Nim ###
 nimcache/
 nimblecache/
 htmldocs/
+
+### EnvVars ###
+/.env
