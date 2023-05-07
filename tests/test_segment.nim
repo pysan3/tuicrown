@@ -45,7 +45,7 @@ test "TuiStyles new":
 
 test "TuiStyles":
   check $newTuiStyles() == """[]"""
-  check $newTuiStyles(@[styleBright]) == """[st: [@[styleBright]]]"""
+  check $newTuiStyles(@[styleBright]) == """[st: @[styleBright]]"""
   check $newTuiStyles(fgRed) == """[fg: (kind: TuiForegroundColorKind, TuiForegroundColorData: fgRed)]"""
   check $newTuiStyles(colBlue) == """[fg: (kind: TuiFGColorKind, TuiFGColorData: #0000FF)]"""
   check $newTuiStyles(fgRed, colBlue) == """[bg: (kind: TuiBGColorKind, TuiBGColorData: #0000FF), fg: (kind: TuiForegroundColorKind, TuiForegroundColorData: fgRed)]"""
@@ -91,6 +91,30 @@ test "TuiSegment addStyle/delStyle":
   while seg.style.bgColor.isSome:
     seg.delStyle(bgColor = seg.style.bgColor)
   check seg.style == newTuiStyles(fgRed)
+
+test "TuiStyles from string":
+  check newTuiStyles(nil, "fgRed") == newTuiStyles(fgRed)
+  check newTuiStyles(nil, "fg:red") == newTuiStyles(fgRed)
+  check newTuiStyles(nil, "bg:red") == newTuiStyles(bgColor = bgRed)
+  check newTuiStyles(nil, "fg:gray") == newTuiStyles(color = colGray)
+  check newTuiStyles(nil, "bold") == newTuiStyles(styles = @[styleBlink])
+  check newTuiStyles(nil, "u") == newTuiStyles(styles = @[styleUnderscore])
+
+test "TuiStyles extend from string":
+  var st = newTuiStyles(nil, "fgRed")
+  st = newTuiStyles(st, "bg:gray")
+  check st == newTuiStyles(fgRed, colGray)
+  st = newTuiStyles(st, "bold")
+  check st == newTuiStyles(fgRed, colGray, @[styleBlink])
+  st = newTuiStyles(st, "i")
+  check st == newTuiStyles(fgRed, colGray, @[styleBlink, styleItalic])
+
+test "TuiSegment from string":
+  var segseq = fromString("[red]hoge")
+  var correct = @[newTuiSegment(), newTuiSegment("hoge", newTuiStyles(fgRed))]
+  check segseq.len() == correct.len()
+  for (seg, cor) in zip(segseq, correct):
+    check seg == cor
 
 # doAssertRaises(OSError): discard createTempFile("", "", "nonexistent")
 

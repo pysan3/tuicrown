@@ -1,4 +1,5 @@
 import std/colors
+import std/tables
 import std/os
 import std/enumerate
 import std/macros
@@ -87,6 +88,8 @@ type
     style*: TuiStyles
     controls*: seq[TuiControl]
 
+func addUniq*[T](a: var seq[T], b: T) =
+  if b notin a: a.add(b)
 func addUniq*[T](a: var seq[T], b: seq[T]) = a.add(b.filterIt(it notin a))
 func deleteIf*[T](a: var seq[T], i: int) =
   if a.low <= i and i <= a.high:
@@ -170,7 +173,7 @@ proc print*(self: TuiStyles): string =
   "[" & [
     "bg: " & (if self.bgColor.isSome: $self.bgColor.get() else: ""),
     "fg: " & (if self.fgColor.isSome: $self.fgColor.get() else: ""),
-    "st: " & (if self.styles.len > 0: &"[{self.styles}]" else: ""),
+    "st: " & (if self.styles.len > 0: $self.styles else: ""),
   ].filterIt(it.len > 4).join(", ") & "]"
 
 proc `$`*(self: TuiStyles): string =
@@ -184,7 +187,7 @@ proc `-=`*(self: var TuiStyles, o: TuiStyles) =
   self.fgColors.deleteIf(self.fgColors.find(o.fgColor))
   self.bgColors.deleteIf(self.bgColors.find(o.bgColor))
   self.styles.keepItIf(it notin o.styles)
-proc `==`*(self: var TuiStyles, o: TuiStyles): bool =
+proc `==`*(self: TuiStyles, o: TuiStyles): bool =
   (self.fgColor == o.fgColor) and
   (self.bgColor == o.bgColor) and
   self.styles.allIt(it in o.styles)
@@ -194,6 +197,13 @@ proc newTuiSegment*(
     style: TuiStyles = newTuiStyles(),
     controls: seq[TuiControl] = newSeq[TuiControl](),
   ): auto = TuiSegment(text: text, style: style, controls: controls)
+
+func `==`*(self: TuiSegment, o: TuiSegment): bool =
+  (self.text == o.text) and
+  (self.style == o.style) and
+  zip(self.controls, o.controls).allIt(it[0] == it[1])
+
+func len*(self: TuiSegment): int = self.text.len
 
 proc copy*(refObj: TuiSegment, copyControls = false): auto =
   result = newTuiSegment(refObj.text, refObj.style.copy())
@@ -226,6 +236,90 @@ func delStyle*(
     styles: seq[Style] = newSeq[Style]();
   ) = self.delStyle(newTuiStyles(color, bgColor, styles))
 func delStyle*(self: var TuiSegment, arg: seq[Style]) = self.delStyle(newTuiStyles(styles = arg))
+
+proc findIf*[T](s: seq[T], pred: (x: T) -> bool): Option[T] =
+  for x in s:
+    if pred(x):
+      return some(x)
+  return none(T)
+
+func findSubstr*(s: string, t: string, strFroms: seq[int]): bool =
+  strFroms.anyIt((it == 0 and s == t) or s.substr(it) == t)
+
+proc get*[T: enum](E: typedesc[T], idx: string, default: Option[T] = none(T), strFroms: seq[int] = newSeq[int]()): Option[T] =
+  result = E.toSeq.findIf((it: T) => it.symbolName.toLowerAscii.findSubstr(idx, strFroms))
+  if result.isNone() and not default.isNone():
+    result = default
+
+const styleLookUp = {
+  "b": styleBlink,
+  "bold": styleBlink,
+  "i": styleItalic,
+  "r": styleReverse,
+  "s": styleStrikethrough,
+  "u": styleUnderscore,
+}.toTable()
+proc searchStyle*(token: string): Option[Style] =
+  if token in styleLookUp:
+    return some(styleLookUp[token])
+  return Style.get(token, strFroms = @[0, 5])
+
+proc searchFGBG*[T: enum](E: typedesc[T], token: string): Option[T] =
+  return T.get(token, strFroms = @[0, 2])
+
+proc searchColor*(token: string): Option[Color] =
+  let t = token.substr(token.startsWith("col").ord * 3)
+  if t.isColor:
+    return some(t.parseColor())
+  return none(Color)
+
+proc parseStr*(str: string, isBackground: bool): Option[TuiStyles] =
+  if (let tmp = searchStyle(str); tmp).isSome:
+    return some(newTuiStyles(styles = @[tmp.get()]))
+  elif not isBackground and (let tmp = ForegroundColor.searchFGBG(str); tmp).isSome:
+    return some(newTuiStyles(color = tmp.get()))
+  elif (let tmp = BackgroundColor.searchFGBG(str); tmp).isSome:
+    return some(newTuiStyles(bgColor = tmp.get()))
+  elif (let tmp = searchColor(str); tmp).isSome:
+    if isBackground:
+      return some(newTuiStyles(bgColor = tmp.get()))
+    else:
+      return some(newTuiStyles(color = tmp.get()))
+  return none(TuiStyles)
+
+proc newTuiStyles*(old: TuiStyles, texts: string): TuiStyles =
+  if texts == "/":
+    return newTuiStyles()
+  result = if old.isNil: newTuiStyles() else: old.deepCopy()
+  for s in texts.toLowerAscii.split(' ').filterIt(it.len > 0):
+    var str = s
+    let reverse = s[0] == '/'
+    if reverse: str = s.substr(1)
+    let isBackground = s.startsWith("bg:")
+    let isForeground = s.startsWith("fg:")
+    if (isBackground or isForeground): str = s.substr(3)
+    let style = parseStr(str, isBackground)
+    if style.isSome:
+      if reverse: result -= style.get()
+      else: result += style.get()
+
+proc fromString*(text: string): seq[TuiSegment] {.discardable.} =
+  var
+    blockstart: int = -1
+    accumfrom: int = 0
+  result.add(newTuiSegment())
+  for i, s in enumerate(text):
+    if s == '[':
+      blockstart = if blockstart < 0: i + 1 else: -1
+      if blockstart > 1:
+        result[^1].text.add(text[accumfrom..<i])
+    elif s == ']' and blockstart >= 0:
+      let subs = text[blockstart..<i]
+      result.add(newTuiSegment(style = newTuiStyles(result[^1].style, subs)))
+      blockstart = -1
+      accumfrom = i + 1
+  if accumfrom < text.len:
+    result[^1].text.add(text[accumfrom..<text.len])
 
 when isMainModule:
   echo newTuiControl(BELL).escape()
@@ -277,6 +371,25 @@ when isMainModule:
   deepseg.delStyle(colRed)
   echo deepseg
   echo seg
+
+  echo newTuiStyles(nil, "fgRed")
+  echo newTuiStyles(nil, "fg:red")
+  echo newTuiStyles(nil, "bg:red")
+  echo newTuiStyles(nil, "fg:gray")
+  echo newTuiStyles(nil, "gray")
+  echo newTuiStyles(nil, "bold")
+  echo newTuiStyles(nil, "underscore")
+
+  var st = newTuiStyles(nil, "fgRed")
+  echo st
+  st = newTuiStyles(st, "bg:gray")
+  echo st
+  st = newTuiStyles(st, "bold")
+  st = newTuiStyles(st, "bright")
+  echo st
+
+  echo fromString("[red]hoge")
+  echo fromString("normal[red u]red underline[/u]only red[/red]normal")
 
 ## Color:
 ## red, green ...
