@@ -7,6 +7,9 @@ type
   Submodule* = object
     name*: string
 
+template todo*() =
+  assert(false, "Not Implemented")
+
 proc initSubmodule*(): Submodule =
   ## Initialises a new ``Submodule`` object.
   Submodule(name: "Anonymous")
