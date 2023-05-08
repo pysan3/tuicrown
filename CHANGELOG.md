@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.0](https://github.com/pysan3/tuicrown/compare/v0.3.0...v0.4.0) (2023-05-08)
+
+
+### Features
+
+* **ci:** test with `nim v1.9.3` to check backwards compatibility ([eaf5081](https://github.com/pysan3/tuicrown/commit/eaf508184c881d2000fc94e20bd8790d9f2960b1))
+* **docs:** test and docsgen on different ci ([d08d4b2](https://github.com/pysan3/tuicrown/commit/d08d4b28ca3d9c0442cc550e4756d0471aa3cbf2))
+* **readme:** add cute badges in readme ([a350cbc](https://github.com/pysan3/tuicrown/commit/a350cbc16ffe77923f09ff06fc2bed54487726b6))
+* **refactor:** `src/tuicrown` -&gt; `./tuicrown` ([3a26f7d](https://github.com/pysan3/tuicrown/commit/3a26f7d816087fd8eaf0979c2b636f03f9303076))
+
+
+### Bug Fixes
+
+* **ci:** do not check for `nim v1.9.x` until it is released ([8924cd6](https://github.com/pysan3/tuicrown/commit/8924cd60d583ba97d8223c36ff68610c32b6e186))
+* **ci:** do not run build ([35552a0](https://github.com/pysan3/tuicrown/commit/35552a09042ba9c2333dbdffa57292b22248eda4))
+* **ci:** only work on nim-#devel ([8630aaa](https://github.com/pysan3/tuicrown/commit/8630aaa300d0ff725dd22ed99cd57c004dd2b6ac))
+* **docs:** do not fail on user input ([d43acf3](https://github.com/pysan3/tuicrown/commit/d43acf314a0a6f1c66683bc8d5d5f98687ae32a4))
+* **docs:** fix dependencies and write permissions ([4d763a2](https://github.com/pysan3/tuicrown/commit/4d763a209d64d7478434112b576c57816a3469b4))
+
 ## [0.3.0](https://github.com/pysan3/tuicrown/compare/v0.2.0...v0.3.0) (2023-05-08)
 
 
