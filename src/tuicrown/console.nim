@@ -4,16 +4,16 @@ import std/strutils
 import std/sequtils
 import std/terminal
 import std/tables
-import std/options
 import std/strformat
 import std/macros
 
-import ms_windows
 import segment
+import styles
+import control
 
 type
   TuiConsoleBufferLocal* = ref object of RootObj
-    segseq: seq[Segment]
+    segseq: seq[TuiSegment]
     index: int
   TuiConsoleDimension* = ref object of RootObj
     width: int
@@ -49,7 +49,7 @@ let
   }.toTable()
 
 proc newTuiConsoleBufferLocal*(): TuiConsoleBufferLocal =
-  TuiConsoleBufferLocal(segseq: newSeq[Segment](), index: 0)
+  TuiConsoleBufferLocal(segseq: newSeq[TuiSegment](), index: 0)
 
 proc detectColorSystem(): ColorSystem =
   when defined(window):
@@ -111,15 +111,15 @@ proc newTuiConsole*(o: TuiConsoleOptions,
                  width: int = -1,
                  height: int = -1): TuiConsole =
   result = TuiConsole(
-  buffer: newTuiConsoleBufferLocal(),
-  file: if file.isNil: stdout else: file,
-  color_system:
-    if color_system == "auto":
-      detectColorSystem()
-    else: term_colors.getOrDefault(color_system,
-      ColorSystem.STANDARD),
-  o: o,
-  dim: newTuiConsoleDimension(width, height),
+    buffer: newTuiConsoleBufferLocal(),
+    file: if file.isNil: stdout else: file,
+    color_system:
+      if color_system == "auto":
+        detectColorSystem()
+      else: term_colors.getOrDefault(color_system,
+        ColorSystem.STANDARD),
+    o: o,
+    dim: newTuiConsoleDimension(width, height),
   )
   result.buffer_lock.initLock()
 
@@ -146,22 +146,23 @@ proc check_buffer*(self: TuiConsole) =
   if self.buffer.index > 0:
     return
   for seg in self.buffer.segseq:
-    self.file.styledWrite(seg, not self.is_terminal)
+    self.file.print(seg)
   self.buffer.segseq.setLen(0)
   self.buffer_lock.release()
 
-proc control*(self: TuiConsole, controls: varargs[ControlCode]) =
+proc control*(self: TuiConsole, controls: varargs[TuiControl]) =
   conslock self:
-    let seg = newSegment()
-    for control in controls:
-      seg.controls.add(control)
-    self.buffer.segseq.add(seg)
+    self.buffer.segseq.add(newTuiSegment(controls = controls.toSeq))
+
+proc control*(self: TuiConsole, controls: varargs[ControlType]) =
+  conslock self:
+    self.buffer.segseq.add(newTuiSegment(controls = controls.toSeq.mapIt(newTuiControl(it))))
 
 proc clear*(self: TuiConsole, home = true) =
   if home:
-    self.control(ControlCode.CLEAR, ControlCode.HOME)
+    self.control(ControlType.CLEAR, ControlType.HOME)
   else:
-    self.control(ControlCode.CLEAR)
+    self.control(ControlType.CLEAR)
 
 proc printWithOpt*(
   self: TuiConsole;
@@ -170,9 +171,7 @@ proc printWithOpt*(
   args: varargs[string, `$`];
 ) =
   conslock self:
-    let res = fromString(args.join(sep) & endl, self.buffer.segseq)
-    echo res
-    echo self.buffer.segseq
+    self.buffer.segseq.add(fromString(args.join(sep) & endl))
 
 proc print*(
   self: TuiConsole;
@@ -185,5 +184,4 @@ when isMainModule:
   echo newTuiConsoleOptions()
   var console = newTuiConsole(newTuiConsoleOptions())
   echo console.is_terminal()
-  console.clear
-  console.print("[bgWhite fgRed]red and white[/]", 100, 200, "[fgBlue]300", 400, "[/]")
+  console.print("[bgWhite fg:red]red and white[/]", 100, "[u b]200[/b]", "[fgBlue]300", 400, "[/]reset")
