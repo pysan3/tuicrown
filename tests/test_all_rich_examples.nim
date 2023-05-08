@@ -12,19 +12,19 @@ test "^ Colors":
   cons.printWithOpt(
     sep = "\n",
     endl = "\n",
-    "✓ [bold green]4-bit color[/]",
-    "✓ [bold blue]8-bit color[/]",
-    "✓ [bold magenta]Truecolor (16.7 million)[/]",
-    "✓ [bold yellow]Dumb terminals[/]",
-    "✓ [bold cyan]Automatic color conversion",
+    "✓ [i green]4-bit color[/]",
+    "✓ [i blue]8-bit color[/]",
+    "✓ [i magenta]Truecolor (16.7 million)[/]",
+    "✓ [i yellow]Dumb terminals[/]",
+    "✓ [i cyan]Automatic color conversion",
   )
 
 test "^ Colors Contents":
-  echo fromString("✓ [bold green]4-bit color[/]")
-  echo fromString("✓ [bold blue]8-bit color[/]")
-  echo fromString("✓ [bold magenta]Truecolor (16.7 million)[/]")
-  echo fromString("✓ [bold yellow]Dumb terminals[/]")
-  echo fromString("✓ [bold cyan]Automatic color conversion")
+  echo fromString("✓ [i green]4-bit color[/]")
+  echo fromString("✓ [i blue]8-bit color[/]")
+  echo fromString("✓ [i magenta]Truecolor (16.7 million)[/]")
+  echo fromString("✓ [i yellow]Dumb terminals[/]")
+  echo fromString("✓ [i cyan]Automatic color conversion")
 
 proc color(r, g, b: float32): Color =
   let
