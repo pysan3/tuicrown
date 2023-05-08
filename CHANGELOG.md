@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/pysan3/tuicrown/compare/v0.2.0...v0.3.0) (2023-05-08)
+
+
+### Features
+
+* **release:** auto update nimble package version ([ca4125c](https://github.com/pysan3/tuicrown/commit/ca4125cdf75c4ad8c39c1c069daf0482230c5ad9))
+
+
+### Bug Fixes
+
+* **release:** check if works without json configs ([25ccd37](https://github.com/pysan3/tuicrown/commit/25ccd374840d9dbf27f7e7042513eb08942ee0e1))
+* **release:** version update not working ([d15b3e6](https://github.com/pysan3/tuicrown/commit/d15b3e67f2b4380776a04d8be0b08da6683c6ca5))
+
 ## [0.2.0](https://github.com/pysan3/tuicrown/compare/v0.1.0...v0.2.0) (2023-05-08)
 
 
