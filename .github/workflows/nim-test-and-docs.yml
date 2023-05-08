@@ -12,6 +12,7 @@ jobs:
       matrix:
         nim:
           # - 'stable'
+          - "1.9.3"
           - "devel"
     name: Nim ${{ matrix.nim }} test
     steps:
