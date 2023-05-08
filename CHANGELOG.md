@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/pysan3/tuicrown/compare/v0.5.0...v0.5.1) (2023-05-08)
+
+
+### Bug Fixes
+
+* **console:** avoid dead lock on multi thread ([e1a7150](https://github.com/pysan3/tuicrown/commit/e1a71507265279154bff4b925db5c66e37e9aff8))
+
 ## [0.5.0](https://github.com/pysan3/tuicrown/compare/v0.4.1...v0.5.0) (2023-05-08)
 
 
