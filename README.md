@@ -21,6 +21,8 @@ cons.print("[i red]red and italic text[/]")
 cons.print("[u yellow]yellow and underlined,[/yellow] only color is removed,[i bg:blue] and now added italic with blue background")
 ```
 
+![image](https://user-images.githubusercontent.com/41065736/236800422-1fbe16bb-2cfd-408f-bbf4-bf2db48ddfbf.png)
+
 ## Installation
 
 ❗ This is still in alpha stage.
