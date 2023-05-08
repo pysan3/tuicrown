@@ -1,0 +1,28 @@
+nimTitle	tuicontrol	tuicrown/tuicontrol.html	module tuicrown/tuicontrol		0
+nim	BELL	tuicrown/tuicontrol.html#BELL	ControlType.BELL		11
+nim	CARRIAGE_RETURN	tuicrown/tuicontrol.html#CARRIAGE_RETURN	ControlType.CARRIAGE_RETURN		11
+nim	HOME	tuicrown/tuicontrol.html#HOME	ControlType.HOME		11
+nim	CLEAR	tuicrown/tuicontrol.html#CLEAR	ControlType.CLEAR		11
+nim	ENABLE_ALT_SCREEN	tuicrown/tuicontrol.html#ENABLE_ALT_SCREEN	ControlType.ENABLE_ALT_SCREEN		11
+nim	DISABLE_ALT_SCREEN	tuicrown/tuicontrol.html#DISABLE_ALT_SCREEN	ControlType.DISABLE_ALT_SCREEN		11
+nim	SHOW_CURSOR	tuicrown/tuicontrol.html#SHOW_CURSOR	ControlType.SHOW_CURSOR		11
+nim	HIDE_CURSOR	tuicrown/tuicontrol.html#HIDE_CURSOR	ControlType.HIDE_CURSOR		11
+nim	CURSOR_UP	tuicrown/tuicontrol.html#CURSOR_UP	ControlType.CURSOR_UP		11
+nim	CURSOR_DOWN	tuicrown/tuicontrol.html#CURSOR_DOWN	ControlType.CURSOR_DOWN		11
+nim	CURSOR_FORWARD	tuicrown/tuicontrol.html#CURSOR_FORWARD	ControlType.CURSOR_FORWARD		11
+nim	CURSOR_BACKWARD	tuicrown/tuicontrol.html#CURSOR_BACKWARD	ControlType.CURSOR_BACKWARD		11
+nim	ERASE_IN_LINE	tuicrown/tuicontrol.html#ERASE_IN_LINE	ControlType.ERASE_IN_LINE		11
+nim	CURSOR_MOVE_TO_COLUMN	tuicrown/tuicontrol.html#CURSOR_MOVE_TO_COLUMN	ControlType.CURSOR_MOVE_TO_COLUMN		11
+nim	CURSOR_MOVE_TO	tuicrown/tuicontrol.html#CURSOR_MOVE_TO	ControlType.CURSOR_MOVE_TO		11
+nim	SET_WINDOW_TITLE	tuicrown/tuicontrol.html#SET_WINDOW_TITLE	ControlType.SET_WINDOW_TITLE		11
+nim	ControlType	tuicrown/tuicontrol.html#ControlType	enum ControlType		11
+nim	TuiControl	tuicrown/tuicontrol.html#TuiControl	type TuiControl		28
+nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,string	proc newTuiControl(t: ControlType; title: string): TuiControl		33
+nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,seq[string]	proc newTuiControl(t: ControlType; args: seq[string]): TuiControl		36
+nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,seq[int]	proc newTuiControl(t: ControlType; args: seq[int]): TuiControl		39
+nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,varargs[int]	proc newTuiControl(t: ControlType; args: varargs[int]): auto		61
+nim	printToUnix	tuicrown/tuicontrol.html#printToUnix,TuiControl	proc printToUnix(self: TuiControl): string		64
+nim	print	tuicrown/tuicontrol.html#print,File,TuiControl	proc print(f: File; self: TuiControl)		74
+nim	`$`	tuicrown/tuicontrol.html#$,TuiControl	proc `$`(self: TuiControl): string		102
+nim	escape	tuicrown/tuicontrol.html#escape,TuiControl	proc escape(self: TuiControl): string		105
+nimgrp	newtuicontrol	tuicrown/tuicontrol.html#newTuiControl-procs-all	proc		33
