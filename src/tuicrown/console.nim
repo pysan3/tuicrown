@@ -13,32 +13,32 @@ import control
 
 type
   TuiConsoleBufferLocal* = ref object of RootObj
-    segseq: seq[TuiSegment]
-    index: int
+    segseq*: seq[TuiSegment]
+    index*: int
   TuiConsoleDimension* = ref object of RootObj
-    width: int
-    height: int
+    width*: int
+    height*: int
   TuiConsoleOptions* = ref object of RootObj
-    tab_size: int
-    record: bool
-    markup: bool
-    emoji: bool
-    highlight: bool
-    soft_wrap: bool
-    force_terminal: bool
-    is_interactive: bool
+    tab_size*: int
+    record*: bool
+    markup*: bool
+    emoji*: bool
+    highlight*: bool
+    soft_wrap*: bool
+    force_terminal*: bool
+    is_interactive*: bool
   TuiConsole* = ref object of RootObj
-    buffer: TuiConsoleBufferLocal
-    buffer_lock: Lock
-    file: File
-    color_system: ColorSystem
-    o: TuiConsoleOptions
-    dim: TuiConsoleDimension
-  ColorSystem = enum
+    buffer*: TuiConsoleBufferLocal
+    buffer_lock*: Lock
+    file*: File
+    color_system*: ColorSystem
+    o*: TuiConsoleOptions
+    dim*: TuiConsoleDimension
+  ColorSystem* = enum
     STANDARD, EIGHT_BIT, TRUECOLOR
   TuiOptions* = ref object of TuiConsoleOptions
-    sep: string
-    endl: string
+    sep*: string
+    endl*: string
 
 let
   IS_MS_WINDOWS = false
@@ -145,6 +145,8 @@ proc check_buffer*(self: TuiConsole) =
   self.buffer_lock.acquire()
   if self.buffer.index > 0:
     return
+  if self.is_terminal:
+    enableTrueColors()
   for seg in self.buffer.segseq:
     self.file.print(seg)
   self.buffer.segseq.setLen(0)
