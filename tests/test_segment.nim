@@ -166,3 +166,6 @@ testParse "formatter: [fgRed]":
 
 testParse "formatter: [fgRed]":
   "[fgRed]text in red[/] and [fgBlue bgWhite]blue[/]" -> "\x1B[31mtext in red\x1B[0m and \x1B[0m\x1B[47m\x1B[34mblue" & ansiResetCode
+
+testParse "formatter: [colRed]":
+  "[colRed]text in pure red" -> "text in pure red" & ansiResetCode
