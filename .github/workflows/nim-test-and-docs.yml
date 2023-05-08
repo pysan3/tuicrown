@@ -17,8 +17,6 @@ jobs:
         with:
           nim-version: ${{ matrix.nim }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: nimble build -Y
       - name: Run tests
         run: nimble test -Y
       - name: Build docs
