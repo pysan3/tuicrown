@@ -142,6 +142,7 @@ proc is_dumb_terminal*(self: TuiConsole): bool =
   self.is_terminal and ["dumb", "unknown"].contains(getEnv("TERM").toLowerAscii)
 
 proc check_buffer*(self: TuiConsole) =
+  defer: self.buffer_lock.release()
   self.buffer_lock.acquire()
   if self.buffer.index > 0:
     return
@@ -150,7 +151,6 @@ proc check_buffer*(self: TuiConsole) =
   for seg in self.buffer.segseq:
     self.file.print(seg)
   self.buffer.segseq.setLen(0)
-  self.buffer_lock.release()
 
 proc control*(self: TuiConsole, controls: varargs[TuiControl]) =
   conslock self:
