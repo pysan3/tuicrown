@@ -11,11 +11,9 @@ import std/sequtils
 import std/sugar
 import std/options
 import std/strformat
+import std/unittest
 
-import fungus
-import unittest
-
-import tuicrown/[segment]
+import tuicrown/[segment, control, styles]
 
 test "TuiControl":
   check newTuiControl(BELL).escape() == "\x07".escape()
