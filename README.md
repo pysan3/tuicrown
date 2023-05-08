@@ -4,6 +4,8 @@
 ![Minimum supported Nim version](https://img.shields.io/badge/nim-1.9.3%2B-informational?style=flat&logo=nim)
 [![License](https://img.shields.io/github/license/pysan3/tuicrown?style=flat)](#license)
 
+- [API documentation](https://pysan3.github.io/tuicrown/)
+
 Tuicrown is a Nim library for rich text and beautiful formatting in the terminal.
 
 ![image](https://user-images.githubusercontent.com/41065736/236798038-f6e0e096-e113-415b-9f56-bb88c5da0de8.png)
