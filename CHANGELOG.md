@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/pysan3/tuicrown/compare/v0.1.0...v0.2.0) (2023-05-08)
+
+
+### Features
+
+* **readme:** add examples in readme ([c13100c](https://github.com/pysan3/tuicrown/commit/c13100c9da1d514720dfd7123268c7971d3573d3))
+
 ## 0.1.0 (2023-05-08)
 
 
