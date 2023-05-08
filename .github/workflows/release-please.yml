@@ -1,4 +1,8 @@
 on:
+  workflow_run:
+    workflows: ["test-and-docs"]
+    types:
+      - complete
   push:
     branches:
       - main
