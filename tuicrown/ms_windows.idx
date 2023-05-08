@@ -1,0 +1,2 @@
+nimTitle	ms_windows	tuicrown/ms_windows.html	module tuicrown/ms_windows		0
+nim	windowsHasTrueColor	tuicrown/ms_windows.html#windowsHasTrueColor	proc windowsHasTrueColor(): bool		3

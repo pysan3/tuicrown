@@ -1,0 +1,8 @@
+nimTitle	utils	tuicrown/utils.html	module tuicrown/utils		0
+nim	addUniq	tuicrown/utils.html#addUniq,seq[T],T	proc addUniq[T](a: var seq[T]; b: T)		6
+nim	addUniq	tuicrown/utils.html#addUniq,seq[T],seq[T]	proc addUniq[T](a: var seq[T]; b: seq[T])		8
+nim	deleteIf	tuicrown/utils.html#deleteIf,seq[T],int	proc deleteIf[T](a: var seq[T]; i: int)		9
+nim	argsWithDefault	tuicrown/utils.html#argsWithDefault,seq[T],int,T	proc argsWithDefault[T](args: seq[T]; index: int; default: T): T		13
+nim	findIf	tuicrown/utils.html#findIf,seq[T],	proc findIf[T](s: seq[T]; pred: (x: T) -> bool): Option[T]		18
+nim	findSubstr	tuicrown/utils.html#findSubstr,string,string,seq[int]	proc findSubstr(s: string; t: string; strFroms: seq[int]): bool		24
+nimgrp	adduniq	tuicrown/utils.html#addUniq-procs-all	proc		6
