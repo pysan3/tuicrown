@@ -1,5 +1,5 @@
 {
   "extra-files": [
-    "tuicrown.nimble"
+    "./tuicrown.nimble"
   ]
 }
