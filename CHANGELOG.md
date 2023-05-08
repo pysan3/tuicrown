@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/pysan3/tuicrown/compare/v0.4.0...v0.4.1) (2023-05-08)
+
+
+### Bug Fixes
+
+* **test:** add newline in colormap ([57030c5](https://github.com/pysan3/tuicrown/commit/57030c532f961ab5be93b21d9a56c09ea9ed37d4))
+
 ## [0.4.0](https://github.com/pysan3/tuicrown/compare/v0.3.0...v0.4.0) (2023-05-08)
 
 
