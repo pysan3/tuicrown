@@ -2,6 +2,8 @@
 
 Tuicrown is a Nim library for rich text and beautiful formatting in the terminal.
 
+![image](https://user-images.githubusercontent.com/41065736/236798038-f6e0e096-e113-415b-9f56-bb88c5da0de8.png)
+
 This is possible with a very easy syntax as follows.
 
 - `[style]`: Styles are defined inside `[` and `]`.
