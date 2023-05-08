@@ -38,6 +38,17 @@ proc deepCopy*(refObj: TuiSegment, copyControls = false): auto =
   result = newTuiSegment(refObj.text, refObj.style.deepCopy())
   if copyControls:
     result.controls.add(refObj.controls)
+    
+proc print*(self: TuiSegment, f: File) =
+  for ctrl in self.controls:
+    ctrl.print(f)
+  self.style.print(f)
+  f.write(self.text)
+  f.resetAttributes()
+
+proc print*(segseq: seq[TuiSegment], f: File) =
+  for seg in segseq:
+    seg.print(f)
 
 func `$`*(self: TuiSegment): auto =
   &"""("{self.text}", {self.style}, {self.controls})"""
@@ -65,6 +76,7 @@ proc fromString*(text: string): seq[TuiSegment] {.discardable.} =
   var
     blockstart: int = -1
     accumfrom: int = 0
+  defer: result.keepItIf(it.len > 0)
   result.add(newTuiSegment())
   for i, s in enumerate(text):
     if s == '[':

@@ -81,6 +81,22 @@ func `bgColor+`*(self: TuiStyles, o: seq[TuiBGType]): auto =
   self.bgColors.addUniq(o)
   return self.bgColor
 
+proc print*(self: TuiStyles, f: File) =
+  var isBright = self.styles.anyIt(it == styleBright)
+  f.write(self.styles.mapIt(ansiStyleCode(it)).join(""))
+  match self.bgColor:
+  of TuiBackgroundColor as bg_0:
+    f.setBackgroundColor(bg_0, isBright)
+  of TuiBGColor as bg_1:
+    f.setBackgroundColor(bg_1)
+  else: discard
+  match self.fgColor:
+  of TuiForegroundColor as fg_0:
+    f.setForegroundColor(fg_0, isBright)
+  of TuiFGColor as fg_1:
+    f.setForegroundColor(fg_1)
+  else: discard
+
 proc newTuiStyles*(
     color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;
     bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;

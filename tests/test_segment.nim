@@ -1,14 +1,10 @@
 import std/tempfiles
 import std/colors
 import std/os
-import std/enumerate
 import std/macros
-import std/bitops
 import std/terminal
-import std/enumutils
 import std/strutils
 import std/sequtils
-import std/sugar
 import std/options
 import std/strformat
 import std/unittest
@@ -109,81 +105,64 @@ test "TuiStyles extend from string":
 
 test "TuiSegment from string":
   var segseq = fromString("[red]hoge")
-  var correct = @[newTuiSegment(), newTuiSegment("hoge", newTuiStyles(fgRed))]
+  var correct = @[newTuiSegment("hoge", newTuiStyles(fgRed))]
   check segseq.len() == correct.len()
   for (seg, cor) in zip(segseq, correct):
     check seg == cor
 
-# doAssertRaises(OSError): discard createTempFile("", "", "nonexistent")
+# Test with tempfile
+doAssertRaises(OSError): discard createTempFile("", "", "nonexistent")
 
-# proc parseString(text: string): seq[Segment] =
-#   var segseq = newSeq[Segment]()
-#   return fromString(text, segseq)
+proc parseString(text: string): seq[TuiSegment] =
+  fromString(text)
 
-# proc deleteEmptySegments(segseq: seq[Segment]): seq[Segment] =
-#   segseq.filterIt(it.len > 0 or it.resetStyle)
+macro withFile(head: untyped, body: untyped): untyped =
+  let
+    cfile = newIdentNode("cfile")
+    path = newIdentNode("path")
+  quote do:
+    let (`cfile`, `path`) = createTempFile("`head`", "`head`")
+    `body`
+    `cfile`.close()
+    `path`.removeFile()
 
-# macro withFile(head: untyped, body: untyped): untyped =
-#   let
-#     cfile = newIdentNode("cfile")
-#     path = newIdentNode("path")
-#   quote do:
-#     let (`cfile`, `path`) = createTempFile("`head`", "`head`")
-#     `body`
-#     `cfile`.close()
-#     `path`.removeFile()
+proc getContent(cfile: File): string =
+  cfile.setFilePos(0)
+  return readAll(cfile)
 
-# proc getContent(cfile: File): string =
-#   cfile.setFilePos(0)
-#   return readAll(cfile)
+proc parseAndWrite(cfile: File, text: string) =
+  for seg in parseString(text):
+    seg.print(cfile)
 
-# proc parseAndWrite(cfile: File, text: string) =
-#   for seg in parseString(text):
-#     cfile.styledWrite(seg)
+proc checkOrFail(a, b: string) =
+  if a != b:
+    echo &"{a.escape=}"
+    echo &"{b.escape=}"
+  check a == b
 
-# proc checkOrFail(a, b: string) =
-#   if a != b:
-#     echo &"{a.escape=}"
-#     echo &"{b.escape=}"
-#   check a == b
+macro testParse(head: typed, body: untyped): untyped =
+  let
+    text = body[0][1]
+    output = body[0][2]
+  quote do:
+    test `head`:
+      withFile log:
+        cfile.parseAndWrite(`text`)
+        var content = cfile.getContent
+        echo `head` & ":"
+        echo "  " & content.escape
+        echo "  " & `output`.escape
+        check content == `output`
+        echo "  => \"" & content & "\""
 
-# macro testParse(head: typed, body: untyped): untyped =
-#   let
-#     text = body[0][1]
-#     output = body[0][2]
-#   quote do:
-#     test `head`:
-#       withFile log:
-#         cfile.parseAndWrite(`text`)
-#         var content = cfile.getContent
-#         echo `head` & ":"
-#         echo "  " & content.escape
-#         echo "  " & `output`.escape
-#         check content == `output`
+testParse "no content results to empty string":
+  "" -> ""
 
-# testParse "no letter does not need `ansiResetCode":
-#   "" -> ""
+testParse "single word":
+  "word" -> "word" & ansiResetCode
 
-# testParse "single word":
-#   "word" -> "word" & ansiResetCode
+testParse "formatter: [fgRed]":
+  "[fgRed]red[fgGreen]green[fgYellow]yellow[/]" -> "\x1B[31mred\x1B[0m\x1B[32mgreen\x1B[0m\x1B[33myellow" & ansiResetCode
 
-# testParse "formatter: [fgRed]":
-#   "[fgRed]red[fgGreen]green[fgYellow]yellow[/]" -> ansiResetCode
-
-# testParse "formatter: [fgRed]":
-#   "[fgRed]text in red[/] and [fgBlue bgWhite]blue[/]" -> ansiResetCode
-
-# # test "no text":
-# #   withFile log:
-# #     cfile.parseAndWrite("")
-# #     check cfile.getContent == ansiResetCode
-
-# # test "no text":
-# #   withFile log:
-# #     cfile.parseAndWrite("")
-# #     check cfile.getContent == ansiResetCode
-
-# # test "no text":
-# #   withFile log:
-# #     cfile.parseAndWrite("")
-# #     check cfile.getContent == ansiResetCode
+testParse "formatter: [fgRed]":
+  "[fgRed]text in red[/] and [fgBlue bgWhite]blue[/]" -> "\x1B[31mtext in red\x1B[0m and \x1B[0m\x1B[47m\x1B[34mblue" & ansiResetCode
