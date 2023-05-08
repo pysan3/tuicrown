@@ -10,7 +10,7 @@ Tuicrown is a Nim library for rich text and beautiful formatting in the terminal
 
 > Generated with [`./tests/test_all_rich_examples.nim`](./tests/test_all_rich_examples.nim).
 
-![image](https://user-images.githubusercontent.com/41065736/236798038-f6e0e096-e113-415b-9f56-bb88c5da0de8.png)
+![image](https://user-images.githubusercontent.com/41065736/236928476-20cc05c4-906f-4341-8455-3c690210fd82.png)
 
 This is possible with a very easy syntax as follows.
 
