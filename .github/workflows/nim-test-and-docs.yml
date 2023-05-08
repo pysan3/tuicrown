@@ -1,0 +1,52 @@
+name: test-and-docs
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nim:
+          - "1.9.x"
+          # - 'stable'
+          - "devel"
+    name: Nim ${{ matrix.nim }} test and docsgen
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup nim
+        uses: jiro4989/setup-nim-action@v1
+        with:
+          nim-version: ${{ matrix.nim }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: nimble build -Y
+      - name: Run tests
+        run: nimble test -Y
+      - name: Build docs
+        shell: bash
+        run: |
+          branch=${{ github.ref }}
+          branch=${branch##*/}
+          nimble doc2 --project --outdir:htmldocs \
+            '--git.url:https://github.com/${{ github.repository }}' \
+            '--git.commit:${{ github.sha }}' \
+            "--git.devel:$branch" \
+            "./tuicrown.nim"
+          cp ./htmldocs/{tuicrown,index}.html || true
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: htmldocs
+  deploy:
+    if: github.ref_name == 'main'
+    name: Deploy docs to Github Pages
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v2
