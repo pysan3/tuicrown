@@ -9,7 +9,7 @@ jobs:
         nim:
           # - 'stable'
           - "devel"
-    name: Nim ${{ matrix.nim }} test and docsgen
+    name: Nim ${{ matrix.nim }} test
     steps:
       - uses: actions/checkout@v3
       - name: Setup nim
@@ -19,6 +19,23 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run tests
         run: nimble test -Y
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nim:
+          # - 'stable'
+          - "devel"
+    name: Nim ${{ matrix.nim }} test
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup nim
+        uses: jiro4989/setup-nim-action@v1
+        with:
+          nim-version: ${{ matrix.nim }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build docs
         shell: bash
         run: |
@@ -30,20 +47,9 @@ jobs:
             "--git.devel:$branch" \
             "./tuicrown.nim"
           cp ./htmldocs/{tuicrown,index}.html || true
-      - uses: actions/upload-pages-artifact@v1
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
-          path: htmldocs
-  deploy:
-    if: github.ref_name == 'main'
-    name: Deploy docs to Github Pages
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v2
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./htmldocs
