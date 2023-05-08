@@ -19,3 +19,4 @@ jobs:
           package-name: release-please-action
           extra-files: |
             tuicrown.nimble
+            README.md
