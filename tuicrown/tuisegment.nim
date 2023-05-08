@@ -7,8 +7,8 @@ import std/sequtils
 import std/strformat
 import fungus
 
-import control
-import styles
+import tuicontrol
+import tuistyles
 
 type
   TuiSegment* = ref object of RootObj
@@ -38,7 +38,7 @@ proc deepCopy*(refObj: TuiSegment, copyControls = false): auto =
   result = newTuiSegment(refObj.text, refObj.style.deepCopy())
   if copyControls:
     result.controls.add(refObj.controls)
-    
+
 proc print*(f: File, self: TuiSegment) =
   for ctrl in self.controls:
     f.print(ctrl)

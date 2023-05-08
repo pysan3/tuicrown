@@ -9,7 +9,7 @@ import std/options
 import std/strformat
 import std/unittest
 
-import tuicrown/[segment, control, styles]
+import tuicrown/[tuisegment, tuicontrol, tuistyles]
 
 test "TuiControl":
   check newTuiControl(BELL).escape() == "\x07".escape()

@@ -7,9 +7,9 @@ import std/tables
 import std/strformat
 import std/macros
 
-import segment
-import styles
-import control
+import tuisegment
+import tuistyles
+import tuicontrol
 
 type
   TuiConsoleBufferLocal* = ref object of RootObj
@@ -114,7 +114,7 @@ proc newTuiConsole*(o: TuiConsoleOptions,
     buffer: newTuiConsoleBufferLocal(),
     file: if file.isNil: stdout else: file,
     color_system:
-      if color_system == "auto":
+    if color_system == "auto":
         detectColorSystem()
       else: term_colors.getOrDefault(color_system,
         ColorSystem.STANDARD),

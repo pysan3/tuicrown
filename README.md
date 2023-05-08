@@ -21,12 +21,12 @@ This is possible with a very easy syntax as follows.
 Such that...
 
 ```nim
-let cons = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
+let console = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
 
-cons.print("[green]green text[/]")
-cons.print("[i]italic text[/]")
-cons.print("[i red]red and italic text[/]")
-cons.print("[u yellow]yellow and underlined,[/yellow] only color is removed,[i bg:blue] and now added italic with blue background")
+console.print("[green]green text[/]")
+console.print("[i]italic text[/]")
+console.print("[i red]red and italic text[/]")
+console.print("[u yellow]yellow and underlined,[/yellow] only color is removed,[i bg:blue] and now added italic with blue background")
 ```
 
 ![image](https://user-images.githubusercontent.com/41065736/236800422-1fbe16bb-2cfd-408f-bbf4-bf2db48ddfbf.png)
@@ -47,11 +47,11 @@ nimble install https://github.com/pysan3/tuicrown
 ## Usage
 
 ```nim
-import tuicrown/console
+import tuicrown/tuiconsole
 
-let cons = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
+let console = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
 
-cons.print("[i green]italic green text[/]")
+console.print("[i green]italic green text[/]")
 ```
 
 ## Syntax

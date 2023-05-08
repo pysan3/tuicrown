@@ -1,5 +1,4 @@
-import tuicrown/console
-import tuicrown/control
-import tuicrown/ms_windows
-import tuicrown/segment
-import tuicrown/styles
+import tuicrown/tuiconsole
+import tuicrown/tuicontrol
+import tuicrown/tuisegment
+import tuicrown/tuistyles

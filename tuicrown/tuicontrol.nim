@@ -57,7 +57,7 @@ proc newTuiControl*(t: ControlType, args: seq[int]): TuiControl =
       when declared(commandLineParams):
         for p in commandLineParams(): targs.add(p)
     return newTuiControl(t, targs)
-  
+
 proc newTuiControl*(t: ControlType, args: varargs[int]): auto =
   newTuiControl(t, args.toSeq)
 
@@ -98,9 +98,9 @@ proc print*(f: File, self: TuiControl) =
       assert(false, &"{self.typ} not supported by nim std/terminal. Fallback to Unix escape codes.")
   except Exception:
     f.write(self.printToUnix())
-    
+
 proc `$`*(self: TuiControl): string =
   self.printToUnix()
-  
+
 proc escape*(self: TuiControl): string =
   ($self).escape()

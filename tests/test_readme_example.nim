@@ -1,4 +1,4 @@
-import tuicrown/[console]
+import tuicrown/[tuiconsole]
 
 let cons = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
 

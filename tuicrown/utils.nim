@@ -3,6 +3,12 @@ import std/options
 import std/strutils
 import std/sugar
 
+template todo*(): untyped =
+  assert(false, "Not implemented")
+
+template isAbstract*(): untyped =
+  assert(false, "Abstract method called")
+
 func addUniq*[T](a: var seq[T], b: T) =
   if b notin a: a.add(b)
 func addUniq*[T](a: var seq[T], b: seq[T]) = a.add(b.filterIt(it notin a))

@@ -4,7 +4,7 @@ import std/colors
 
 import unittest
 
-import tuicrown/[segment, styles, console]
+import tuicrown/[tuisegment, tuistyles, tuiconsole]
 
 let cons = newTuiConsole(newTuiConsoleOptions())
 
