@@ -10,6 +10,4 @@ srcDir = "src"
 # Dependencies
 
 requires "nim >= 1.9.3"
-requires "chroma"
-# requires "https://github.com/alaviss/union"
 requires "fungus"
