@@ -132,7 +132,7 @@ proc getContent(cfile: File): string =
 
 proc parseAndWrite(cfile: File, text: string) =
   for seg in parseString(text):
-    seg.print(cfile)
+    cfile.print(seg)
 
 proc checkOrFail(a, b: string) =
   if a != b:

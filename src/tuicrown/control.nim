@@ -71,7 +71,7 @@ proc printToUnix*(self: TuiControl): string =
   else:
     return &"\x1b]0;{self.title}\x07"
 
-proc print*(self: TuiControl, f: File) =
+proc print*(f: File, self: TuiControl) =
   try:
     case self.typ:
     of CURSOR_BACKWARD:

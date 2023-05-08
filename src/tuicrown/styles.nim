@@ -81,7 +81,7 @@ func `bgColor+`*(self: TuiStyles, o: seq[TuiBGType]): auto =
   self.bgColors.addUniq(o)
   return self.bgColor
 
-proc print*(self: TuiStyles, f: File) =
+proc print*(f: File, self: TuiStyles) =
   var isBright = self.styles.anyIt(it == styleBright)
   f.write(self.styles.mapIt(ansiStyleCode(it)).join(""))
   match self.bgColor:

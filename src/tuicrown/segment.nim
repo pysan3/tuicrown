@@ -39,16 +39,16 @@ proc deepCopy*(refObj: TuiSegment, copyControls = false): auto =
   if copyControls:
     result.controls.add(refObj.controls)
     
-proc print*(self: TuiSegment, f: File) =
+proc print*(f: File, self: TuiSegment) =
   for ctrl in self.controls:
-    ctrl.print(f)
-  self.style.print(f)
+    f.print(ctrl)
+  f.print(self.style)
   f.write(self.text)
   f.resetAttributes()
 
-proc print*(segseq: seq[TuiSegment], f: File) =
+proc print*(f: File, segseq: seq[TuiSegment]) =
   for seg in segseq:
-    seg.print(f)
+    f.print(seg)
 
 func `$`*(self: TuiSegment): auto =
   &"""("{self.text}", {self.style}, {self.controls})"""
