@@ -10,6 +10,17 @@ This is possible with a very easy syntax as follows.
 - `[/style]`: `/` means to revert (undo) the style.
 - `[/]`: Reverts all style modification.
 
+Such that...
+
+```nim
+let cons = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
+
+cons.print("[green]green text[/]")
+cons.print("[i]italic text[/]")
+cons.print("[i red]red and italic text[/]")
+cons.print("[u yellow]yellow and underlined,[/yellow] only color is removed,[i bg:blue] and now added italic with blue background")
+```
+
 ## Installation
 
 ❗ This is still in alpha stage.
