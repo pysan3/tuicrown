@@ -64,4 +64,5 @@ test "^ ColorMap":
       let upper = hsl2color(h, 1.0, l)
       let lower = hsl2color(h, 1.0, l + 0.07)
       segseq.add(newTuiSegment("▄", newTuiStyles(color = lower, bgColor = upper)))
+    segseq[^1].text &= "\n"
   stdout.print(segseq)
