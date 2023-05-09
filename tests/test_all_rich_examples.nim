@@ -6,10 +6,10 @@ import unittest
 
 import tuicrown/[tuisegment, tuistyles, tuiconsole]
 
-let cons = newTuiConsole(newTuiConsoleOptions())
+let console = newTuiConsole(newTuiConsoleOptions())
 
 test "^ Colors":
-  cons.printWithOpt(
+  console.printWithOpt(
     sep = "\n",
     endl = "\n",
     "✓ [i green]4-bit color[/]",
@@ -55,7 +55,7 @@ proc hsl2color(h, s, l: float32): Color =
   )
 
 test "^ ColorMap":
-  let w = cons.dim.width
+  let w = console.dim.width
   var segseq = newSeq[TuiSegment]()
   for y in 0..<5:
     for x in 0..<w:

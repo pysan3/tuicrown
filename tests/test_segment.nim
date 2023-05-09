@@ -1,15 +1,13 @@
 import std/tempfiles
 import std/colors
 import std/os
-import std/macros
 import std/terminal
 import std/strutils
 import std/sequtils
-import std/options
-import std/strformat
 import std/unittest
 
 import tuicrown/[tuisegment, tuicontrol, tuistyles]
+import file_test_utils
 
 test "TuiControl":
   check newTuiControl(BELL).escape() == "\x07".escape()
@@ -109,51 +107,6 @@ test "TuiSegment from string":
   check segseq.len() == correct.len()
   for (seg, cor) in zip(segseq, correct):
     check seg == cor
-
-# Test with tempfile
-doAssertRaises(OSError): discard createTempFile("", "", "nonexistent")
-
-proc parseString(text: string): seq[TuiSegment] =
-  fromString(text)
-
-macro withFile(head: untyped, body: untyped): untyped =
-  let
-    cfile = newIdentNode("cfile")
-    path = newIdentNode("path")
-  quote do:
-    let (`cfile`, `path`) = createTempFile("`head`", "`head`")
-    `body`
-    `cfile`.close()
-    `path`.removeFile()
-
-proc getContent(cfile: File): string =
-  cfile.setFilePos(0)
-  return readAll(cfile)
-
-proc parseAndWrite(cfile: File, text: string) =
-  for seg in parseString(text):
-    cfile.print(seg)
-
-proc checkOrFail(a, b: string) =
-  if a != b:
-    echo &"{a.escape=}"
-    echo &"{b.escape=}"
-  check a == b
-
-macro testParse(head: typed, body: untyped): untyped =
-  let
-    text = body[0][1]
-    output = body[0][2]
-  quote do:
-    test `head`:
-      withFile log:
-        cfile.parseAndWrite(`text`)
-        var content = cfile.getContent
-        echo `head` & ":"
-        echo "  " & content.escape
-        echo "  " & `output`.escape
-        check content == `output`
-        echo "  => \"" & content & "\""
 
 testParse "no content results to empty string":
   "" -> ""
