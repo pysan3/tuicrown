@@ -19,12 +19,10 @@ test "^ Colors\n":
     "✓ [i cyan]Automatic color conversion",
   )
 
-test "^ Colors Contents\n":
-  echo fromString("✓ [i green]4-bit color[/]")
-  echo fromString("✓ [i blue]8-bit color[/]")
-  echo fromString("✓ [i magenta]Truecolor (16.7 million)[/]")
-  echo fromString("✓ [i yellow]Dumb terminals[/]")
-  echo fromString("✓ [i cyan]Automatic color conversion")
+test "^ Asian Language Support\n":
+  console.print("该库支持中文，日文和韩文文本！")
+  console.print("ライブラリは中国語、日本語、韓国語のテキストをサポートしています")
+  console.print("이 라이브러리는 중국어, 일본어 및 한국어 텍스트를 지원합니다")
 
 proc color(r, g, b: float32): Color =
   let
