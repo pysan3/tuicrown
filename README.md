@@ -43,6 +43,7 @@ nimble install https://github.com/pysan3/tuicrown
 
 - I will release this as a nimble package after `v1.0.0+`.
 - Coming soon!!
+- Check [Milestone 0.99](https://github.com/pysan3/tuicrown/milestone/1) for progress.
 
 ## Usage
 
