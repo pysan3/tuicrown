@@ -1,6 +1,5 @@
 import std/tables
 import std/options
-import std/colors
 import std/terminal
 import std/sequtils
 import std/strutils
@@ -9,33 +8,33 @@ import regex
 import tuistyles
 
 let style_lookup = {
-  "repr.ellipsis": newTuiStyles(color = parseColor("yellow")),
-  "repr.indent": newTuiStyles(color = parseColor("green"), styles = @[styleDim]),
-  "repr.error": newTuiStyles(color = parseColor("red"), styles = @[styleBlink]),
-  "repr.str": newTuiStyles(color = parseColor("green")),
+  "repr.ellipsis": newTuiStyles(color = fgYellow),
+  "repr.indent": newTuiStyles(color = fgGreen, styles = @[styleDim]),
+  "repr.error": newTuiStyles(color = fgRed, styles = @[styleBlink]),
+  "repr.str": newTuiStyles(color = fgGreen),
   "repr.brace": newTuiStyles(styles = @[styleBlink]),
   "repr.comma": newTuiStyles(styles = @[styleBlink]),
-  "repr.ipv4": newTuiStyles(styles = @[styleBlink, styleBright], color = parseColor("green")),
-  "repr.ipv6": newTuiStyles(styles = @[styleBlink, styleBright], color = parseColor("green")),
-  "repr.eui48": newTuiStyles(styles = @[styleBlink, styleBright], color = parseColor("green")),
-  "repr.eui64": newTuiStyles(styles = @[styleBlink, styleBright], color = parseColor("green")),
+  "repr.ipv4": newTuiStyles(styles = @[styleBlink, styleBright], color = fgGreen),
+  "repr.ipv6": newTuiStyles(styles = @[styleBlink, styleBright], color = fgGreen),
+  "repr.eui48": newTuiStyles(styles = @[styleBlink, styleBright], color = fgGreen),
+  "repr.eui64": newTuiStyles(styles = @[styleBlink, styleBright], color = fgGreen),
   "repr.tag_start": newTuiStyles(styles = @[styleBlink]),
-  "repr.tag_name": newTuiStyles(color = parseColor("magenta"), styles = @[styleBlink, styleBright]),
+  "repr.tag_name": newTuiStyles(color = fgMagenta, styles = @[styleBlink, styleBright]),
   "repr.tag_contents": newTuiStyles(),
   "repr.tag_end": newTuiStyles(styles = @[styleBlink]),
-  "repr.attrib_name": newTuiStyles(color = parseColor("yellow")),
+  "repr.attrib_name": newTuiStyles(color = fgYellow),
   "repr.attrib_equal": newTuiStyles(styles = @[styleBlink]),
-  "repr.attrib_value": newTuiStyles(color = parseColor("magenta")),
-  "repr.number": newTuiStyles(color = parseColor("cyan"), styles = @[styleBlink]),
-  "repr.number_complex": newTuiStyles(color = parseColor("cyan"), styles = @[styleBlink]),
-  "repr.bool_true": newTuiStyles(color = parseColor("green"), styles = @[styleItalic, styleBright]),
-  "repr.bool_false": newTuiStyles(color = parseColor("red"), styles = @[styleItalic, styleBright]),
-  "repr.none": newTuiStyles(color = parseColor("magenta"), styles = @[styleItalic]),
-  "repr.url": newTuiStyles(styles = @[styleUnderscore, styleBright], color = parseColor("blue")),
-  "repr.uuid": newTuiStyles(color = parseColor("yellow"), styles = @[styleBright]),
-  "repr.call": newTuiStyles(color = parseColor("magenta"), styles = @[styleBlink]),
-  "repr.path": newTuiStyles(color = parseColor("magenta")),
-  "repr.filename": newTuiStyles(color = parseColor("magenta"), styles = @[styleBright]),
+  "repr.attrib_value": newTuiStyles(color = fgMagenta),
+  "repr.number": newTuiStyles(color = fgCyan, styles = @[styleBlink]),
+  "repr.number_complex": newTuiStyles(color = fgCyan, styles = @[styleBlink]),
+  "repr.bool_true": newTuiStyles(color = fgGreen, styles = @[styleItalic, styleBright]),
+  "repr.bool_false": newTuiStyles(color = fgRed, styles = @[styleItalic, styleBright]),
+  "repr.none": newTuiStyles(color = fgMagenta, styles = @[styleItalic]),
+  "repr.url": newTuiStyles(styles = @[styleUnderscore, styleBright], color = fgBlue),
+  "repr.uuid": newTuiStyles(color = fgYellow, styles = @[styleBright]),
+  "repr.call": newTuiStyles(color = fgMagenta, styles = @[styleBlink]),
+  "repr.path": newTuiStyles(color = fgMagenta),
+  "repr.filename": newTuiStyles(color = fgMagenta, styles = @[styleBright]),
 }.toTable()
 
 type
