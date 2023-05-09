@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.1](https://github.com/pysan3/tuicrown/compare/v0.6.0...v0.6.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* **rich:** show auto colorized variables ([e34263c](https://github.com/pysan3/tuicrown/commit/e34263cdb6d27e6e149c3679805420b92e63c723))
+* **test:** update correct strings using fgColors ([24f7350](https://github.com/pysan3/tuicrown/commit/24f7350a464e7119b175e5d2ea47ed37ec839c38))
+* **variables:** use fgColors to blend in with builtin colors ([6644dc0](https://github.com/pysan3/tuicrown/commit/6644dc0f6bca194027eba5db9abe95acc932d0bd))
+
 ## [0.6.0](https://github.com/pysan3/tuicrown/compare/v0.5.1...v0.6.0) (2023-05-09)
 
 
