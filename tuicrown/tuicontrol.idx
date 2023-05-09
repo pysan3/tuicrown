@@ -20,9 +20,9 @@ nim	TuiControl	tuicrown/tuicontrol.html#TuiControl	type TuiControl		28
 nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,string	proc newTuiControl(t: ControlType; title: string): TuiControl		33
 nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,seq[string]	proc newTuiControl(t: ControlType; args: seq[string]): TuiControl		36
 nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,seq[int]	proc newTuiControl(t: ControlType; args: seq[int]): TuiControl		39
-nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,varargs[int]	proc newTuiControl(t: ControlType; args: varargs[int]): auto		61
-nim	printToUnix	tuicrown/tuicontrol.html#printToUnix,TuiControl	proc printToUnix(self: TuiControl): string		64
-nim	print	tuicrown/tuicontrol.html#print,File,TuiControl	proc print(f: File; self: TuiControl)		74
-nim	`$`	tuicrown/tuicontrol.html#$,TuiControl	proc `$`(self: TuiControl): string		102
-nim	escape	tuicrown/tuicontrol.html#escape,TuiControl	proc escape(self: TuiControl): string		105
+nim	newTuiControl	tuicrown/tuicontrol.html#newTuiControl,ControlType,varargs[int]	proc newTuiControl(t: ControlType; args: varargs[int]): auto		58
+nim	printToUnix	tuicrown/tuicontrol.html#printToUnix,TuiControl	proc printToUnix(self: TuiControl): string		61
+nim	print	tuicrown/tuicontrol.html#print,File,TuiControl	proc print(f: File; self: TuiControl)		73
+nim	`$`	tuicrown/tuicontrol.html#$,TuiControl	proc `$`(self: TuiControl): string		101
+nim	escape	tuicrown/tuicontrol.html#escape,TuiControl	proc escape(self: TuiControl): string		104
 nimgrp	newtuicontrol	tuicrown/tuicontrol.html#newTuiControl-procs-all	proc		33
