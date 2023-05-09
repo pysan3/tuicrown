@@ -153,6 +153,7 @@ proc check_buffer*(self: TuiConsole) =
     return
   if self.is_terminal:
     enableTrueColors()
+  echo isTrueColorSupported()
   for seg in self.buffer.segseq:
     if self.o.auto_colorize and self.is_terminal and not seg.is_colorized:
       seg.colorize.apply((it: TuiSegment) => self.file.print(it))
