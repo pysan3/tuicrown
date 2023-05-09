@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/pysan3/tuicrown/compare/v0.6.1...v0.6.2) (2023-05-09)
+
+
+### Bug Fixes
+
+* **rich:** show ability to render multi-byte chars ([b6feb42](https://github.com/pysan3/tuicrown/commit/b6feb4274d99e0bcfa00d5091b71604f41580c8f))
+
 ## [0.6.1](https://github.com/pysan3/tuicrown/compare/v0.6.0...v0.6.1) (2023-05-09)
 
 
