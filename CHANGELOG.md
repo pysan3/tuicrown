@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/pysan3/tuicrown/compare/v0.5.1...v0.6.0) (2023-05-09)
+
+
+### Features
+
+* **segment:** auto colorize variables ([#14](https://github.com/pysan3/tuicrown/issues/14)) ([2a8882b](https://github.com/pysan3/tuicrown/commit/2a8882bc9ef138f6f39110ca713033c17de1e3e3))
+
+
+### Bug Fixes
+
+* **control:** value shifting is done inside the lib ([dac516c](https://github.com/pysan3/tuicrown/commit/dac516cf61a39de7803e51182bc6aa02e8f56650))
+* tuicontrol.nim ([a511d20](https://github.com/pysan3/tuicrown/commit/a511d2030f1b35ca26edd90d1bc7634763888aad))
+
 ## [0.5.1](https://github.com/pysan3/tuicrown/compare/v0.5.0...v0.5.1) (2023-05-08)
 
 
