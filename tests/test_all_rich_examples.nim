@@ -8,7 +8,7 @@ import tuicrown/[tuisegment, tuistyles, tuiconsole]
 
 let console = newTuiConsole(newTuiConsoleOptions())
 
-test "^ Colors":
+test "^ Colors\n":
   console.printWithOpt(
     sep = "\n",
     endl = "\n",
@@ -19,7 +19,7 @@ test "^ Colors":
     "✓ [i cyan]Automatic color conversion",
   )
 
-test "^ Colors Contents":
+test "^ Colors Contents\n":
   echo fromString("✓ [i green]4-bit color[/]")
   echo fromString("✓ [i blue]8-bit color[/]")
   echo fromString("✓ [i magenta]Truecolor (16.7 million)[/]")
@@ -54,7 +54,7 @@ proc hsl2color(h, s, l: float32): Color =
     hsl2colorsub(p, q, h - 1.0/3),
   )
 
-test "^ ColorMap":
+test "^ ColorMap\n":
   let w = console.dim.width
   var segseq = newSeq[TuiSegment]()
   for y in 0..<5:
@@ -64,5 +64,13 @@ test "^ ColorMap":
       let upper = hsl2color(h, 1.0, l)
       let lower = hsl2color(h, 1.0, l + 0.07)
       segseq.add(newTuiSegment("▄", newTuiStyles(color = lower, bgColor = upper)))
-    segseq[^1].text &= "\n"
+    segseq.add(newTuiSegment("\n"))
   stdout.print(segseq)
+
+let color_console = newTuiConsole(newTuiConsoleOptions(force_terminal = true, auto_colorize = true))
+
+test "^ Console with Automatic Colored Variables\n":
+  color_console.print("- integer (cyan)  = 100")
+  color_console.print("- string  (green) = \"TuiCrown is Awesome!!\"")
+  color_console.print("- boolean (green / red: italic) = true / false")
+  color_console.print("- URL     (blue)  = https://github.com/pysan3/tuicrown")
