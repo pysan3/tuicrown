@@ -61,7 +61,7 @@ proc newTuiControl*(t: ControlType, args: varargs[int]): auto =
 proc printToUnix*(self: TuiControl): string =
   if self.typ <= HIDE_CURSOR:
     return $self.typ
-  elif t <= CURSOR_BACKWARD:
+  elif self.typ <= CURSOR_BACKWARD:
     return &"\x1b[{self.args[0]}{self.typ}"
   elif self.typ <= CURSOR_MOVE_TO_COLUMN:
     return &"\x1b[{self.args[0] + 1}{self.typ}"
