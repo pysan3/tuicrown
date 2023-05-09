@@ -2,25 +2,30 @@ import std/colors
 import std/tables
 import std/enumerate
 import std/macros
+import std/sugar
 import std/terminal
 import std/sequtils
 import std/strformat
+import std/options
 import fungus
 
 import tuicontrol
 import tuistyles
+import tuivariables
 
 type
   TuiSegment* = ref object of RootObj
     text*: string
     style*: TuiStyles
     controls*: seq[TuiControl]
+    is_colorized*: bool
 
-proc newTuiSegment*(
+func newTuiSegment*(
     text: string = "",
     style: TuiStyles = newTuiStyles(),
     controls: seq[TuiControl] = newSeq[TuiControl](),
-  ): auto = TuiSegment(text: text, style: style, controls: controls)
+    is_colorized: bool = false,
+  ): auto = TuiSegment(text: text, style: style, controls: controls, is_colorized: is_colorized)
 
 func `==`*(self: TuiSegment, o: TuiSegment): bool =
   (self.text == o.text) and
@@ -29,15 +34,36 @@ func `==`*(self: TuiSegment, o: TuiSegment): bool =
 
 func len*(self: TuiSegment): int = self.text.len
 
-proc copy*(refObj: TuiSegment, copyControls = false): auto =
+func copy*(refObj: TuiSegment, copyControls = false): auto =
   result = newTuiSegment(refObj.text, refObj.style.copy())
   if copyControls:
     result.controls.add(refObj.controls)
 
-proc deepCopy*(refObj: TuiSegment, copyControls = false): auto =
+func deepCopy*(refObj: TuiSegment, copyControls = false): auto =
   result = newTuiSegment(refObj.text, refObj.style.deepCopy())
   if copyControls:
     result.controls.add(refObj.controls)
+
+func `$`*(self: TuiSegment): auto =
+  &"""("{self.text}", {self.style}, {self.controls})"""
+
+proc colorize*(self: TuiSegment): seq[TuiSegment] =
+  defer: result.apply((it: var TuiSegment) => (it.is_colorized = true))
+  let basic = newTuiSegment(style = self.style, controls = self.controls)
+  result.add(basic.copy())
+  let matchSeq = reprHighlighter.match(self.text)
+  var prev_id = -1
+  for (t, id) in zip(self.text, matchSeq.ids):
+    if id != prev_id:
+      var subseg = basic.copy()
+      if matchSeq.pool.low <= id and id <= matchSeq.pool.high:
+        subseg.style += matchSeq.pool[id].optTuiStyles.get()
+      if result[^1].text.len == 0:
+        result[^1] = subseg
+      else:
+        result.add(subseg)
+      prev_id = id
+    result[^1].text &= t
 
 proc print*(f: File, self: TuiSegment) =
   for ctrl in self.controls:
@@ -49,9 +75,6 @@ proc print*(f: File, self: TuiSegment) =
 proc print*(f: File, segseq: seq[TuiSegment]) =
   for seg in segseq:
     f.print(seg)
-
-func `$`*(self: TuiSegment): auto =
-  &"""("{self.text}", {self.style}, {self.controls})"""
 
 func addStyle*(self: var TuiSegment, style: TuiStyles) =
   self.style += style

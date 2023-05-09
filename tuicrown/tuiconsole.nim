@@ -1,4 +1,4 @@
-import os
+import std/os
 import std/locks
 import std/strutils
 import std/sequtils
@@ -6,6 +6,7 @@ import std/terminal
 import std/tables
 import std/strformat
 import std/macros
+import std/sugar
 
 import tuisegment
 import tuistyles
@@ -19,6 +20,7 @@ type
     width*: int
     height*: int
   TuiConsoleOptions* = ref object of RootObj
+    auto_colorize*: bool
     tab_size*: int
     record*: bool
     markup*: bool
@@ -73,6 +75,7 @@ proc `$`*(self: TuiConsoleDimension): string =
   &"""TuiConsoleDimension(width: {self.width}, height: {self.height})"""
 
 proc newTuiConsoleOptions*(
+    auto_colorize = false,
     tab_size = 2,
     record = false,
     markup = false,
@@ -83,6 +86,7 @@ proc newTuiConsoleOptions*(
     is_interactive = false,
   ): TuiConsoleOptions =
   TuiConsoleOptions(
+    auto_colorize: auto_colorize,
     tab_size: tab_size,
     record: record,
     markup: markup,
@@ -95,6 +99,7 @@ proc newTuiConsoleOptions*(
 
 proc `$`*(self: TuiConsoleOptions): string =
   &"""TuiConsoleOptions:
+  auto_colorize: {self.auto_colorize}
   tab_size: {self.tab_size}
   record: {self.record}
   markup: {self.markup}
@@ -131,6 +136,9 @@ macro conslock*(c: TuiConsole, body: untyped): untyped =
     `c`.check_buffer()
 
 proc is_terminal*(self: TuiConsole): bool =
+  defer:
+    if result == true and getEnv("COLORTERM").toLowerAscii() notin ["truecolor", "24bit"]:
+      putEnv("COLORTERM", "truecolor")
   if self.o.force_terminal:
     return true
   if existsEnv("FORCE_COLOR"):
@@ -149,7 +157,10 @@ proc check_buffer*(self: TuiConsole) =
   if self.is_terminal:
     enableTrueColors()
   for seg in self.buffer.segseq:
-    self.file.print(seg)
+    if self.o.auto_colorize and self.is_terminal and not seg.is_colorized:
+      seg.colorize.apply((it: TuiSegment) => self.file.print(it))
+    else:
+      self.file.print(seg)
   self.buffer.segseq.setLen(0)
 
 proc control*(self: TuiConsole, controls: varargs[TuiControl]) =

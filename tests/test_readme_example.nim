@@ -1,8 +1,8 @@
 import tuicrown/[tuiconsole]
 
-let cons = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
+let console = newTuiConsole(newTuiConsoleOptions()) # Console object with default options
 
-cons.print("[green]green text[/]")
-cons.print("[i]italic text[/]")
-cons.print("[i red]red and italic text[/]")
-cons.print("[u yellow]yellow and underlined,[/yellow] only color is removed,[i bg:blue] and now added italic with blue background")
+console.print("[green]green text[/]")
+console.print("[i]italic text[/]")
+console.print("[i red]red and italic text[/]")
+console.print("[u yellow]yellow and underlined,[/yellow] only color is removed,[i bg:blue] and now added italic with blue background")

@@ -2,6 +2,8 @@ import std/sequtils
 import std/options
 import std/strutils
 import std/sugar
+import std/sets
+import std/enumerate
 
 template todo*(): untyped =
   assert(false, "Not implemented")
@@ -29,3 +31,8 @@ proc findIf*[T](s: seq[T], pred: (x: T) -> bool): Option[T] =
 
 func findSubstr*(s: string, t: string, strFroms: seq[int]): bool =
   strFroms.anyIt((it == 0 and s == t) or s.substr(it) == t)
+
+func toSeq*[T](s: Slice[T]): seq[T] =
+  result = newSeq[T](ord(s.b) - ord(s.a) + 1)
+  for (i, x) in enumerate(s.a .. s.b):
+    result[i] = x
