@@ -136,6 +136,9 @@ macro conslock*(c: TuiConsole, body: untyped): untyped =
     `c`.check_buffer()
 
 proc is_terminal*(self: TuiConsole): bool =
+  defer:
+    if result == true and getEnv("COLORTERM").toLowerAscii() notin ["truecolor", "24bit"]:
+      putEnv("COLORTERM", "truecolor")
   if self.o.force_terminal:
     return true
   if existsEnv("FORCE_COLOR"):
@@ -153,7 +156,6 @@ proc check_buffer*(self: TuiConsole) =
     return
   if self.is_terminal:
     enableTrueColors()
-  echo isTrueColorSupported()
   for seg in self.buffer.segseq:
     if self.o.auto_colorize and self.is_terminal and not seg.is_colorized:
       seg.colorize.apply((it: TuiSegment) => self.file.print(it))
