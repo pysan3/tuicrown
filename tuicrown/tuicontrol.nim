@@ -39,17 +39,14 @@ proc newTuiControl*(t: ControlType, args: seq[string]): TuiControl =
 proc newTuiControl*(t: ControlType, args: seq[int]): TuiControl =
   if t <= HIDE_CURSOR:
     return TuiControl(typ: t)
-  elif t <= CURSOR_BACKWARD:
-    let param = argsWithDefault(args, 0, 1)
-    return TuiControl(typ: t, args: @[param])
   elif t <= CURSOR_MOVE_TO_COLUMN:
     let param = argsWithDefault(args, 0, 1)
-    return TuiControl(typ: t, args: @[param + 1])
+    return TuiControl(typ: t, args: @[param])
   elif t <= CURSOR_MOVE_TO:
     let
       x = argsWithDefault(args, 0, 1)
       y = argsWithDefault(args, 1, 1)
-    return TuiControl(typ: t, args: @[x + 1, y + 1])
+    return TuiControl(typ: t, args: @[x, y])
   else:
     var targs = args.map((x) => $x)
     if targs.len == 0:
@@ -64,10 +61,12 @@ proc newTuiControl*(t: ControlType, args: varargs[int]): auto =
 proc printToUnix*(self: TuiControl): string =
   if self.typ <= HIDE_CURSOR:
     return $self.typ
-  elif self.typ <= CURSOR_MOVE_TO_COLUMN:
+  elif t <= CURSOR_BACKWARD:
     return &"\x1b[{self.args[0]}{self.typ}"
+  elif self.typ <= CURSOR_MOVE_TO_COLUMN:
+    return &"\x1b[{self.args[0] + 1}{self.typ}"
   elif self.typ <= CURSOR_MOVE_TO:
-    return &"\x1b[{self.args[1]};{self.args[0]}{self.typ}"
+    return &"\x1b[{self.args[1] + 1};{self.args[0] + 1}{self.typ}"
   else:
     return &"\x1b]0;{self.title}\x07"
 
