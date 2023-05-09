@@ -21,7 +21,7 @@
   <div class="document" id="documentId">
     <div class="container">
       <h1 class="title">Index</h1>
-      Modules: <a href="tuicrown.html">tuicrown</a>, <a href="tuicrown/tuiconsole.html">tuicrown/tuiconsole</a>, <a href="tuicrown/tuicontrol.html">tuicrown/tuicontrol</a>, <a href="tuicrown/tuisegment.html">tuicrown/tuisegment</a>, <a href="tuicrown/tuistyles.html">tuicrown/tuistyles</a>, <a href="tuicrown/utils.html">tuicrown/utils</a>.<br/><p /><h2>API symbols</h2>
+      Modules: <a href="tuicrown.html">tuicrown</a>, <a href="tuicrown/tuiconsole.html">tuicrown/tuiconsole</a>, <a href="tuicrown/tuicontrol.html">tuicrown/tuicontrol</a>, <a href="tuicrown/tuisegment.html">tuicrown/tuisegment</a>, <a href="tuicrown/tuistyles.html">tuicrown/tuistyles</a>, <a href="tuicrown/tuivariables.html">tuicrown/tuivariables</a>, <a href="tuicrown/utils.html">tuicrown/utils</a>.<br/><p /><h2>API symbols</h2>
 <dl><dt><a name="%60%24%60" href="#%60%24%60"><span>`$`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuiconsole: proc `$`(self: TuiConsoleDimension): string" href="tuicrown/tuiconsole.html#%24%2CTuiConsoleDimension">tuiconsole: proc `$`(self: TuiConsoleDimension): string</a></li>
@@ -52,6 +52,10 @@
           <li><a class="reference external"
           data-doc-search-tag="tuistyles: proc `==`(self: TuiStyles; o: TuiStyles): bool" href="tuicrown/tuistyles.html#%3D%3D%2CTuiStyles%2CTuiStyles">tuistyles: proc `==`(self: TuiStyles; o: TuiStyles): bool</a></li>
           </ul></dd>
+<dt><a name="%60%5B%5D%60" href="#%60%5B%5D%60"><span>`[]`:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc `[]`(self: MatchSeq; idx: int): MatchResult" href="tuicrown/tuivariables.html#%5B%5D%2CMatchSeq%2Cint">tuivariables: proc `[]`(self: MatchSeq; idx: int): MatchResult</a></li>
+          </ul></dd>
 <dt><a name="addStyle" href="#addStyle"><span>addStyle:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuisegment: proc addStyle(self: var TuiSegment;
@@ -75,6 +79,10 @@
 <dt><a name="argsWithDefault" href="#argsWithDefault"><span>argsWithDefault:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="utils: proc argsWithDefault[T](args: seq[T]; index: int; default: T): T" href="tuicrown/utils.html#argsWithDefault%2Cseq%5BT%5D%2Cint%2CT">utils: proc argsWithDefault[T](args: seq[T]; index: int; default: T): T</a></li>
+          </ul></dd>
+<dt><a name="assign" href="#assign"><span>assign:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc assign(self: var MatchSeq; idx: int; id: int)" href="tuicrown/tuivariables.html#assign%2CMatchSeq%2Cint%2Cint">tuivariables: proc assign(self: var MatchSeq; idx: int; id: int)</a></li>
           </ul></dd>
 <dt><a name="BELL" href="#BELL"><span>BELL:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -113,6 +121,10 @@
 <dt><a name="CLEAR" href="#CLEAR"><span>CLEAR:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuicontrol: ControlType.CLEAR" href="tuicrown/tuicontrol.html#CLEAR">tuicontrol: ControlType.CLEAR</a></li>
+          </ul></dd>
+<dt><a name="colorize" href="#colorize"><span>colorize:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuisegment: proc colorize(self: TuiSegment): seq[TuiSegment]" href="tuicrown/tuisegment.html#colorize%2CTuiSegment">tuisegment: proc colorize(self: TuiSegment): seq[TuiSegment]</a></li>
           </ul></dd>
 <dt><a name="ColorSystem" href="#ColorSystem"><span>ColorSystem:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -256,6 +268,10 @@
 <li><a class="reference external"
           data-doc-search-tag="tuicontrol: ControlType.HIDE_CURSOR" href="tuicrown/tuicontrol.html#HIDE_CURSOR">tuicontrol: ControlType.HIDE_CURSOR</a></li>
           </ul></dd>
+<dt><a name="hlKey" href="#hlKey"><span>hlKey:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc hlKey(self: MatchResult): auto" href="tuicrown/tuivariables.html#hlKey%2CMatchResult">tuivariables: proc hlKey(self: MatchResult): auto</a></li>
+          </ul></dd>
 <dt><a name="HOME" href="#HOME"><span>HOME:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuicontrol: ControlType.HOME" href="tuicrown/tuicontrol.html#HOME">tuicontrol: ControlType.HOME</a></li>
@@ -313,6 +329,24 @@
 <dt><a name="len" href="#len"><span>len:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuisegment: proc len(self: TuiSegment): int" href="tuicrown/tuisegment.html#len%2CTuiSegment">tuisegment: proc len(self: TuiSegment): int</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc len(self: MatchSeq): auto" href="tuicrown/tuivariables.html#len%2CMatchSeq">tuivariables: proc len(self: MatchSeq): auto</a></li>
+          </ul></dd>
+<dt><a name="lookup" href="#lookup"><span>lookup:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc lookup(self: MatchSeq; idx: int): MatchResult" href="tuicrown/tuivariables.html#lookup%2CMatchSeq%2Cint">tuivariables: proc lookup(self: MatchSeq; idx: int): MatchResult</a></li>
+          </ul></dd>
+<dt><a name="match" href="#match"><span>match:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc match(self: TuiHighlighter; text: string): MatchSeq" href="tuicrown/tuivariables.html#match%2CTuiHighlighter%2Cstring">tuivariables: proc match(self: TuiHighlighter; text: string): MatchSeq</a></li>
+          </ul></dd>
+<dt><a name="MatchResult" href="#MatchResult"><span>MatchResult:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: type MatchResult" href="tuicrown/tuivariables.html#MatchResult">tuivariables: type MatchResult</a></li>
+          </ul></dd>
+<dt><a name="MatchSeq" href="#MatchSeq"><span>MatchSeq:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: object MatchSeq" href="tuicrown/tuivariables.html#MatchSeq">tuivariables: object MatchSeq</a></li>
           </ul></dd>
 <dt><a name="newTuiConsole" href="#newTuiConsole"><span>newTuiConsole:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -330,11 +364,13 @@
           </ul></dd>
 <dt><a name="newTuiConsoleOptions" href="#newTuiConsoleOptions"><span>newTuiConsoleOptions:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="tuiconsole: proc newTuiConsoleOptions(tab_size = 2; record = false; markup = false; emoji = true;
-                     highlight = true; soft_wrap = false;
-                     force_terminal = false; is_interactive = false): TuiConsoleOptions" href="tuicrown/tuiconsole.html#newTuiConsoleOptions%2Cint">tuiconsole: proc newTuiConsoleOptions(tab_size = 2; record = false; markup = false; emoji = true;
-                     highlight = true; soft_wrap = false;
-                     force_terminal = false; is_interactive = false): TuiConsoleOptions</a></li>
+          data-doc-search-tag="tuiconsole: proc newTuiConsoleOptions(auto_colorize = false; tab_size = 2; record = false;
+                     markup = false; emoji = true; highlight = true;
+                     soft_wrap = false; force_terminal = false;
+                     is_interactive = false): TuiConsoleOptions" href="tuicrown/tuiconsole.html#newTuiConsoleOptions%2Cint">tuiconsole: proc newTuiConsoleOptions(auto_colorize = false; tab_size = 2; record = false;
+                     markup = false; emoji = true; highlight = true;
+                     soft_wrap = false; force_terminal = false;
+                     is_interactive = false): TuiConsoleOptions</a></li>
           </ul></dd>
 <dt><a name="newTuiControl" href="#newTuiControl"><span>newTuiControl:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -346,11 +382,15 @@
           <li><a class="reference external"
           data-doc-search-tag="tuicontrol: proc newTuiControl(t: ControlType; args: varargs[int]): auto" href="tuicrown/tuicontrol.html#newTuiControl%2CControlType%2Cvarargs%5Bint%5D">tuicontrol: proc newTuiControl(t: ControlType; args: varargs[int]): auto</a></li>
           </ul></dd>
+<dt><a name="newTuiHighlighter" href="#newTuiHighlighter"><span>newTuiHighlighter:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc newTuiHighlighter(prefix = &quot;&quot;; highlights = newSeq()): TuiHighlighter" href="tuicrown/tuivariables.html#newTuiHighlighter%2Cstring">tuivariables: proc newTuiHighlighter(prefix = &quot;&quot;; highlights = newSeq()): TuiHighlighter</a></li>
+          </ul></dd>
 <dt><a name="newTuiSegment" href="#newTuiSegment"><span>newTuiSegment:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuisegment: proc newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
-              controls: seq[TuiControl] = newSeq()): auto" href="tuicrown/tuisegment.html#newTuiSegment%2Cstring%2CTuiStyles%2Cseq%5BTuiControl%5D">tuisegment: proc newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
-              controls: seq[TuiControl] = newSeq()): auto</a></li>
+              controls: seq[TuiControl] = newSeq(); is_colorized: bool = false): auto" href="tuicrown/tuisegment.html#newTuiSegment%2Cstring%2CTuiStyles%2Cseq%5BTuiControl%5D%2Cbool">tuisegment: proc newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
+              controls: seq[TuiControl] = newSeq(); is_colorized: bool = false): auto</a></li>
           </ul></dd>
 <dt><a name="newTuiStyles" href="#newTuiStyles"><span>newTuiStyles:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -363,6 +403,10 @@
           data-doc-search-tag="tuistyles: proc newTuiStyles(arg: seq[Style]): TuiStyles" href="tuicrown/tuistyles.html#newTuiStyles%2Cseq%5BStyle%5D_2">tuistyles: proc newTuiStyles(arg: seq[Style]): TuiStyles</a></li>
           <li><a class="reference external"
           data-doc-search-tag="tuistyles: proc newTuiStyles(old: TuiStyles; texts: string): TuiStyles" href="tuicrown/tuistyles.html#newTuiStyles%2CTuiStyles%2Cstring">tuistyles: proc newTuiStyles(old: TuiStyles; texts: string): TuiStyles</a></li>
+          </ul></dd>
+<dt><a name="optTuiStyles" href="#optTuiStyles"><span>optTuiStyles:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc optTuiStyles(self: MatchResult): auto" href="tuicrown/tuivariables.html#optTuiStyles%2CMatchResult">tuivariables: proc optTuiStyles(self: MatchResult): auto</a></li>
           </ul></dd>
 <dt><a name="parseStr" href="#parseStr"><span>parseStr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -394,6 +438,10 @@
 &quot;;
              args: varargs[string, `$`])</a></li>
           </ul></dd>
+<dt><a name="reprHighlighter" href="#reprHighlighter"><span>reprHighlighter:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: let reprHighlighter" href="tuicrown/tuivariables.html#reprHighlighter">tuivariables: let reprHighlighter</a></li>
+          </ul></dd>
 <dt><a name="searchColor" href="#searchColor"><span>searchColor:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuistyles: proc searchColor(token: string): Option[Color]" href="tuicrown/tuistyles.html#searchColor%2Cstring">tuistyles: proc searchColor(token: string): Option[Color]</a></li>
@@ -417,6 +465,10 @@
 <dt><a name="STANDARD" href="#STANDARD"><span>STANDARD:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuiconsole: ColorSystem.STANDARD" href="tuicrown/tuiconsole.html#STANDARD">tuiconsole: ColorSystem.STANDARD</a></li>
+          </ul></dd>
+<dt><a name="text" href="#text"><span>text:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc text(self: MatchResult): auto" href="tuicrown/tuivariables.html#text%2CMatchResult">tuivariables: proc text(self: MatchResult): auto</a></li>
           </ul></dd>
 <dt><a name="to" href="#to"><span>to:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -481,6 +533,10 @@
           data-doc-search-tag="tuistyles: converter toInternal(val`gensym4: var TuiForegroundColor): var
   ForegroundColor" href="tuicrown/tuistyles.html#toInternal.c%2CTuiForegroundColor_2">tuistyles: converter toInternal(val`gensym4: var TuiForegroundColor): var
   ForegroundColor</a></li>
+          </ul></dd>
+<dt><a name="toSeq" href="#toSeq"><span>toSeq:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: proc toSeq[T](s: Slice[T]): seq[T]" href="tuicrown/utils.html#toSeq%2CSlice%5BT%5D">utils: proc toSeq[T](s: Slice[T]): seq[T]</a></li>
           </ul></dd>
 <dt><a name="toTuiBGType" href="#toTuiBGType"><span>toTuiBGType:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -590,6 +646,10 @@
 <li><a class="reference external"
           data-doc-search-tag="tuistyles: TuiFGTypeKind.TuiForegroundColorKind" href="tuicrown/tuistyles.html#TuiForegroundColorKind">tuistyles: TuiFGTypeKind.TuiForegroundColorKind</a></li>
           </ul></dd>
+<dt><a name="TuiHighlighter" href="#TuiHighlighter"><span>TuiHighlighter:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: type TuiHighlighter" href="tuicrown/tuivariables.html#TuiHighlighter">tuivariables: type TuiHighlighter</a></li>
+          </ul></dd>
 <dt><a name="TuiOptions" href="#TuiOptions"><span>TuiOptions:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuiconsole: type TuiOptions" href="tuicrown/tuiconsole.html#TuiOptions">tuiconsole: type TuiOptions</a></li>
@@ -602,11 +662,17 @@
 <li><a class="reference external"
           data-doc-search-tag="tuistyles: type TuiStyles" href="tuicrown/tuistyles.html#TuiStyles">tuistyles: type TuiStyles</a></li>
           </ul></dd>
+<dt><a name="updateLookup" href="#updateLookup"><span>updateLookup:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc updateLookup(self: TuiHighlighter; k: string; v: TuiStyles)" href="tuicrown/tuivariables.html#updateLookup%2CTuiHighlighter%2Cstring%2CTuiStyles">tuivariables: proc updateLookup(self: TuiHighlighter; k: string; v: TuiStyles)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc updateLookup(self: TuiHighlighter; t: TableRef[string, TuiStyles])" href="tuicrown/tuivariables.html#updateLookup%2CTuiHighlighter%2CTableRef%5Bstring%2CTuiStyles%5D">tuivariables: proc updateLookup(self: TuiHighlighter; t: TableRef[string, TuiStyles])</a></li>
+          </ul></dd>
 </dl>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-09 09:46:09 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-09 09:50:07 UTC</small>
       </div>
     </div>
   </div>

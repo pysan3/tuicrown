@@ -57,7 +57,8 @@
       <li><a class="reference" href="#TuiSegment" title="TuiSegment = ref object of RootObj
   text*: string
   style*: TuiStyles
-  controls*: seq[TuiControl]">TuiSegment</a></li>
+  controls*: seq[TuiControl]
+  is_colorized*: bool">TuiSegment</a></li>
 
     </ul>
   </details>
@@ -84,6 +85,10 @@
          styles: seq[Style] = newSeq[Style]())</a></li>
 <li><a class="reference" href="#addStyle%2CTuiSegment%2Cseq%5BStyle%5D_2" title="addStyle(self: var TuiSegment; arg: seq[Style])">addStyle(self: var TuiSegment; arg: seq[Style])</a></li>
 <li><a class="reference" href="#addStyle%2CTuiSegment%2CTuiStyles" title="addStyle(self: var TuiSegment; style: TuiStyles)">addStyle(self: var TuiSegment; style: TuiStyles)</a></li>
+
+</ul>
+<ul class="simple nested-toc-section">colorize
+  <li><a class="reference" href="#colorize%2CTuiSegment" title="colorize(self: TuiSegment): seq[TuiSegment]">colorize(self: TuiSegment): seq[TuiSegment]</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">copy
@@ -115,9 +120,9 @@
 
 </ul>
 <ul class="simple nested-toc-section">newTuiSegment
-  <li><a class="reference" href="#newTuiSegment%2Cstring%2CTuiStyles%2Cseq%5BTuiControl%5D" title="newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
-              controls: seq[TuiControl] = newSeq()): auto">newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
-              controls: seq[TuiControl] = newSeq()): auto</a></li>
+  <li><a class="reference" href="#newTuiSegment%2Cstring%2CTuiStyles%2Cseq%5BTuiControl%5D%2Cbool" title="newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
+              controls: seq[TuiControl] = newSeq(); is_colorized: bool = false): auto">newTuiSegment(text: string = &quot;&quot;; style: TuiStyles = newTuiStyles();
+              controls: seq[TuiControl] = newSeq(); is_colorized: bool = false): auto</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">print
@@ -134,7 +139,7 @@
 
   </div>
   <div class="nine columns" id="content">
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
     <div id="tocRoot"></div>
@@ -143,7 +148,7 @@
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
-    <a class="reference external" href="tuicontrol.html">tuicontrol</a>, <a class="reference external" href="tuistyles.html">tuistyles</a>
+    <a class="reference external" href="tuicontrol.html">tuicontrol</a>, <a class="reference external" href="tuistyles.html">tuistyles</a>, <a class="reference external" href="tuivariables.html">tuivariables</a>
   </dl>
 </div>
 <div class="section" id="7">
@@ -154,12 +159,13 @@
   <span class="Identifier">text</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">string</span>
   <span class="Identifier">style</span><span class="Operator">*</span><span class="Other">:</span> <a href="tuistyles.html#TuiStyles"><span class="Identifier">TuiStyles</span></a>
   <span class="Identifier">controls</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="tuicontrol.html#TuiControl"><span class="Identifier">TuiControl</span></a><span class="Other">]</span>
+  <span class="Identifier">is_colorized</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>
 </pre></dt>
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L14" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L14" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L17" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L17" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -175,8 +181,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L53" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L53" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L47" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L47" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -189,8 +195,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L25" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L25" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L30" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L30" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -204,8 +210,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L58" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L58" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L81" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L81" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -215,8 +221,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L64" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L64" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L87" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L87" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -226,8 +232,22 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L56" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L56" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L79" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L79" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="colorize-procs-all">
+  <div id="colorize,TuiSegment">
+  <dt><pre><span class="Keyword">proc</span> <a href="#colorize%2CTuiSegment"><span class="Identifier">colorize</span></a><span class="Other">(</span><span class="Identifier">self</span><span class="Other">:</span> <a href="tuisegment.html#TuiSegment"><span class="Identifier">TuiSegment</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="tuisegment.html#TuiSegment"><span class="Identifier">TuiSegment</span></a><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L50" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L50" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -235,13 +255,13 @@
 </div>
 <div id="copy-procs-all">
   <div id="copy,TuiSegment">
-  <dt><pre><span class="Keyword">proc</span> <a href="#copy%2CTuiSegment"><span class="Identifier">copy</span></a><span class="Other">(</span><span class="Identifier">refObj</span><span class="Other">:</span> <a href="tuisegment.html#TuiSegment"><span class="Identifier">TuiSegment</span></a><span class="Other">;</span> <span class="Identifier">copyControls</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+  <dt><pre><span class="Keyword">func</span> <a href="#copy%2CTuiSegment"><span class="Identifier">copy</span></a><span class="Other">(</span><span class="Identifier">refObj</span><span class="Other">:</span> <a href="tuisegment.html#TuiSegment"><span class="Identifier">TuiSegment</span></a><span class="Other">;</span> <span class="Identifier">copyControls</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L32" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L32" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L37" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L37" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -249,13 +269,13 @@
 </div>
 <div id="deepCopy-procs-all">
   <div id="deepCopy,TuiSegment">
-  <dt><pre><span class="Keyword">proc</span> <a href="#deepCopy%2CTuiSegment"><span class="Identifier">deepCopy</span></a><span class="Other">(</span><span class="Identifier">refObj</span><span class="Other">:</span> <a href="tuisegment.html#TuiSegment"><span class="Identifier">TuiSegment</span></a><span class="Other">;</span> <span class="Identifier">copyControls</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+  <dt><pre><span class="Keyword">func</span> <a href="#deepCopy%2CTuiSegment"><span class="Identifier">deepCopy</span></a><span class="Other">(</span><span class="Identifier">refObj</span><span class="Other">:</span> <a href="tuisegment.html#TuiSegment"><span class="Identifier">TuiSegment</span></a><span class="Other">;</span> <span class="Identifier">copyControls</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L37" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L37" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L42" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L42" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -269,8 +289,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L67" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L67" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L90" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L90" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -280,8 +300,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L73" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L73" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L96" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L96" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -291,8 +311,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L65" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L65" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L88" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L88" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -305,8 +325,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L75" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L75" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L98" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L98" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -318,23 +338,24 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L30" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L30" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L35" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L35" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
 
 </div>
 <div id="newTuiSegment-procs-all">
-  <div id="newTuiSegment,string,TuiStyles,seq[TuiControl]">
-  <dt><pre><span class="Keyword">proc</span> <a href="#newTuiSegment%2Cstring%2CTuiStyles%2Cseq%5BTuiControl%5D"><span class="Identifier">newTuiSegment</span></a><span class="Other">(</span><span class="Identifier">text</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">=</span> <span class="StringLit">&quot;&quot;</span><span class="Other">;</span> <span class="Identifier">style</span><span class="Other">:</span> <a href="tuistyles.html#TuiStyles"><span class="Identifier">TuiStyles</span></a> <span class="Other">=</span> <span class="Identifier">newTuiStyles</span><span class="Other">(</span><span class="Other">)</span><span class="Other">;</span>
-                   <span class="Identifier">controls</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="tuicontrol.html#TuiControl"><span class="Identifier">TuiControl</span></a><span class="Other">]</span> <span class="Other">=</span> <span class="Identifier">newSeq</span><span class="Other">(</span><span class="Other">)</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <div id="newTuiSegment,string,TuiStyles,seq[TuiControl],bool">
+  <dt><pre><span class="Keyword">func</span> <a href="#newTuiSegment%2Cstring%2CTuiStyles%2Cseq%5BTuiControl%5D%2Cbool"><span class="Identifier">newTuiSegment</span></a><span class="Other">(</span><span class="Identifier">text</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">=</span> <span class="StringLit">&quot;&quot;</span><span class="Other">;</span> <span class="Identifier">style</span><span class="Other">:</span> <a href="tuistyles.html#TuiStyles"><span class="Identifier">TuiStyles</span></a> <span class="Other">=</span> <span class="Identifier">newTuiStyles</span><span class="Other">(</span><span class="Other">)</span><span class="Other">;</span>
+                   <span class="Identifier">controls</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="tuicontrol.html#TuiControl"><span class="Identifier">TuiControl</span></a><span class="Other">]</span> <span class="Other">=</span> <span class="Identifier">newSeq</span><span class="Other">(</span><span class="Other">)</span><span class="Other">;</span>
+                   <span class="Identifier">is_colorized</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L19" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L19" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L23" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L23" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -347,8 +368,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L49" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L49" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L75" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L75" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -359,8 +380,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/a511d2030f1b35ca26edd90d1bc7634763888aad/tuicrown/tuisegment.nim#L42" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L42" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/2a8882bc9ef138f6f39110ca713033c17de1e3e3/tuicrown/tuisegment.nim#L68" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuisegment.nim#L68" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -376,7 +397,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-09 09:46:09 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-09 09:50:07 UTC</small>
       </div>
     </div>
   </div>
