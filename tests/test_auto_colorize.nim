@@ -1,12 +1,9 @@
 import std/tempfiles
-import std/colors
-import std/os
 import std/terminal
 import std/strutils
-import std/sequtils
 import std/unittest
 
-import tuicrown/[tuisegment, tuiconsole, tuistyles]
+import tuicrown/tuiconsole
 import file_test_utils
 
 ## auto_colorize = true

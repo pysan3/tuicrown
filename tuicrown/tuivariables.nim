@@ -1,14 +1,11 @@
 import std/tables
-import std/intsets
 import std/options
 import std/colors
 import std/terminal
 import std/sequtils
 import std/strutils
-import std/sugar
 import regex
 
-import utils
 import tuistyles
 
 let style_lookup = {
