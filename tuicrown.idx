@@ -1,16 +1,16 @@
 nimTitle	tuicrown	tuicrown.html	module tuicrown		0
-nim	gConsoleOut	tuicrown.html#gConsoleOut	let gConsoleOut		38
-nim	gConsoleErr	tuicrown.html#gConsoleErr	let gConsoleErr		39
-nim	print	tuicrown.html#print,varargs[string,]	proc print(args: varargs[string, `$`])		41
-nim	flush	tuicrown.html#flush,varargs[string,]	proc flush(args: varargs[string, `$`])		48
-nim	input	tuicrown.html#input,varargs[string,]	proc input(args: varargs[string, `$`]): string		53
-nim	info	tuicrown.html#info,varargs[string,]	proc info(args: varargs[string, `$`])		62
-nim	warn	tuicrown.html#warn,varargs[string,]	proc warn(args: varargs[string, `$`])		67
-nim	rror	tuicrown.html#rror,varargs[string,]	proc rror(args: varargs[string, `$`])		72
-nim	eprint	tuicrown.html#eprint,varargs[string,]	proc eprint(args: varargs[string, `$`])		79
-nim	einfo	tuicrown.html#einfo,varargs[string,]	proc einfo(args: varargs[string, `$`])		83
-nim	ewarn	tuicrown.html#ewarn,varargs[string,]	proc ewarn(args: varargs[string, `$`])		88
-nim	error	tuicrown.html#error,varargs[string,]	proc error(args: varargs[string, `$`])		93
+nim	gConsoleOut	tuicrown.html#gConsoleOut	let gConsoleOut		39
+nim	gConsoleErr	tuicrown.html#gConsoleErr	let gConsoleErr		40
+nim	print	tuicrown.html#print,varargs[string,]	proc print(args: varargs[string, `$`])		42
+nim	flush	tuicrown.html#flush,varargs[string,]	proc flush(args: varargs[string, `$`])		49
+nim	input	tuicrown.html#input,varargs[string,]	proc input(args: varargs[string, `$`]): string		54
+nim	info	tuicrown.html#info,varargs[string,]	proc info(args: varargs[string, `$`])		63
+nim	warn	tuicrown.html#warn,varargs[string,]	proc warn(args: varargs[string, `$`])		68
+nim	rror	tuicrown.html#rror,varargs[string,]	proc rror(args: varargs[string, `$`])		73
+nim	eprint	tuicrown.html#eprint,varargs[string,]	proc eprint(args: varargs[string, `$`])		80
+nim	einfo	tuicrown.html#einfo,varargs[string,]	proc einfo(args: varargs[string, `$`])		84
+nim	ewarn	tuicrown.html#ewarn,varargs[string,]	proc ewarn(args: varargs[string, `$`])		89
+nim	error	tuicrown.html#error,varargs[string,]	proc error(args: varargs[string, `$`])		94
 heading	🌈 TuiCrown 👑	tuicrown.html#🌈-tuicrown-👑	 🌈 TuiCrown 👑		0
 heading	input🌈-tuicrown-👑-input	tuicrown.html#🌈-tuicrown-👑-input	  <a class="reference internal" href="#🌈-tuicrown-👑-input">input</a>		0
 heading	print🌈-tuicrown-👑-print	tuicrown.html#🌈-tuicrown-👑-print	  <a class="reference internal" href="#🌈-tuicrown-👑-print">print</a>		0
