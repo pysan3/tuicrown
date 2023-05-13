@@ -35,7 +35,7 @@ import tuicrown/tuicontrol
 import tuicrown/tuisegment
 import tuicrown/tuistyles
 
-let gConsoleOut* = newTuiConsole(newTuiConsoleOptions()) ## Global console object used for `print`.
+let gConsoleOut* = newTuiConsole(newTuiConsoleOptions(), file = stdout) ## Global console object used for `print`.
 let gConsoleErr* = newTuiConsole(newTuiConsoleOptions(), file = stderr) ## Global console object writing to `stderr`.
 
 proc print*(args: varargs[string, `$`]) =
@@ -60,17 +60,17 @@ proc input*(args: varargs[string, `$`]): string =
   result = readLineFromStdin("")
 
 proc info*(args: varargs[string, `$`]) =
-  ## print to `stdout` but prefixed with "[green]Info:[/]".
+  ## print to `stdout` but prefixed with `[green]Info:[/]`.
   gConsoleOut.print("[green]Info:[/]")
   unpackVarargs(print, args)
 
 proc warn*(args: varargs[string, `$`]) =
-  ## print to `stdout` but prefixed with "[yellow]Warning:[/]".
+  ## print to `stdout` but prefixed with `[yellow]Warning:[/]`.
   gConsoleOut.print("[yellow]Warning:[/]")
   unpackVarargs(print, args)
 
 proc rror*(args: varargs[string, `$`]) =
-  ## print to `stdout` but prefixed with "[red]ERROR:[/]".
+  ## print to `stdout` but prefixed with `[red]ERROR:[/]`.
   ##
   ## Error but to `stdout` -> `rror`
   gConsoleOut.print("[red]ERROR:[/]")
@@ -81,17 +81,17 @@ proc eprint*(args: varargs[string, `$`]) =
   unpackVarargs(gConsoleErr.print, args)
 
 proc einfo*(args: varargs[string, `$`]) =
-  ## print to `stderr` but prefixed with "[green]Info:[/]".
+  ## print to `stderr` but prefixed with `[green]Info:[/]`.
   gConsoleErr.print("[green]Info:[/]")
   unpackVarargs(eprint, args)
 
 proc ewarn*(args: varargs[string, `$`]) =
-  ## print to `stderr` but prefixed with "[yellow]Warning:[/]".
+  ## print to `stderr` but prefixed with `[yellow]Warning:[/]`.
   gConsoleErr.print("[yellow]Warning:[/]")
   unpackVarargs(eprint, args)
 
 proc error*(args: varargs[string, `$`]) =
-  ## print to `stderr` but prefixed with "[red]ERROR:[/]".
+  ## print to `stderr` but prefixed with `[red]ERROR:[/]`.
   gConsoleErr.print("[red]ERROR:[/]")
   unpackVarargs(eprint, args)
 
