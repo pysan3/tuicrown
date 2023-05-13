@@ -25,7 +25,8 @@ runnableExamples:
 ## Examples and Tests
 ## --------------------
 ##
-## Example usages are listed in `./tests`. If you have more interests on the syntax, take a look there.
+## Example usages are listed in https://github.com/pysan3/tuicrown/tree/main/tests .
+## If you have more interests on the syntax, take a look there.
 
 import std/macros
 import std/sequtils
