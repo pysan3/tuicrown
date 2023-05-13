@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/pysan3/tuicrown/compare/v0.8.0...v0.8.1) (2023-05-13)
+
+
+### Bug Fixes
+
+* **tuicrown:** documents where broken ([f9e2604](https://github.com/pysan3/tuicrown/commit/f9e2604bca2a370d2d0663a6bf08512eeb6df194))
+
 ## [0.8.0](https://github.com/pysan3/tuicrown/compare/v0.7.0...v0.8.0) (2023-05-13)
 
 
