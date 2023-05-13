@@ -1,11 +1,12 @@
 nimTitle	utils	tuicrown/utils.html	module tuicrown/utils		0
-nim	todo	tuicrown/utils.html#todo.t	template todo(): untyped		8
-nim	isAbstract	tuicrown/utils.html#isAbstract.t	template isAbstract(): untyped		11
-nim	addUniq	tuicrown/utils.html#addUniq,seq[T],T	proc addUniq[T](a: var seq[T]; b: T)		14
-nim	addUniq	tuicrown/utils.html#addUniq,seq[T],seq[T]	proc addUniq[T](a: var seq[T]; b: seq[T])		16
-nim	deleteIf	tuicrown/utils.html#deleteIf,seq[T],int	proc deleteIf[T](a: var seq[T]; i: int)		17
-nim	argsWithDefault	tuicrown/utils.html#argsWithDefault,seq[T],int,T	proc argsWithDefault[T](args: seq[T]; index: int; default: T): T		21
-nim	findIf	tuicrown/utils.html#findIf,seq[T],	proc findIf[T](s: seq[T]; pred: (x: T) -> bool): Option[T]		26
-nim	findSubstr	tuicrown/utils.html#findSubstr,string,string,seq[int]	proc findSubstr(s: string; t: string; strFroms: seq[int]): bool		32
-nim	toSeq	tuicrown/utils.html#toSeq,Slice[T]	proc toSeq[T](s: Slice[T]): seq[T]		35
-nimgrp	adduniq	tuicrown/utils.html#addUniq-procs-all	proc		14
+nim	mainExamples	tuicrown/utils.html#mainExamples.m,untyped	macro mainExamples(body: untyped): untyped		9
+nim	todo	tuicrown/utils.html#todo.t	template todo(): untyped		16
+nim	isAbstract	tuicrown/utils.html#isAbstract.t	template isAbstract(): untyped		19
+nim	addUniq	tuicrown/utils.html#addUniq,seq[T],T	proc addUniq[T](a: var seq[T]; b: T)		22
+nim	addUniq	tuicrown/utils.html#addUniq,seq[T],seq[T]	proc addUniq[T](a: var seq[T]; b: seq[T])		24
+nim	deleteIf	tuicrown/utils.html#deleteIf,seq[T],int	proc deleteIf[T](a: var seq[T]; i: int)		25
+nim	argsWithDefault	tuicrown/utils.html#argsWithDefault,seq[T],int,T	proc argsWithDefault[T](args: seq[T]; index: int; default: T): T		29
+nim	findIf	tuicrown/utils.html#findIf,seq[T],	proc findIf[T](s: seq[T]; pred: (x: T) -> bool): Option[T]		34
+nim	findSubstr	tuicrown/utils.html#findSubstr,string,string,seq[int]	proc findSubstr(s: string; t: string; strFroms: seq[int]): bool		40
+nim	toSeq	tuicrown/utils.html#toSeq,Slice[T]	proc toSeq[T](s: Slice[T]): seq[T]		43
+nimgrp	adduniq	tuicrown/utils.html#addUniq-procs-all	proc		22

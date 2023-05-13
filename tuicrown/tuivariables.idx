@@ -1,17 +1,15 @@
 nimTitle	tuivariables	tuicrown/tuivariables.html	module tuicrown/tuivariables		0
-nim	TuiHighlighter	tuicrown/tuivariables.html#TuiHighlighter	type TuiHighlighter		41
-nim	MatchResult	tuicrown/tuivariables.html#MatchResult	type MatchResult		45
-nim	MatchSeq	tuicrown/tuivariables.html#MatchSeq	object MatchSeq		46
-nim	text	tuicrown/tuivariables.html#text,MatchResult	proc text(self: MatchResult): auto		50
-nim	optTuiStyles	tuicrown/tuivariables.html#optTuiStyles,MatchResult	proc optTuiStyles(self: MatchResult): auto		51
-nim	hlKey	tuicrown/tuivariables.html#hlKey,MatchResult	proc hlKey(self: MatchResult): auto		52
-nim	lookup	tuicrown/tuivariables.html#lookup,MatchSeq,int	proc lookup(self: MatchSeq; idx: int): MatchResult		54
-nim	`[]`	tuicrown/tuivariables.html#[],MatchSeq,int	proc `[]`(self: MatchSeq; idx: int): MatchResult		58
-nim	assign	tuicrown/tuivariables.html#assign,MatchSeq,int,int	proc assign(self: var MatchSeq; idx: int; id: int)		60
-nim	len	tuicrown/tuivariables.html#len,MatchSeq	proc len(self: MatchSeq): auto		63
-nim	newTuiHighlighter	tuicrown/tuivariables.html#newTuiHighlighter,string	proc newTuiHighlighter(prefix = ""; highlights = newSeq()): TuiHighlighter		66
-nim	updateLookup	tuicrown/tuivariables.html#updateLookup,TuiHighlighter,string,TuiStyles	proc updateLookup(self: TuiHighlighter; k: string; v: TuiStyles)		71
-nim	updateLookup	tuicrown/tuivariables.html#updateLookup,TuiHighlighter,TableRef[string,TuiStyles]	proc updateLookup(self: TuiHighlighter; t: TableRef[string, TuiStyles])		74
-nim	match	tuicrown/tuivariables.html#match,TuiHighlighter,string	proc match(self: TuiHighlighter; text: string): MatchSeq		78
-nim	reprHighlighter	tuicrown/tuivariables.html#reprHighlighter	let reprHighlighter		96
-nimgrp	updatelookup	tuicrown/tuivariables.html#updateLookup-procs-all	proc		71
+nim	TuiHighlighter	tuicrown/tuivariables.html#TuiHighlighter	type TuiHighlighter		62
+nim	MatchResult	tuicrown/tuivariables.html#MatchResult	type MatchResult		71
+nim	MatchSeq	tuicrown/tuivariables.html#MatchSeq	object MatchSeq		82
+nim	lookup	tuicrown/tuivariables.html#lookup,MatchSeq,int	proc lookup(self: MatchSeq; idx: int): MatchResult		92
+nim	`[]`	tuicrown/tuivariables.html#[],MatchSeq,int	proc `[]`(self: MatchSeq; idx: int): MatchResult		105
+nim	assign	tuicrown/tuivariables.html#assign,MatchSeq,int,int	proc assign(self: var MatchSeq; idx: int; id: int)		113
+nim	len	tuicrown/tuivariables.html#len,MatchSeq	proc len(self: MatchSeq): int		132
+nim	newMatchSeq	tuicrown/tuivariables.html#newMatchSeq,int	proc newMatchSeq(text_len: int): MatchSeq		135
+nim	newTuiHighlighter	tuicrown/tuivariables.html#newTuiHighlighter,string	proc newTuiHighlighter(prefix = ""; highlights = newSeq()): TuiHighlighter		139
+nim	updateLookup	tuicrown/tuivariables.html#updateLookup,TuiHighlighter,string,TuiStyles	proc updateLookup(self: TuiHighlighter; k: string; v: TuiStyles)		149
+nim	updateLookup	tuicrown/tuivariables.html#updateLookup,TuiHighlighter,TableRef[string,TuiStyles]	proc updateLookup(self: TuiHighlighter; t: TableRef[string, TuiStyles])		153
+nim	match	tuicrown/tuivariables.html#match,TuiHighlighter,string	proc match(self: TuiHighlighter; text: string): MatchSeq		158
+nim	reprHighlighter	tuicrown/tuivariables.html#reprHighlighter	let reprHighlighter		179
+nimgrp	updatelookup	tuicrown/tuivariables.html#updateLookup-procs-all	proc		149

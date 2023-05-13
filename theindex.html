@@ -268,10 +268,6 @@
 <li><a class="reference external"
           data-doc-search-tag="tuicontrol: ControlType.HIDE_CURSOR" href="tuicrown/tuicontrol.html#HIDE_CURSOR">tuicontrol: ControlType.HIDE_CURSOR</a></li>
           </ul></dd>
-<dt><a name="hlKey" href="#hlKey"><span>hlKey:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="tuivariables: proc hlKey(self: MatchResult): auto" href="tuicrown/tuivariables.html#hlKey%2CMatchResult">tuivariables: proc hlKey(self: MatchResult): auto</a></li>
-          </ul></dd>
 <dt><a name="HOME" href="#HOME"><span>HOME:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuicontrol: ControlType.HOME" href="tuicrown/tuicontrol.html#HOME">tuicontrol: ControlType.HOME</a></li>
@@ -330,11 +326,15 @@
 <li><a class="reference external"
           data-doc-search-tag="tuisegment: proc len(self: TuiSegment): int" href="tuicrown/tuisegment.html#len%2CTuiSegment">tuisegment: proc len(self: TuiSegment): int</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="tuivariables: proc len(self: MatchSeq): auto" href="tuicrown/tuivariables.html#len%2CMatchSeq">tuivariables: proc len(self: MatchSeq): auto</a></li>
+          data-doc-search-tag="tuivariables: proc len(self: MatchSeq): int" href="tuicrown/tuivariables.html#len%2CMatchSeq">tuivariables: proc len(self: MatchSeq): int</a></li>
           </ul></dd>
 <dt><a name="lookup" href="#lookup"><span>lookup:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuivariables: proc lookup(self: MatchSeq; idx: int): MatchResult" href="tuicrown/tuivariables.html#lookup%2CMatchSeq%2Cint">tuivariables: proc lookup(self: MatchSeq; idx: int): MatchResult</a></li>
+          </ul></dd>
+<dt><a name="mainExamples" href="#mainExamples"><span>mainExamples:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: macro mainExamples(body: untyped): untyped" href="tuicrown/utils.html#mainExamples.m%2Cuntyped">utils: macro mainExamples(body: untyped): untyped</a></li>
           </ul></dd>
 <dt><a name="match" href="#match"><span>match:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -347,6 +347,10 @@
 <dt><a name="MatchSeq" href="#MatchSeq"><span>MatchSeq:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuivariables: object MatchSeq" href="tuicrown/tuivariables.html#MatchSeq">tuivariables: object MatchSeq</a></li>
+          </ul></dd>
+<dt><a name="newMatchSeq" href="#newMatchSeq"><span>newMatchSeq:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="tuivariables: proc newMatchSeq(text_len: int): MatchSeq" href="tuicrown/tuivariables.html#newMatchSeq%2Cint">tuivariables: proc newMatchSeq(text_len: int): MatchSeq</a></li>
           </ul></dd>
 <dt><a name="newTuiConsole" href="#newTuiConsole"><span>newTuiConsole:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -403,10 +407,6 @@
           data-doc-search-tag="tuistyles: proc newTuiStyles(arg: seq[Style]): TuiStyles" href="tuicrown/tuistyles.html#newTuiStyles%2Cseq%5BStyle%5D_2">tuistyles: proc newTuiStyles(arg: seq[Style]): TuiStyles</a></li>
           <li><a class="reference external"
           data-doc-search-tag="tuistyles: proc newTuiStyles(old: TuiStyles; texts: string): TuiStyles" href="tuicrown/tuistyles.html#newTuiStyles%2CTuiStyles%2Cstring">tuistyles: proc newTuiStyles(old: TuiStyles; texts: string): TuiStyles</a></li>
-          </ul></dd>
-<dt><a name="optTuiStyles" href="#optTuiStyles"><span>optTuiStyles:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="tuivariables: proc optTuiStyles(self: MatchResult): auto" href="tuicrown/tuivariables.html#optTuiStyles%2CMatchResult">tuivariables: proc optTuiStyles(self: MatchResult): auto</a></li>
           </ul></dd>
 <dt><a name="parseStr" href="#parseStr"><span>parseStr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -465,10 +465,6 @@
 <dt><a name="STANDARD" href="#STANDARD"><span>STANDARD:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="tuiconsole: ColorSystem.STANDARD" href="tuicrown/tuiconsole.html#STANDARD">tuiconsole: ColorSystem.STANDARD</a></li>
-          </ul></dd>
-<dt><a name="text" href="#text"><span>text:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="tuivariables: proc text(self: MatchResult): auto" href="tuicrown/tuivariables.html#text%2CMatchResult">tuivariables: proc text(self: MatchResult): auto</a></li>
           </ul></dd>
 <dt><a name="to" href="#to"><span>to:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -672,7 +668,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-09 11:04:14 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 07:58:44 UTC</small>
       </div>
     </div>
   </div>
