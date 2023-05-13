@@ -21,7 +21,9 @@ template isAbstract*(): untyped =
 
 func addUniq*[T](a: var seq[T], b: T) =
   if b notin a: a.add(b)
+
 func addUniq*[T](a: var seq[T], b: seq[T]) = a.add(b.filterIt(it notin a))
+
 func deleteIf*[T](a: var seq[T], i: int) =
   if a.low <= i and i <= a.high:
     a.delete(i)
@@ -31,7 +33,7 @@ func argsWithDefault*[T](args: seq[T], index: int, default: T): T =
     return args[index]
   return default
 
-proc findIf*[T](s: seq[T], pred: (x: T) -> bool): Option[T] =
+func findIf*[T](s: seq[T], pred: (T {.noSideEffect.} -> bool)): Option[T] =
   for x in s:
     if pred(x):
       return some(x)

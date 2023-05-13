@@ -1,3 +1,18 @@
+## This module wraps `std/terminal.ForegroundColor / BackgroundColor`, `std/colors.Colors`
+##
+## A pretty hacky solution is used so be careful.
+##
+## This module parses styles inside brackets passed like `[green bold]`.
+## The parsing mechanism is implemented in newTuiStyles_ and parseStr_.
+##
+## Color and style parsing is done in this order.
+## If none of the the styles are found, returns `none(TuiStyles)`.
+##
+## - searchStyle_
+## - foreground: searchFGBG_
+## - background: searchFGBG_
+## - searchColor_
+
 import std/colors
 import std/tables
 import std/enumutils
@@ -105,13 +120,39 @@ proc newTuiStyles*(
   result = TuiStyles(fgColors: newSeq[TuiFGType](), bgColors: newSeq[TuiBGType](), styles: styles)
   result.fgColor = fgColor(color)
   result.bgColor = bgColor(bgColor)
+
 proc newTuiStyles*(arg: seq[Style]): TuiStyles = newTuiStyles(styles = arg)
 
 proc copy*(refObj: TuiStyles): auto =
+  ## Returns the copy of `refObj`.
+  ##
+  ## Result contains only the latest `fgColor` and `bgColor`.
+  ## Therefore, the override chain of colors is not copied.
+  ##
+  ## Also see. deepCopy_ (copies the override chain as well)
+  runnableExamples:
+    import std/terminal
+    var st = newTuiStyles(nil, "fgRed")
+    st = newTuiStyles(st, "fgBlue")
+    var new_st = st.copy() # color chain is not copied. Only remembers top color: fgBlue
+    new_st -= newTuiStyles(nil, "fgBlue")
+    assert new_st == newTuiStyles() # nothing is left
   result = newTuiStyles(refObj.fgColor, refObj.bgColor)
   result.styles.add(refObj.styles)
 
 proc deepCopy*(refObj: TuiStyles): auto =
+  ## Returns the copy of `refObj`.
+  ##
+  ## Result contains all chain of colors for `fgColor` and `bgColor`.
+  ##
+  ## Also see. copy_ (only copies the current applied color)
+  runnableExamples:
+    import std/terminal
+    var st = newTuiStyles(nil, "fgRed")
+    st = newTuiStyles(st, "fgBlue")
+    var new_st = st.deepCopy() # color chain copied
+    new_st -= newTuiStyles(nil, "fgBlue")
+    assert new_st == newTuiStyles(nil, "fgRed") # fgRed remains
   result = TuiStyles(fgColors: newSeq[TuiFGType](), bgColors: newSeq[TuiBGType](), styles: newSeq[Style]())
   result.fgColors.add(refObj.fgColors)
   result.bgColors.add(refObj.bgColors)
@@ -131,10 +172,12 @@ proc `+=`*(self: var TuiStyles, o: TuiStyles) =
   self.fgColor = o.fgColor
   self.bgColor = o.bgColor
   self.styles.addUniq(o.styles)
+
 proc `-=`*(self: var TuiStyles, o: TuiStyles) =
   self.fgColors.deleteIf(self.fgColors.find(o.fgColor))
   self.bgColors.deleteIf(self.bgColors.find(o.bgColor))
   self.styles.keepItIf(it notin o.styles)
+
 proc `==`*(self: TuiStyles, o: TuiStyles): bool =
   (self.fgColor == o.fgColor) and
   (self.bgColor == o.bgColor) and
@@ -154,14 +197,43 @@ const styleLookUp = {
   "u": styleUnderscore,
 }.toTable()
 proc searchStyle*(token: string): Option[Style] =
+  ## Returns `some(Style)` if `token` is parsed as a style.
+  ##
+  ## Style should be one of `std/terminal/Style` enum (matches lowercase).
+  ##
+  ## User can omit `style` and use just `bright` instead.
+  ##
+  ## Some aliases are also pre-defined.
+  ## - "b": `styleBlink`
+  ## - "bold": `styleBlink`
+  ## - "i": `styleItalic`
+  ## - "r": `styleReverse`
+  ## - "s": `styleStrikethrough`
+  ## - "u": `styleUnderscore`
+  ##
+  ## Ref. https://nim-lang.org/docs/terminal.html#Style
   if token in styleLookUp:
     return some(styleLookUp[token])
   return Style.get(token, strFroms = @[0, 5])
 
 proc searchFGBG*[T: enum](E: typedesc[T], token: string): Option[T] =
+  ## Returns `some(ForegroundColor)` or `some(BackgroundColor)` if `token` is parsed as a terminal color.
+  ##
+  ## Style should be one of `std/terminal/[ForegroundColor, BackgroundColor]` enum (matches lowercase).
+  ##
+  ## User can omit `fg` / `bg` and use just `red` instead.
+  ##
+  ## Ref.
+  ##   - https://nim-lang.org/docs/terminal.html#BackgroundColor
+  ##   - https://nim-lang.org/docs/terminal.html#ForegroundColor
   return T.get(token, strFroms = @[0, 2])
 
 proc searchColor*(token: string): Option[Color] =
+  ## Returns `some(Color)` if `token` is parsed as a color.
+  ##
+  ## Style is checked with `isColor` from https://nim-lang.org/docs/colors.html#isColor%2Cstring
+  ##
+  ## Available colors are listed here: https://nim-lang.org/docs/colors.html#10
   let t = token.substr(token.startsWith("col").ord * 3)
   if t.isColor:
     return some(t.parseColor())
@@ -196,3 +268,33 @@ proc newTuiStyles*(old: TuiStyles, texts: string): TuiStyles =
     if style.isSome:
       if reverse: result -= style.get()
       else: result += style.get()
+
+runnableExamples:
+  import std/[terminal, colors]
+  let redfg = fgColor(fgRed) # Create fgColor object from `std/terminal/ForegroundColor`
+  let bluefg = fgColor(fgBlue)
+  let redbg = bgColor(bgRed)
+  assert newTuiStyles(nil, "red").fgColor == redfg
+
+  # Styles can be added inplace with `+=`. (`+` is not defined)
+  var st1 = newTuiStyles(nil, "fgRed")
+  st1 += newTuiStyles(nil, "bgRed")
+  assert st1.fgColor == redfg and st1.bgColor == redbg
+  # Inherit other styles. Colors will be overwritten.
+  var st2 = newTuiStyles(st1, "fgBlue")
+  assert st2.fgColor == bluefg # fgRed is overwritten by fgBlue
+  assert st2.bgColor == redbg
+  # `-=` subtracts styles
+  st2 -= newTuiStyles(nil, "fgBlue")
+  assert st2.fgColor == redfg # fgRed is brought back again
+
+  # More ways to define colors
+  assert newTuiStyles(nil, "fgRed").fgColor == redfg
+  assert newTuiStyles(nil, "#FF0000").fgColor != redfg # fgRed != colorRed
+  assert newTuiStyles(nil, "fg:red").fgColor == redfg # `fg:`, `bg:` can be used to hardcode fore or back
+  assert newTuiStyles(nil, "bg:red").fgColor != redfg and newTuiStyles(nil, "bg:red").bgColor == redbg
+  assert newTuiStyles(nil, "bgRed").bgColor == redbg
+
+  # Styles
+  # See more info at `searchStyle`
+  assert newTuiStyles(nil, "b") == newTuiStyles(nil, "bold")
