@@ -7,11 +7,12 @@ import std/sets
 import std/enumerate
 
 macro mainExamples*(body: untyped): untyped =
-  quote do:
-    runnableExamples:
-      `body`
-    when isMainModule:
-      `body`
+  when defined(docgen):
+    newCall("runnableExamples", newStrLitNode(""), body)
+  else:
+    quote do:
+      when isMainModule:
+        `body`
 
 template todo*(): untyped =
   assert(false, "Not implemented")
