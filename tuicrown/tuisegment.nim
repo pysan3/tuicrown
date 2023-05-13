@@ -1,3 +1,23 @@
+## This module defines TuiSegment_ which stores text with its styles.
+##
+## ---
+##
+## This module works with the inner representation of the segments.
+##
+## If you want to see working examples with rendered text in your terminal,
+## go see examples in [tuicrown/tuiconsole module].
+##
+## ---
+##
+## A TuiSegment_ will be rendered in the following order.
+## For more detailed explanation, see print_
+## 1. controls
+## 2. style
+## 3. text
+##
+## Init:
+## - newTuiSegment_
+
 import std/colors
 import std/tables
 import std/enumerate
@@ -12,6 +32,7 @@ import fungus
 import tuicontrol
 import tuistyles
 import tuivariables
+import utils
 
 type
   TuiSegment* = ref object of RootObj
@@ -35,19 +56,48 @@ func `==`*(self: TuiSegment, o: TuiSegment): bool =
 func len*(self: TuiSegment): int = self.text.len
 
 func copy*(refObj: TuiSegment, copyControls = false): auto =
+  ## Returns a copy of `refObj`.
+  ##
+  ## Result contains only the text and latest `fgColor` and `bgColor`.
+  ## Therefore, the override chain of colors is not copied.
+  ##
+  ## Ref. `tuicrown/tuistyles: copy <tuistyles.html#copy%2CTuiStyles>`_
   result = newTuiSegment(refObj.text, refObj.style.copy())
   if copyControls:
     result.controls.add(refObj.controls)
 
 func deepCopy*(refObj: TuiSegment, copyControls = false): auto =
+  ## Returns a copy of `refObj`.
+  ##
+  ## Result contains the text and the whole chain of `fgColor` and `bgColor`.
+  ##
+  ## Ref. `tuicrown/tuistyles: deepCopy <tuistyles.html#deepCopy%2CTuiStyles>`_
   result = newTuiSegment(refObj.text, refObj.style.deepCopy())
   if copyControls:
     result.controls.add(refObj.controls)
 
 func `$`*(self: TuiSegment): auto =
+  ## Mainly for debugging purpose.
+  ##
+  ## If you want to print the segment as is, see print_ instead.
+  ##
+  ## Ref. print_
   &"""("{self.text}", {self.style}, {self.controls})"""
 
 proc colorize*(self: TuiSegment): seq[TuiSegment] =
+  ## Colorize the output string based on regex pattern matching.
+  ##
+  ## Returns seq of TuiSegment_ each containing a substring of previous text, in order.
+  ## Returned TuiSegment_ is labeled with `result.is_colorized = true`.
+  ##
+  ## .. importdoc:: tuiconsole.nim
+  ## Used when `auto_colorize = true` option is passed to newTuiConsoleOptions_.
+  ##
+  ## .. importdoc:: tuivariables.nim
+  ## Regex processing and in-depth implementation is written in [module tuicrown/tuivariables].
+  ##
+  ## Ref.
+  ## - match_
   defer: result.apply((it: var TuiSegment) => (it.is_colorized = true))
   let basic = newTuiSegment(style = self.style, controls = self.controls)
   result.add(basic.copy())
@@ -66,6 +116,17 @@ proc colorize*(self: TuiSegment): seq[TuiSegment] =
     result[^1].text &= t
 
 proc print*(f: File, self: TuiSegment) =
+  ## Prints the segment `self` to file `f`.
+  ##
+  ## .. importdoc:: tuistyles.nim
+  ## Ref.
+  ## - newTuiSegment_
+  ## - newTuiStyles_
+  runnableExamples:
+    import std/terminal
+    import tuicrown/tuistyles
+
+    stdout.print(newTuiSegment("red text\n", newTuiStyles(fgRed)))
   for ctrl in self.controls:
     f.print(ctrl)
   f.print(self.style)
@@ -73,27 +134,32 @@ proc print*(f: File, self: TuiSegment) =
   f.resetAttributes()
 
 proc print*(f: File, segseq: seq[TuiSegment]) =
+  ## Prints sequence of TuiSegment_ to file `f`.
+  ##
+  ## Ref.
+  ## - fromString_
+  runnableExamples:
+    stdout.print(fromString("[red]red text, [blue]blue text[/]\n"))
   for seg in segseq:
     f.print(seg)
 
-func addStyle*(self: var TuiSegment, style: TuiStyles) =
-  self.style += style
+func addStyle*(self: var TuiSegment, style: TuiStyles) = self.style += style
+func addStyle*(self: var TuiSegment, arg: seq[Style]) = self.addStyle(newTuiStyles(styles = arg))
 func addStyle*(
     self: var TuiSegment,
     color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;
     bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;
     styles: seq[Style] = newSeq[Style]();
   ) = self.addStyle(newTuiStyles(color, bgColor, styles))
-func addStyle*(self: var TuiSegment, arg: seq[Style]) = self.addStyle(newTuiStyles(styles = arg))
-func delStyle*(self: var TuiSegment, style: TuiStyles) =
-  self.style -= style
+
+func delStyle*(self: var TuiSegment, style: TuiStyles) = self.style -= style
+func delStyle*(self: var TuiSegment, arg: seq[Style]) = self.delStyle(newTuiStyles(styles = arg))
 func delStyle*(
     self: var TuiSegment,
     color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;
     bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;
     styles: seq[Style] = newSeq[Style]();
   ) = self.delStyle(newTuiStyles(color, bgColor, styles))
-func delStyle*(self: var TuiSegment, arg: seq[Style]) = self.delStyle(newTuiStyles(styles = arg))
 
 proc fromString*(text: string): seq[TuiSegment] {.discardable.} =
   var
@@ -114,32 +180,29 @@ proc fromString*(text: string): seq[TuiSegment] {.discardable.} =
   if accumfrom < text.len:
     result[^1].text.add(text[accumfrom..<text.len])
 
-when isMainModule:
-  echo newTuiControl(BELL).escape()
-  echo newTuiControl(CARRIAGE_RETURN).escape()
-  echo newTuiControl(HOME).escape()
-  echo newTuiControl(CLEAR).escape()
-  echo newTuiControl(ENABLE_ALT_SCREEN).escape()
-  echo newTuiControl(DISABLE_ALT_SCREEN).escape()
-  echo newTuiControl(SHOW_CURSOR).escape()
-  echo newTuiControl(HIDE_CURSOR).escape()
-  echo newTuiControl(CURSOR_UP).escape()
-  echo newTuiControl(CURSOR_DOWN).escape()
-  echo newTuiControl(CURSOR_FORWARD).escape()
-  echo newTuiControl(CURSOR_BACKWARD).escape()
-  echo newTuiControl(ERASE_IN_LINE).escape()
-  echo newTuiControl(CURSOR_MOVE_TO_COLUMN).escape()
-  echo newTuiControl(CURSOR_MOVE_TO).escape()
-  echo newTuiControl(SET_WINDOW_TITLE, "Title").escape()
-  echo newTuiControl(SET_WINDOW_TITLE).escape()
+mainExamples:
+  import tuicrown/tuistyles
+  import std/[terminal, colors]
 
-  echo "Styles:"
+  # The following examples print out the inner representation of segments.
+  #
+  # If you want to see the rendered output with colors in your terminal,
+  # read examples in `tuicrown/tuiconsole`.
+
+  ## From String
+  echo "fromString"
+  echo fromString("[red]hoge")
+  echo fromString("normal[red u]red underline[/u]only red[/red]normal")
+
+  ## Styles
+  echo "Styles"
   echo newTuiStyles()
   echo newTuiStyles(@[styleBright])
   echo newTuiStyles(fgRed)
   echo newTuiStyles(colBlue)
   echo newTuiStyles(fgRed, colBlue)
 
+  ## Segments
   echo "Segment"
   echo newTuiSegment()
   echo newTuiSegment("Segment")
@@ -152,51 +215,12 @@ when isMainModule:
   while seg.style.bgColor.isSome:
     seg.delStyle(bgColor = seg.style.bgColor)
   echo seg
-  # seg.delStyle(colRed, colRed)
-  # echo seg
 
+  ## Copy and Deepcopy
   var newseg = seg.copy()
   newseg.delStyle(colRed)
   echo newseg
-  echo seg
 
   var deepseg = seg.deepCopy()
   deepseg.delStyle(colRed)
   echo deepseg
-  echo seg
-
-  echo newTuiStyles(nil, "fgRed")
-  echo newTuiStyles(nil, "fg:red")
-  echo newTuiStyles(nil, "bg:red")
-  echo newTuiStyles(nil, "fg:gray")
-  echo newTuiStyles(nil, "gray")
-  echo newTuiStyles(nil, "bold")
-  echo newTuiStyles(nil, "underscore")
-
-  var st = newTuiStyles(nil, "fgRed")
-  echo st
-  st = newTuiStyles(st, "bg:gray")
-  echo st
-  st = newTuiStyles(st, "bold")
-  st = newTuiStyles(st, "bright")
-  echo st
-
-  echo fromString("[red]hoge")
-  echo fromString("normal[red u]red underline[/u]only red[/red]normal")
-
-## Color:
-## red, green ...
-## (fgRed, ...), (bgRed, ...)
-## #ff0000
-## (fg:red, ...)
-## TuiSegment.addStyle(color=Color|ForegroundColor, bgColor=BackgroundColor)
-## Style:
-## [bold], [b] -> [/bold]
-## TuiSegment.addStyle(style=seq[Styles])
-## Control:
-## [??]
-## TuiSegment.addStyle(TuiControl(CURSOR_UP, @[]))
-## Text:
-## newTuiSegment(text: "hoge", styles: TuiStyles(...))
-## newTuiSegment(text: "hoge").addStyles(TuiStyles(...))
-## stringToTuiSegment("[red]hoge")
