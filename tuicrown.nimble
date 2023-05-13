@@ -12,3 +12,4 @@ skipDirs = @["tests", "tmp"]
 requires "nim >= 1.9.3"
 requires "fungus"
 requires "regex >= 0.20.2"
+requires "nimoji >= 0.1.5"

@@ -28,6 +28,7 @@ import std/sequtils
 import std/strformat
 import std/options
 import fungus
+import nimoji
 
 import tuicontrol
 import tuistyles
@@ -130,7 +131,7 @@ proc print*(f: File, self: TuiSegment) =
   for ctrl in self.controls:
     f.print(ctrl)
   f.print(self.style)
-  f.write(self.text)
+  f.write(self.text.emojize)
   f.resetAttributes()
 
 proc print*(f: File, segseq: seq[TuiSegment]) =

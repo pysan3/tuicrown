@@ -19,10 +19,10 @@ test "^ Colors\n":
     "✓ [i cyan]Automatic color conversion",
   )
 
-test "^ Asian Language Support\n":
-  console.print("该库支持中文，日文和韩文文本！")
-  console.print("ライブラリは中国語、日本語、韓国語のテキストをサポートしています")
-  console.print("이 라이브러리는 중국어, 일본어 및 한국어 텍스트를 지원합니다")
+test "^ Emoji and Asian Language Support\n":
+  console.print(":cn: 该库支持中文，日文和韩文文本！")
+  console.print(":jp: ライブラリは中国語、日本語、韓国語のテキストをサポートしています")
+  console.print(":kr: 이 라이브러리는 중국어, 일본어 및 한국어 텍스트를 지원합니다")
 
 proc color(r, g, b: float32): Color =
   let
