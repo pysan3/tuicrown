@@ -1,6 +1,6 @@
 # Package
 
-version = "0.8.0" # {x-release-please-version}
+version = "0.8.1" # {x-release-please-version}
 author = "pysan3"
 description = "Tuicrown is a Nim library for rich text and beautiful formatting in the terminal."
 license = "MPL-2.0"
