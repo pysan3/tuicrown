@@ -79,7 +79,7 @@ func deepCopy*(refObj: TuiSegment, copyControls = false): auto =
 func `$`*(self: TuiSegment): auto =
   ## Mainly for debugging purpose.
   ##
-  ## If you want to print the segment as is, see print_
+  ## If you want to print the segment as is, see print_ instead.
   ##
   ## Ref. print_
   &"""("{self.text}", {self.style}, {self.controls})"""

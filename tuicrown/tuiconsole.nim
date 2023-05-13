@@ -1,3 +1,14 @@
+## This module defines TuiConsole_ which manages all interactions with the terminal.
+##
+## TuiConsole_ has print_ proc which prints the strings passed as arguments but colorize them
+## based on the styles defined in `[style]...[/style]` syntax.
+##
+## Init:
+## - newTuiConsole_
+##
+## Options:
+## - newTuiConsoleOptions_
+
 import std/os
 import std/locks
 import std/strutils
@@ -11,6 +22,7 @@ import std/sugar
 import tuisegment
 import tuistyles
 import tuicontrol
+import utils
 
 type
   TuiConsoleBufferLocal* = ref object of RootObj
@@ -20,6 +32,7 @@ type
     width*: int
     height*: int
   TuiConsoleOptions* = ref object of RootObj
+    ## Init: newTuiConsoleOptions_
     auto_colorize*: bool
     tab_size*: int
     record*: bool
@@ -30,9 +43,11 @@ type
     force_terminal*: bool
     is_interactive*: bool
   TuiConsole* = ref object of RootObj
+    ## Init: newTuiConsole_
     buffer*: TuiConsoleBufferLocal
     buffer_lock*: Lock
     file*: File
+    force_flush*: bool
     color_system*: ColorSystem
     o*: TuiConsoleOptions
     dim*: TuiConsoleDimension
@@ -53,7 +68,7 @@ let
 proc newTuiConsoleBufferLocal*(): TuiConsoleBufferLocal =
   TuiConsoleBufferLocal(segseq: newSeq[TuiSegment](), index: 0)
 
-proc detectColorSystem(): ColorSystem =
+proc detectColorSystem*(): ColorSystem =
   when defined(window):
     return if windowsHasTrueColor(): ColorSystem.TRUECOLOR else: ColorSystem.EIGHT_BIT
   elif defined(linux):
@@ -75,7 +90,7 @@ proc `$`*(self: TuiConsoleDimension): string =
   &"""TuiConsoleDimension(width: {self.width}, height: {self.height})"""
 
 proc newTuiConsoleOptions*(
-    auto_colorize = false,
+    auto_colorize = true,
     tab_size = 2,
     record = false,
     markup = false,
@@ -125,10 +140,21 @@ proc newTuiConsole*(o: TuiConsoleOptions,
         ColorSystem.STANDARD),
     o: o,
     dim: newTuiConsoleDimension(width, height),
+    force_flush: false,
   )
   result.buffer_lock.initLock()
 
 macro conslock*(c: TuiConsole, body: untyped): untyped =
+  ## conslock (Console Lock)
+  ##
+  ## All operations to `file` does not want to be random across threads.
+  ##
+  ## To prevent that, TuiConsole object buffers the outputs to `self.buffer` and
+  ## when nothing is trying to write something, it flushes the content of buffer to file (stdout).
+  ##
+  ## Ref.
+  ## - check_buffer_
+  ## - TuiConsole_
   quote do:
     `c`.buffer.index += 1
     `body`
@@ -150,6 +176,9 @@ proc is_dumb_terminal*(self: TuiConsole): bool =
   self.is_terminal and ["dumb", "unknown"].contains(getEnv("TERM").toLowerAscii)
 
 proc check_buffer*(self: TuiConsole) =
+  ## The actual implementation of writing to the file.
+  ##
+  ## This proc locks any write to `self.buffer` and flushes its content to file.
   defer: self.buffer_lock.release()
   self.buffer_lock.acquire()
   if self.buffer.index > 0:
@@ -161,17 +190,29 @@ proc check_buffer*(self: TuiConsole) =
       seg.colorize.apply((it: TuiSegment) => self.file.print(it))
     else:
       self.file.print(seg)
+  if self.force_flush:
+    self.file.flushFile()
+    self.force_flush = false
   self.buffer.segseq.setLen(0)
 
 proc control*(self: TuiConsole, controls: varargs[TuiControl]) =
+  ## .. importdoc:: tuicontrol.nim
+  ## Write sequence of TuiControl_
   conslock self:
     self.buffer.segseq.add(newTuiSegment(controls = controls.toSeq))
 
 proc control*(self: TuiConsole, controls: varargs[ControlType]) =
+  ## .. importdoc:: tuicontrol.nim
+  ## Write sequence of TuiControl_
   conslock self:
     self.buffer.segseq.add(newTuiSegment(controls = controls.toSeq.mapIt(newTuiControl(it))))
 
 proc clear*(self: TuiConsole, home = true) =
+  ## Clear whole content of terminal.
+  ## Same as `CTRL-L` or `clear` command in unix shells.
+  ##
+  ## If `home == true`: deletes everything up to the top of the terminal, making the whole screen blank.
+  ## Else:              deletes the current line and puts cursor at the beginning of the line.
   if home:
     self.control(ControlType.CLEAR, ControlType.HOME)
   else:
@@ -181,20 +222,44 @@ proc printWithOpt*(
   self: TuiConsole;
   sep: string = " ";
   endl: string = "\n";
-  args: varargs[string, `$`];
+  args: seq[string];
 ) =
   conslock self:
     self.buffer.segseq.add(fromString(args.join(sep) & endl))
 
+proc printWithOpt*(
+  self: TuiConsole;
+  sep: string = " ";
+  endl: string = "\n";
+  args: varargs[string, `$`];
+) = self.printWithOpt(sep, endl, args.mapIt($it).toSeq)
+
+proc print*(
+  self: TuiConsole;
+  args: seq[string];
+) = unpackVarargs(self.printWithOpt, " ", "\n", args)
+
 proc print*(
   self: TuiConsole;
   args: varargs[string, `$`];
-) = unpackVarargs(self.printWithOpt, " ", "\n", args)
+) = self.print(args.mapIt($it).toSeq)
 
-when isMainModule:
-  echo detectColorSystem()
-  echo newTuiConsoleDimension()
-  echo newTuiConsoleOptions()
-  var console = newTuiConsole(newTuiConsoleOptions())
-  echo console.is_terminal()
-  console.print("[bgWhite fg:red]red and white[/]", 100, "[u b]200[/b]", "[fgBlue]300", 400, "[/]reset")
+proc flush*(self: TuiConsole) =
+  conslock self:
+    self.force_flush = true
+
+mainExamples:
+  echo detectColorSystem() # ==> You want `TRUECOLOR` for support of full color pallet.
+
+  echo newTuiConsoleDimension() # Detects the width / height of current terminal.
+
+  var console = newTuiConsole(newTuiConsoleOptions(auto_colorize = true))
+
+  # Color, style support
+  # Emoji support 🌈
+  console.print("Hello, [bold magenta]World[/]", ":rainbow:")
+
+  # Variable `auto_colorize`
+  console.print(true, false, 100, 0.001, "1e-6")
+  console.print(":rainbow: [cyan bgWhite]TuiCrown :crown:[/]", """https://github.com/pysan3/tuicrown""")
+  #                                                               ^ -- URL parser supported!!
