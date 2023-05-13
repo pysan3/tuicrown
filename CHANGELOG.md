@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.7.0](https://github.com/pysan3/tuicrown/compare/v0.6.2...v0.7.0) (2023-05-13)
+
+
+### Features
+
+* **mainExamples:** define macro to run and show as example ([007ae19](https://github.com/pysan3/tuicrown/commit/007ae19f7eb259e7619a94cdd1c2faa568be8267))
+
+
+### Bug Fixes
+
+* **docgen:** only generate idx files on first run ([340b441](https://github.com/pysan3/tuicrown/commit/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0))
+* **docgen:** run doc2 twice to resolve imports ([de15bad](https://github.com/pysan3/tuicrown/commit/de15bad5ce48f5118c803e6bc12f6f02fd94b198))
+* **macro:** amend ([6e482d9](https://github.com/pysan3/tuicrown/commit/6e482d97b5fecd5bea30fb2c6b8708e282ed5b39))
+
 ## [0.6.2](https://github.com/pysan3/tuicrown/compare/v0.6.1...v0.6.2) (2023-05-09)
 
 
