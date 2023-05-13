@@ -1,21 +1,21 @@
 nimTitle	tuisegment	tuicrown/tuisegment.html	module tuicrown/tuisegment		0
-nim	TuiSegment	tuicrown/tuisegment.html#TuiSegment	type TuiSegment		38
-nim	newTuiSegment	tuicrown/tuisegment.html#newTuiSegment,string,TuiStyles,seq[TuiControl],bool	proc newTuiSegment(text: string = ""; style: TuiStyles = newTuiStyles();\n              controls: seq[TuiControl] = newSeq(); is_colorized: bool = false): auto		44
-nim	`==`	tuicrown/tuisegment.html#==,TuiSegment,TuiSegment	proc `==`(self: TuiSegment; o: TuiSegment): bool		51
-nim	len	tuicrown/tuisegment.html#len,TuiSegment	proc len(self: TuiSegment): int		56
-nim	copy	tuicrown/tuisegment.html#copy,TuiSegment	proc copy(refObj: TuiSegment; copyControls = false): auto		58
-nim	deepCopy	tuicrown/tuisegment.html#deepCopy,TuiSegment	proc deepCopy(refObj: TuiSegment; copyControls = false): auto		69
-nim	`$`	tuicrown/tuisegment.html#$,TuiSegment	proc `$`(self: TuiSegment): auto		79
-nim	colorize	tuicrown/tuisegment.html#colorize,TuiSegment	proc colorize(self: TuiSegment): seq[TuiSegment]		87
-nim	print	tuicrown/tuisegment.html#print,File,TuiSegment	proc print(f: File; self: TuiSegment)		118
-nim	print	tuicrown/tuisegment.html#print,File,seq[TuiSegment]	proc print(f: File; segseq: seq[TuiSegment])		136
-nim	addStyle	tuicrown/tuisegment.html#addStyle,TuiSegment,TuiStyles	proc addStyle(self: var TuiSegment; style: TuiStyles)		146
-nim	addStyle	tuicrown/tuisegment.html#addStyle,TuiSegment,seq[Style]	proc addStyle(self: var TuiSegment; arg: seq[Style])		147
-nim	addStyle	tuicrown/tuisegment.html#addStyle,TuiSegment,seq[Style]_2	proc addStyle(self: var TuiSegment;\n         color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;\n    bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;\n         styles: seq[Style] = newSeq[Style]())		148
-nim	delStyle	tuicrown/tuisegment.html#delStyle,TuiSegment,TuiStyles	proc delStyle(self: var TuiSegment; style: TuiStyles)		155
-nim	delStyle	tuicrown/tuisegment.html#delStyle,TuiSegment,seq[Style]	proc delStyle(self: var TuiSegment; arg: seq[Style])		156
-nim	delStyle	tuicrown/tuisegment.html#delStyle,TuiSegment,seq[Style]_2	proc delStyle(self: var TuiSegment;\n         color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;\n    bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;\n         styles: seq[Style] = newSeq[Style]())		157
-nim	fromString	tuicrown/tuisegment.html#fromString,string	proc fromString(text: string): seq[TuiSegment]		164
-nimgrp	print	tuicrown/tuisegment.html#print-procs-all	proc		118
-nimgrp	addstyle	tuicrown/tuisegment.html#addStyle-procs-all	proc		146
-nimgrp	delstyle	tuicrown/tuisegment.html#delStyle-procs-all	proc		155
+nim	TuiSegment	tuicrown/tuisegment.html#TuiSegment	type TuiSegment		39
+nim	newTuiSegment	tuicrown/tuisegment.html#newTuiSegment,string,TuiStyles,seq[TuiControl],bool	proc newTuiSegment(text: string = ""; style: TuiStyles = newTuiStyles();\n              controls: seq[TuiControl] = newSeq(); is_colorized: bool = false): auto		45
+nim	`==`	tuicrown/tuisegment.html#==,TuiSegment,TuiSegment	proc `==`(self: TuiSegment; o: TuiSegment): bool		52
+nim	len	tuicrown/tuisegment.html#len,TuiSegment	proc len(self: TuiSegment): int		57
+nim	copy	tuicrown/tuisegment.html#copy,TuiSegment	proc copy(refObj: TuiSegment; copyControls = false): auto		59
+nim	deepCopy	tuicrown/tuisegment.html#deepCopy,TuiSegment	proc deepCopy(refObj: TuiSegment; copyControls = false): auto		70
+nim	`$`	tuicrown/tuisegment.html#$,TuiSegment	proc `$`(self: TuiSegment): auto		80
+nim	colorize	tuicrown/tuisegment.html#colorize,TuiSegment	proc colorize(self: TuiSegment): seq[TuiSegment]		88
+nim	print	tuicrown/tuisegment.html#print,File,TuiSegment	proc print(f: File; self: TuiSegment)		119
+nim	print	tuicrown/tuisegment.html#print,File,seq[TuiSegment]	proc print(f: File; segseq: seq[TuiSegment])		137
+nim	addStyle	tuicrown/tuisegment.html#addStyle,TuiSegment,TuiStyles	proc addStyle(self: var TuiSegment; style: TuiStyles)		147
+nim	addStyle	tuicrown/tuisegment.html#addStyle,TuiSegment,seq[Style]	proc addStyle(self: var TuiSegment; arg: seq[Style])		148
+nim	addStyle	tuicrown/tuisegment.html#addStyle,TuiSegment,seq[Style]_2	proc addStyle(self: var TuiSegment;\n         color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;\n    bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;\n         styles: seq[Style] = newSeq[Style]())		149
+nim	delStyle	tuicrown/tuisegment.html#delStyle,TuiSegment,TuiStyles	proc delStyle(self: var TuiSegment; style: TuiStyles)		156
+nim	delStyle	tuicrown/tuisegment.html#delStyle,TuiSegment,seq[Style]	proc delStyle(self: var TuiSegment; arg: seq[Style])		157
+nim	delStyle	tuicrown/tuisegment.html#delStyle,TuiSegment,seq[Style]_2	proc delStyle(self: var TuiSegment;\n         color: TuiFGType | ForegroundColor | Color = TuiFGType TuiFGNone.init;\n    bgColor: TuiBGType | BackgroundColor | Color = TuiBGType TuiBGNone.init;\n         styles: seq[Style] = newSeq[Style]())		158
+nim	fromString	tuicrown/tuisegment.html#fromString,string	proc fromString(text: string): seq[TuiSegment]		165
+nimgrp	print	tuicrown/tuisegment.html#print-procs-all	proc		119
+nimgrp	addstyle	tuicrown/tuisegment.html#addStyle-procs-all	proc		147
+nimgrp	delstyle	tuicrown/tuisegment.html#delStyle-procs-all	proc		156
