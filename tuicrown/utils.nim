@@ -1,9 +1,17 @@
+import std/macros
 import std/sequtils
 import std/options
 import std/strutils
 import std/sugar
 import std/sets
 import std/enumerate
+
+macro mainExamples*(body: untyped): untyped =
+  quote do:
+    runnableExamples:
+      `body`
+    when isMainModule:
+      `body`
 
 template todo*(): untyped =
   assert(false, "Not implemented")
