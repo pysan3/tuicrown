@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/pysan3/tuicrown/compare/v0.7.0...v0.8.0) (2023-05-13)
+
+
+### Features
+
+* **emoji:** add emoji support and render correctly ([72f3d8d](https://github.com/pysan3/tuicrown/commit/72f3d8da5861773a91c437b0cf56156cfa5c4a04)), closes [#16](https://github.com/pysan3/tuicrown/issues/16)
+
 ## [0.7.0](https://github.com/pysan3/tuicrown/compare/v0.6.2...v0.7.0) (2023-05-13)
 
 
