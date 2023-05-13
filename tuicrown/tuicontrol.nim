@@ -103,3 +103,24 @@ proc `$`*(self: TuiControl): string =
 
 proc escape*(self: TuiControl): string =
   ($self).escape()
+
+mainExamples:
+  # These values are examples on Unix consoles.
+
+  echo newTuiControl(BELL).escape() # ==> "\x07"
+  echo newTuiControl(CARRIAGE_RETURN).escape() # ==> "\x0D"
+  echo newTuiControl(HOME).escape() # ==> "\x1B[H"
+  echo newTuiControl(CLEAR).escape() # ==> "\x1B[2J"
+  echo newTuiControl(ENABLE_ALT_SCREEN).escape() # ==> "\x1B[?1049h"
+  echo newTuiControl(DISABLE_ALT_SCREEN).escape() # ==> "\x1B[?1049l"
+  echo newTuiControl(SHOW_CURSOR).escape() # ==> "\x1B[?25h"
+  echo newTuiControl(HIDE_CURSOR).escape() # ==> "\x1B[?25l"
+  echo newTuiControl(CURSOR_UP).escape() # ==> "\x1B[1A"
+  echo newTuiControl(CURSOR_DOWN).escape() # ==> "\x1B[1B"
+  echo newTuiControl(CURSOR_FORWARD).escape() # ==> "\x1B[1C"
+  echo newTuiControl(CURSOR_BACKWARD).escape() # ==> "\x1B[1D"
+  echo newTuiControl(ERASE_IN_LINE).escape() # ==> "\x1B[2K"
+  echo newTuiControl(CURSOR_MOVE_TO_COLUMN).escape() # ==> "\x1B[2G"
+  echo newTuiControl(CURSOR_MOVE_TO).escape() # ==> "\x1B[2;2H"
+  echo newTuiControl(SET_WINDOW_TITLE, "Title").escape() # ==> "\x1B]0;Title\x07"
+  echo newTuiControl(SET_WINDOW_TITLE).escape() # ==> "\x1B]0;tuicontrol_group0_examples\x07"
