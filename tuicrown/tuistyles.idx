@@ -7,22 +7,22 @@ nim	TuiFGType	tuicrown/tuistyles.html#TuiFGType	object TuiFGType		55
 nim	TuiFGNone	tuicrown/tuistyles.html#TuiFGNone	type TuiFGNone		262
 nim	TuiForegroundColor	tuicrown/tuistyles.html#TuiForegroundColor	type TuiForegroundColor		262
 nim	TuiFGColor	tuicrown/tuistyles.html#TuiFGColor	type TuiFGColor		262
-nim	to	tuicrown/tuistyles.html#to,TuiFGType,	proc to(val`gensym0: TuiFGType; __2533359749: typedesc[TuiFGNone]): lent TuiFGNone		136
-nim	init	tuicrown/tuistyles.html#init	proc init(__2533359753: typedesc[TuiFGNone]): TuiFGNone		89
+nim	to	tuicrown/tuistyles.html#to,TuiFGType,	proc to(val`gensym0: TuiFGType; __2566914181: typedesc[TuiFGNone]): lent TuiFGNone		136
+nim	init	tuicrown/tuistyles.html#init	proc init(__2566914185: typedesc[TuiFGNone]): TuiFGNone		89
 nim	toTuiFGType	tuicrown/tuistyles.html#toTuiFGType.c,TuiForegroundColor	converter toTuiFGType(arg`gensym1: TuiForegroundColor): TuiFGType		173
 nim	toTuiFGType	tuicrown/tuistyles.html#toTuiFGType.c,TuiForegroundColor_2	converter toTuiFGType(arg`gensym1: var TuiForegroundColor): var TuiFGType		174
-nim	to	tuicrown/tuistyles.html#to,TuiFGType,_2	proc to(val`gensym1: TuiFGType; __2533359810: typedesc[TuiForegroundColor]): lent\n    TuiForegroundColor		176
-nim	to	tuicrown/tuistyles.html#to,TuiFGType,_3	proc to(val`gensym1: var TuiFGType; __2533359815: typedesc[TuiForegroundColor]): var TuiForegroundColor		89
+nim	to	tuicrown/tuistyles.html#to,TuiFGType,_2	proc to(val`gensym1: TuiFGType; __2566914242: typedesc[TuiForegroundColor]): lent\n    TuiForegroundColor		176
+nim	to	tuicrown/tuistyles.html#to,TuiFGType,_3	proc to(val`gensym1: var TuiFGType; __2566914247: typedesc[TuiForegroundColor]): var TuiForegroundColor		89
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiForegroundColor	converter toInternal(val`gensym4: TuiForegroundColor):\n  ForegroundColor		225
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiForegroundColor_2	converter toInternal(val`gensym4: var TuiForegroundColor): var\n  ForegroundColor		89
-nim	init	tuicrown/tuistyles.html#init,typedesc[TuiForegroundColor],	proc init(__2533359851: typedesc[TuiForegroundColor]; param:\n  ForegroundColor): TuiForegroundColor		89
+nim	init	tuicrown/tuistyles.html#init,typedesc[TuiForegroundColor],	proc init(__2566914283: typedesc[TuiForegroundColor]; param:\n  ForegroundColor): TuiForegroundColor		89
 nim	toTuiFGType	tuicrown/tuistyles.html#toTuiFGType.c,TuiFGColor	converter toTuiFGType(arg`gensym5: TuiFGColor): TuiFGType		173
 nim	toTuiFGType	tuicrown/tuistyles.html#toTuiFGType.c,TuiFGColor_2	converter toTuiFGType(arg`gensym5: var TuiFGColor): var TuiFGType		174
-nim	to	tuicrown/tuistyles.html#to,TuiFGType,_4	proc to(val`gensym5: TuiFGType; __2533359875: typedesc[TuiFGColor]): lent TuiFGColor		176
-nim	to	tuicrown/tuistyles.html#to,TuiFGType,_5	proc to(val`gensym5: var TuiFGType; __2533359880: typedesc[TuiFGColor]): var TuiFGColor		89
+nim	to	tuicrown/tuistyles.html#to,TuiFGType,_4	proc to(val`gensym5: TuiFGType; __2566914307: typedesc[TuiFGColor]): lent TuiFGColor		176
+nim	to	tuicrown/tuistyles.html#to,TuiFGType,_5	proc to(val`gensym5: var TuiFGType; __2566914312: typedesc[TuiFGColor]): var TuiFGColor		89
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiFGColor	converter toInternal(val`gensym8: TuiFGColor):\n  Color		225
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiFGColor_2	converter toInternal(val`gensym8: var TuiFGColor): var\n  Color		89
-nim	init	tuicrown/tuistyles.html#init,typedesc[TuiFGColor],	proc init(__2533359903: typedesc[TuiFGColor]; param:\n  Color): TuiFGColor		89
+nim	init	tuicrown/tuistyles.html#init,typedesc[TuiFGColor],	proc init(__2566914335: typedesc[TuiFGColor]; param:\n  Color): TuiFGColor		89
 nim	TuiBGNoneKind	tuicrown/tuistyles.html#TuiBGNoneKind	TuiBGTypeKind.TuiBGNoneKind		89
 nim	TuiBackgroundColorKind	tuicrown/tuistyles.html#TuiBackgroundColorKind	TuiBGTypeKind.TuiBackgroundColorKind		89
 nim	TuiBGColorKind	tuicrown/tuistyles.html#TuiBGColorKind	TuiBGTypeKind.TuiBGColorKind		89
@@ -31,22 +31,22 @@ nim	TuiBGType	tuicrown/tuistyles.html#TuiBGType	object TuiBGType		55
 nim	TuiBGNone	tuicrown/tuistyles.html#TuiBGNone	type TuiBGNone		262
 nim	TuiBackgroundColor	tuicrown/tuistyles.html#TuiBackgroundColor	type TuiBackgroundColor		262
 nim	TuiBGColor	tuicrown/tuistyles.html#TuiBGColor	type TuiBGColor		262
-nim	to	tuicrown/tuistyles.html#to,TuiBGType,	proc to(val`gensym18: TuiBGType; __2533359936: typedesc[TuiBGNone]): lent TuiBGNone		136
-nim	init	tuicrown/tuistyles.html#init_2	proc init(__2533359940: typedesc[TuiBGNone]): TuiBGNone		89
+nim	to	tuicrown/tuistyles.html#to,TuiBGType,	proc to(val`gensym18: TuiBGType; __2566914368: typedesc[TuiBGNone]): lent TuiBGNone		136
+nim	init	tuicrown/tuistyles.html#init_2	proc init(__2566914372: typedesc[TuiBGNone]): TuiBGNone		89
 nim	toTuiBGType	tuicrown/tuistyles.html#toTuiBGType.c,TuiBackgroundColor	converter toTuiBGType(arg`gensym19: TuiBackgroundColor): TuiBGType		173
 nim	toTuiBGType	tuicrown/tuistyles.html#toTuiBGType.c,TuiBackgroundColor_2	converter toTuiBGType(arg`gensym19: var TuiBackgroundColor): var TuiBGType		174
-nim	to	tuicrown/tuistyles.html#to,TuiBGType,_2	proc to(val`gensym19: TuiBGType; __2533359997: typedesc[TuiBackgroundColor]): lent\n    TuiBackgroundColor		176
-nim	to	tuicrown/tuistyles.html#to,TuiBGType,_3	proc to(val`gensym19: var TuiBGType; __2533360002: typedesc[TuiBackgroundColor]): var TuiBackgroundColor		89
+nim	to	tuicrown/tuistyles.html#to,TuiBGType,_2	proc to(val`gensym19: TuiBGType; __2566914429: typedesc[TuiBackgroundColor]): lent\n    TuiBackgroundColor		176
+nim	to	tuicrown/tuistyles.html#to,TuiBGType,_3	proc to(val`gensym19: var TuiBGType; __2566914434: typedesc[TuiBackgroundColor]): var TuiBackgroundColor		89
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiBackgroundColor	converter toInternal(val`gensym22: TuiBackgroundColor):\n  BackgroundColor		225
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiBackgroundColor_2	converter toInternal(val`gensym22: var TuiBackgroundColor): var\n  BackgroundColor		89
-nim	init	tuicrown/tuistyles.html#init,typedesc[TuiBackgroundColor],	proc init(__2533360038: typedesc[TuiBackgroundColor]; param:\n  BackgroundColor): TuiBackgroundColor		89
+nim	init	tuicrown/tuistyles.html#init,typedesc[TuiBackgroundColor],	proc init(__2566914470: typedesc[TuiBackgroundColor]; param:\n  BackgroundColor): TuiBackgroundColor		89
 nim	toTuiBGType	tuicrown/tuistyles.html#toTuiBGType.c,TuiBGColor	converter toTuiBGType(arg`gensym23: TuiBGColor): TuiBGType		173
 nim	toTuiBGType	tuicrown/tuistyles.html#toTuiBGType.c,TuiBGColor_2	converter toTuiBGType(arg`gensym23: var TuiBGColor): var TuiBGType		174
-nim	to	tuicrown/tuistyles.html#to,TuiBGType,_4	proc to(val`gensym23: TuiBGType; __2533360062: typedesc[TuiBGColor]): lent TuiBGColor		176
-nim	to	tuicrown/tuistyles.html#to,TuiBGType,_5	proc to(val`gensym23: var TuiBGType; __2533360067: typedesc[TuiBGColor]): var TuiBGColor		89
+nim	to	tuicrown/tuistyles.html#to,TuiBGType,_4	proc to(val`gensym23: TuiBGType; __2566914494: typedesc[TuiBGColor]): lent TuiBGColor		176
+nim	to	tuicrown/tuistyles.html#to,TuiBGType,_5	proc to(val`gensym23: var TuiBGType; __2566914499: typedesc[TuiBGColor]): var TuiBGColor		89
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiBGColor	converter toInternal(val`gensym26: TuiBGColor):\n  Color		225
 nim	toInternal	tuicrown/tuistyles.html#toInternal.c,TuiBGColor_2	converter toInternal(val`gensym26: var TuiBGColor): var\n  Color		89
-nim	init	tuicrown/tuistyles.html#init,typedesc[TuiBGColor],	proc init(__2533360077: typedesc[TuiBGColor]; param:\n  Color): TuiBGColor		89
+nim	init	tuicrown/tuistyles.html#init,typedesc[TuiBGColor],	proc init(__2566914509: typedesc[TuiBGColor]; param:\n  Color): TuiBGColor		89
 nim	fgNone	tuicrown/tuistyles.html#fgNone	proc fgNone(): TuiFGType		1
 nim	isNone	tuicrown/tuistyles.html#isNone,TuiFGType	proc isNone(self: TuiFGType): auto		2
 nim	isSome	tuicrown/tuistyles.html#isSome,TuiFGType	proc isSome(self: TuiFGType): auto		3

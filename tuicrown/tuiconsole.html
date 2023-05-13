@@ -60,6 +60,7 @@
   buffer*: TuiConsoleBufferLocal
   buffer_lock*: Lock
   file*: File
+  force_flush*: bool
   color_system*: ColorSystem
   o*: TuiConsoleOptions
   dim*: TuiConsoleDimension">TuiConsole</a></li>
@@ -108,6 +109,14 @@
 <li><a class="reference" href="#control%2CTuiConsole%2Cvarargs%5BTuiControl%5D" title="control(self: TuiConsole; controls: varargs[TuiControl])">control(self: TuiConsole; controls: varargs[TuiControl])</a></li>
 
 </ul>
+<ul class="simple nested-toc-section">detectColorSystem
+  <li><a class="reference" href="#detectColorSystem" title="detectColorSystem(): ColorSystem">detectColorSystem(): ColorSystem</a></li>
+
+</ul>
+<ul class="simple nested-toc-section">flush
+  <li><a class="reference" href="#flush%2CTuiConsole" title="flush(self: TuiConsole)">flush(self: TuiConsole)</a></li>
+
+</ul>
 <ul class="simple nested-toc-section">is_dumb_terminal
   <li><a class="reference" href="#is_dumb_terminal%2CTuiConsole" title="is_dumb_terminal(self: TuiConsole): bool">is_dumb_terminal(self: TuiConsole): bool</a></li>
 
@@ -135,21 +144,25 @@
 
 </ul>
 <ul class="simple nested-toc-section">newTuiConsoleOptions
-  <li><a class="reference" href="#newTuiConsoleOptions%2Cint" title="newTuiConsoleOptions(auto_colorize = false; tab_size = 2; record = false;
+  <li><a class="reference" href="#newTuiConsoleOptions%2Cint" title="newTuiConsoleOptions(auto_colorize = true; tab_size = 2; record = false;
                      markup = false; emoji = true; highlight = true;
                      soft_wrap = false; force_terminal = false;
-                     is_interactive = false): TuiConsoleOptions">newTuiConsoleOptions(auto_colorize = false; tab_size = 2; record = false;
+                     is_interactive = false): TuiConsoleOptions">newTuiConsoleOptions(auto_colorize = true; tab_size = 2; record = false;
                      markup = false; emoji = true; highlight = true;
                      soft_wrap = false; force_terminal = false;
                      is_interactive = false): TuiConsoleOptions</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">print
-  <li><a class="reference" href="#print%2CTuiConsole%2Cvarargs%5Bstring%2C%5D" title="print(self: TuiConsole; args: varargs[string, `$`])">print(self: TuiConsole; args: varargs[string, `$`])</a></li>
+  <li><a class="reference" href="#print%2CTuiConsole%2Cseq%5Bstring%5D" title="print(self: TuiConsole; args: seq[string])">print(self: TuiConsole; args: seq[string])</a></li>
+<li><a class="reference" href="#print%2CTuiConsole%2Cvarargs%5Bstring%2C%5D" title="print(self: TuiConsole; args: varargs[string, `$`])">print(self: TuiConsole; args: varargs[string, `$`])</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">printWithOpt
-  <li><a class="reference" href="#printWithOpt%2CTuiConsole%2Cstring%2Cstring%2Cvarargs%5Bstring%2C%5D" title="printWithOpt(self: TuiConsole; sep: string = &quot; &quot;; endl: string = &quot;\n&quot;;
+  <li><a class="reference" href="#printWithOpt%2CTuiConsole%2Cstring%2Cstring%2Cseq%5Bstring%5D" title="printWithOpt(self: TuiConsole; sep: string = &quot; &quot;; endl: string = &quot;\n&quot;;
+             args: seq[string])">printWithOpt(self: TuiConsole; sep: string = &quot; &quot;; endl: string = &quot;\n&quot;;
+             args: seq[string])</a></li>
+<li><a class="reference" href="#printWithOpt%2CTuiConsole%2Cstring%2Cstring%2Cvarargs%5Bstring%2C%5D" title="printWithOpt(self: TuiConsole; sep: string = &quot; &quot;; endl: string = &quot;\n&quot;;
              args: varargs[string, `$`])">printWithOpt(self: TuiConsole; sep: string = &quot; &quot;; endl: string = &quot;\n&quot;;
              args: varargs[string, `$`])</a></li>
 
@@ -175,16 +188,44 @@
 
   </div>
   <div class="nine columns" id="content">
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
     <div id="tocRoot"></div>
     
-    <p class="module-desc"></p>
+    <p class="module-desc"><p>This module defines <a class="reference internal nimdoc" title="type TuiConsole" href="#TuiConsole">TuiConsole</a> which manages all interactions with the terminal.</p>
+<p><a class="reference internal nimdoc" title="type TuiConsole" href="#TuiConsole">TuiConsole</a> has <a class="reference internal nimdoc" title="proc print (2 overloads)" href="#print-procs-all">print</a> proc which prints the strings passed as arguments but colorize them based on the styles defined in <tt class="docutils literal"><span class="pre"><span class="Punctuation">[</span><span class="Identifier">style</span><span class="Punctuation">]</span><span class="Operator">...</span><span class="Punctuation">[</span><span class="Operator">/</span><span class="Identifier">style</span><span class="Punctuation">]</span></span></tt> syntax.</p>
+<p>Init:</p>
+<ul class="simple"><li><a class="reference internal nimdoc" title="proc newTuiConsole(o: TuiConsoleOptions; color_system: string = &quot;auto&quot;;
+              file: File = nil; width: int = -1; height: int = -1): TuiConsole" href="#newTuiConsole,TuiConsoleOptions,string,File,int,int">newTuiConsole</a></li>
+</ul>
+<p>Options:</p>
+<ul class="simple"><li><a class="reference internal nimdoc" title="proc newTuiConsoleOptions(auto_colorize = true; tab_size = 2; record = false;
+                     markup = false; emoji = true; highlight = true;
+                     soft_wrap = false; force_terminal = false;
+                     is_interactive = false): TuiConsoleOptions" href="#newTuiConsoleOptions,int">newTuiConsoleOptions</a></li>
+</ul>
+
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">import</span> <span class="Identifier">tuicrown</span><span class="Operator">/</span><span class="Identifier">tuiconsole</span>
+<span class="Identifier">echo</span> <span class="Identifier">detectColorSystem</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; You want `TRUECOLOR` for support of full color pallet.</span>
+
+<span class="Identifier">echo</span> <span class="Identifier">newTuiConsoleDimension</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># Detects the width / height of current terminal.</span>
+
+<span class="Keyword">var</span> <span class="Identifier">console</span> <span class="Operator">=</span> <span class="Identifier">newTuiConsole</span><span class="Punctuation">(</span><span class="Identifier">newTuiConsoleOptions</span><span class="Punctuation">(</span><span class="Identifier">auto_colorize</span> <span class="Operator">=</span> <span class="Identifier">true</span><span class="Punctuation">)</span><span class="Punctuation">)</span>
+
+<span class="Comment"># Color, style support</span>
+<span class="Comment"># Emoji support 🌈</span>
+<span class="Identifier">console</span><span class="Operator">.</span><span class="Identifier">print</span><span class="Punctuation">(</span><span class="StringLit">&quot;Hello, [bold magenta]World[/]&quot;</span><span class="Punctuation">,</span> <span class="StringLit">&quot;:rainbow:&quot;</span><span class="Punctuation">)</span>
+
+<span class="Comment"># Variable `auto_colorize`</span>
+<span class="Identifier">console</span><span class="Operator">.</span><span class="Identifier">print</span><span class="Punctuation">(</span><span class="Identifier">true</span><span class="Punctuation">,</span> <span class="Identifier">false</span><span class="Punctuation">,</span> <span class="DecNumber">100</span><span class="Punctuation">,</span> <span class="FloatNumber">0.001</span><span class="Punctuation">,</span> <span class="StringLit">&quot;1e-6&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">console</span><span class="Operator">.</span><span class="Identifier">print</span><span class="Punctuation">(</span><span class="StringLit">&quot;:rainbow: [cyan bgWhite]TuiCrown :crown:[/]&quot;</span><span class="Punctuation">,</span> <span class="LongStringLit">&quot;&quot;&quot;https://github.com/pysan3/tuicrown&quot;&quot;&quot;</span><span class="Punctuation">)</span>
+<span class="Comment">#                                                               ^ -- URL parser supported!!</span></pre></p>
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
-    <a class="reference external" href="tuisegment.html">tuisegment</a>, <a class="reference external" href="tuistyles.html">tuistyles</a>, <a class="reference external" href="tuicontrol.html">tuicontrol</a>
+    <a class="reference external" href="tuisegment.html">tuisegment</a>, <a class="reference external" href="tuistyles.html">tuistyles</a>, <a class="reference external" href="tuicontrol.html">tuicontrol</a>, <a class="reference external" href="utils.html">utils</a>
   </dl>
 </div>
 <div class="section" id="7">
@@ -196,8 +237,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L39" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L39" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L54" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L54" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -206,15 +247,17 @@
   <span class="Identifier">buffer</span><span class="Operator">*</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsoleBufferLocal"><span class="Identifier">TuiConsoleBufferLocal</span></a>
   <span class="Identifier">buffer_lock</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">Lock</span>
   <span class="Identifier">file</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">File</span>
+  <span class="Identifier">force_flush</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>
   <span class="Identifier">color_system</span><span class="Operator">*</span><span class="Other">:</span> <a href="tuiconsole.html#ColorSystem"><span class="Identifier">ColorSystem</span></a>
   <span class="Identifier">o</span><span class="Operator">*</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsoleOptions"><span class="Identifier">TuiConsoleOptions</span></a>
   <span class="Identifier">dim</span><span class="Operator">*</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsoleDimension"><span class="Identifier">TuiConsoleDimension</span></a>
 </pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L32" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L32" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    Init: <a class="reference internal nimdoc" title="proc newTuiConsole(o: TuiConsoleOptions; color_system: string = &quot;auto&quot;;
+              file: File = nil; width: int = -1; height: int = -1): TuiConsole" href="#newTuiConsole,TuiConsoleOptions,string,File,int,int">newTuiConsole</a>
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L45" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L45" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -226,8 +269,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L16" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L16" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L28" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L28" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -239,8 +282,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L19" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L19" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L31" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L31" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -258,9 +301,12 @@
 </pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L22" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L22" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    Init: <a class="reference internal nimdoc" title="proc newTuiConsoleOptions(auto_colorize = true; tab_size = 2; record = false;
+                     markup = false; emoji = true; highlight = true;
+                     soft_wrap = false; force_terminal = false;
+                     is_interactive = false): TuiConsoleOptions" href="#newTuiConsoleOptions,int">newTuiConsoleOptions</a>
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L34" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L34" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -272,8 +318,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L41" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L41" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L56" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L56" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -290,8 +336,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L74" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L74" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -301,8 +347,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L100" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L100" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L115" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L115" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -315,9 +361,11 @@
                                       <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L152" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L152" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>The actual implementation of writing to the file.</p>
+<p>This proc locks any write to <tt class="docutils literal"><span class="pre"><span class="Identifier">self</span><span class="Operator">.</span><span class="Identifier">buffer</span></span></tt> and flushes its content to file.</p>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L178" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L178" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -330,9 +378,11 @@
     <span class="Identifier">ReadEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteEnvEffect</span><span class="Other">,</span> <span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L174" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Clear whole content of terminal. Same as <tt class="docutils literal"><span class="pre"><span class="Identifier">CTRL</span><span class="Operator">-</span><span class="Identifier">L</span></span></tt> or <tt class="docutils literal"><span class="pre"><span class="Identifier">clear</span></span></tt> command in unix shells.</p>
+<p>If <tt class="docutils literal"><span class="pre"><span class="Identifier">home</span> <span class="Operator">==</span> <span class="Identifier">true</span></span></tt>: deletes everything up to the top of the terminal, making the whole screen blank. Else:              deletes the current line and puts cursor at the beginning of the line.</p>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L210" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L210" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -345,9 +395,10 @@
     <span class="Identifier">ReadEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteEnvEffect</span><span class="Other">,</span> <span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L170" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L170" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Write sequence of <a class="reference external" href="./tuicontrol.html#TuiControl">tuicontrol: TuiControl</a></p>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L204" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L204" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -358,9 +409,38 @@
     <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
+    <p>Write sequence of <a class="reference external" href="./tuicontrol.html#TuiControl">tuicontrol: TuiControl</a></p>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L198" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L198" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="detectColorSystem-procs-all">
+  <div id="detectColorSystem">
+  <dt><pre><span class="Keyword">proc</span> <a href="#detectColorSystem"><span class="Identifier">detectColorSystem</span></a><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="tuiconsole.html#ColorSystem"><span class="Identifier">ColorSystem</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ReadEnvEffect</span><span class="Other">]</span><span class="Other">,</span>
+                                        <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L166" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L166" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L71" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L71" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="flush-procs-all">
+  <div id="flush,TuiConsole">
+  <dt><pre><span class="Keyword">proc</span> <a href="#flush%2CTuiConsole"><span class="Identifier">flush</span></a><span class="Other">(</span><span class="Identifier">self</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsole"><span class="Identifier">TuiConsole</span></a><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">KeyError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span>
+    <span class="Identifier">ReadEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteEnvEffect</span><span class="Other">,</span> <span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L247" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L247" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -373,8 +453,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L149" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L149" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L175" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L175" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -387,8 +467,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L138" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L138" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L164" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L164" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -400,8 +480,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L65" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L65" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L80" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L80" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -415,8 +495,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L113" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L113" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L128" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L128" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -429,8 +509,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L53" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L53" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L68" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L68" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -443,8 +523,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L68" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L68" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L83" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L83" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -452,7 +532,7 @@
 </div>
 <div id="newTuiConsoleOptions-procs-all">
   <div id="newTuiConsoleOptions,int">
-  <dt><pre><span class="Keyword">proc</span> <a href="#newTuiConsoleOptions%2Cint"><span class="Identifier">newTuiConsoleOptions</span></a><span class="Other">(</span><span class="Identifier">auto_colorize</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span> <span class="Identifier">tab_size</span> <span class="Other">=</span> <span class="DecNumber">2</span><span class="Other">;</span> <span class="Identifier">record</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span>
+  <dt><pre><span class="Keyword">proc</span> <a href="#newTuiConsoleOptions%2Cint"><span class="Identifier">newTuiConsoleOptions</span></a><span class="Other">(</span><span class="Identifier">auto_colorize</span> <span class="Other">=</span> <span class="Identifier">true</span><span class="Other">;</span> <span class="Identifier">tab_size</span> <span class="Other">=</span> <span class="DecNumber">2</span><span class="Other">;</span> <span class="Identifier">record</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span>
                           <span class="Identifier">markup</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span> <span class="Identifier">emoji</span> <span class="Other">=</span> <span class="Identifier">true</span><span class="Other">;</span> <span class="Identifier">highlight</span> <span class="Other">=</span> <span class="Identifier">true</span><span class="Other">;</span>
                           <span class="Identifier">soft_wrap</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span> <span class="Identifier">force_terminal</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">;</span>
                           <span class="Identifier">is_interactive</span> <span class="Other">=</span> <span class="Identifier">false</span><span class="Other">)</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsoleOptions"><span class="Identifier">TuiConsoleOptions</span></a> {.
@@ -460,15 +540,28 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L77" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L77" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L92" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L92" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
 
 </div>
 <div id="print-procs-all">
-  <div id="print,TuiConsole,varargs[string,]">
+  <div id="print,TuiConsole,seq[string]">
+  <dt><pre><span class="Keyword">proc</span> <a href="#print%2CTuiConsole%2Cseq%5Bstring%5D"><span class="Identifier">print</span></a><span class="Other">(</span><span class="Identifier">self</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsole"><span class="Identifier">TuiConsole</span></a><span class="Other">;</span> <span class="Identifier">args</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span><span class="Other">)</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">ReadEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L237" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L237" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+<div id="print,TuiConsole,varargs[string,]">
   <dt><pre><span class="Keyword">proc</span> <a href="#print%2CTuiConsole%2Cvarargs%5Bstring%2C%5D"><span class="Identifier">print</span></a><span class="Other">(</span><span class="Identifier">self</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsole"><span class="Identifier">TuiConsole</span></a><span class="Other">;</span> <span class="Identifier">args</span><span class="Other">:</span> <span class="Identifier">varargs</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">,</span> <span class="Other">`</span><span class="Operator">$</span><span class="Other">`</span><span class="Other">]</span><span class="Other">)</span> {.
     <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">]</span><span class="Other">,</span>
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">ReadEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">,</span>
@@ -476,15 +569,28 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L189" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L189" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L242" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L242" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
 
 </div>
 <div id="printWithOpt-procs-all">
-  <div id="printWithOpt,TuiConsole,string,string,varargs[string,]">
+  <div id="printWithOpt,TuiConsole,string,string,seq[string]">
+  <dt><pre><span class="Keyword">proc</span> <a href="#printWithOpt%2CTuiConsole%2Cstring%2Cstring%2Cseq%5Bstring%5D"><span class="Identifier">printWithOpt</span></a><span class="Other">(</span><span class="Identifier">self</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsole"><span class="Identifier">TuiConsole</span></a><span class="Other">;</span> <span class="Identifier">sep</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">=</span> <span class="StringLit">&quot; &quot;</span><span class="Other">;</span> <span class="Identifier">endl</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">=</span> <span class="StringLit">&quot;\n&quot;</span><span class="Other">;</span>
+                  <span class="Identifier">args</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span>
+    <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">,</span> <span class="Identifier">ReadEnvEffect</span><span class="Other">,</span> <span class="Identifier">WriteEnvEffect</span><span class="Other">,</span>
+                              <span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L221" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L221" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+<div id="printWithOpt,TuiConsole,string,string,varargs[string,]">
   <dt><pre><span class="Keyword">proc</span> <a href="#printWithOpt%2CTuiConsole%2Cstring%2Cstring%2Cvarargs%5Bstring%2C%5D"><span class="Identifier">printWithOpt</span></a><span class="Other">(</span><span class="Identifier">self</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsole"><span class="Identifier">TuiConsole</span></a><span class="Other">;</span> <span class="Identifier">sep</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">=</span> <span class="StringLit">&quot; &quot;</span><span class="Other">;</span> <span class="Identifier">endl</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">=</span> <span class="StringLit">&quot;\n&quot;</span><span class="Other">;</span>
                   <span class="Identifier">args</span><span class="Other">:</span> <span class="Identifier">varargs</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">,</span> <span class="Other">`</span><span class="Operator">$</span><span class="Other">`</span><span class="Other">]</span><span class="Other">)</span> {.
     <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">KeyError</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">IOError</span><span class="Other">]</span><span class="Other">,</span>
@@ -493,8 +599,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L180" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L180" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L230" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L230" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -511,9 +617,16 @@
   <dt><pre><span class="Keyword">macro</span> <a href="#conslock.m%2CTuiConsole%2Cuntyped"><span class="Identifier">conslock</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <a href="tuiconsole.html#TuiConsole"><span class="Identifier">TuiConsole</span></a><span class="Other">;</span> <span class="Identifier">body</span><span class="Other">:</span> <span class="Identifier">untyped</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">untyped</span></pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuiconsole.nim#L131" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L131" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>conslock (Console Lock)</p>
+<p>All operations to <tt class="docutils literal"><span class="pre"><span class="Identifier">file</span></span></tt> does not want to be random across threads.</p>
+<p>To prevent that, TuiConsole object buffers the outputs to <tt class="docutils literal"><span class="pre"><span class="Identifier">self</span><span class="Operator">.</span><span class="Identifier">buffer</span></span></tt> and when nothing is trying to write something, it flushes the content of buffer to file (stdout).</p>
+<p>Ref.</p>
+<ul class="simple"><li><a class="reference internal nimdoc" title="proc check_buffer(self: TuiConsole)" href="#check_buffer,TuiConsole">check_buffer</a></li>
+<li><a class="reference internal nimdoc" title="type TuiConsole" href="#TuiConsole">TuiConsole</a></li>
+</ul>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuiconsole.nim#L147" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuiconsole.nim#L147" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -529,7 +642,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 10:12:45 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 13:42:52 UTC</small>
       </div>
     </div>
   </div>

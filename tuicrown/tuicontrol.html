@@ -105,12 +105,31 @@
 
   </div>
   <div class="nine columns" id="content">
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
     <div id="tocRoot"></div>
     
-    <p class="module-desc"></p>
+    <p class="module-desc">
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">import</span> <span class="Identifier">tuicrown</span><span class="Operator">/</span><span class="Identifier">tuicontrol</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">BELL</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x07&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CARRIAGE_RETURN</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x0D&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">HOME</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[H&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CLEAR</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[2J&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">ENABLE_ALT_SCREEN</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[?1049h&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">DISABLE_ALT_SCREEN</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[?1049l&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">SHOW_CURSOR</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[?25h&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">HIDE_CURSOR</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[?25l&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CURSOR_UP</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[1A&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CURSOR_DOWN</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[1B&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CURSOR_FORWARD</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[1C&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CURSOR_BACKWARD</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[1D&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">ERASE_IN_LINE</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[2K&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CURSOR_MOVE_TO_COLUMN</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[2G&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">CURSOR_MOVE_TO</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B[2;2H&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">SET_WINDOW_TITLE</span><span class="Punctuation">,</span> <span class="StringLit">&quot;Title&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B]0;Title\x07&quot;</span>
+<span class="Identifier">echo</span> <span class="Identifier">newTuiControl</span><span class="Punctuation">(</span><span class="Identifier">SET_WINDOW_TITLE</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">escape</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># ==&gt; &quot;\x1B]0;tuicontrol_group0_examples\x07&quot;</span></pre></p>
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
@@ -131,7 +150,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L11" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L11" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L11" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -145,7 +164,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L28" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L28" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L28" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -162,7 +181,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L101" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L101" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L101" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -176,7 +195,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L104" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L104" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L104" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -190,7 +209,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L39" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L39" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L39" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -201,7 +220,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L36" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L36" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L36" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -212,7 +231,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L58" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L58" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L58" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -223,7 +242,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L33" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L33" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L33" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -237,7 +256,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L73" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L73" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L73" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -251,7 +270,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuicontrol.nim#L61" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/c97a5e300a9a1eb5fd4bba8e33b37a33163c4b7d/tuicrown/tuicontrol.nim#L61" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuicontrol.nim#L61" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -268,7 +287,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 10:12:39 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 13:42:39 UTC</small>
       </div>
     </div>
   </div>

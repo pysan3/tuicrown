@@ -1,28 +1,34 @@
 nimTitle	tuiconsole	tuicrown/tuiconsole.html	module tuicrown/tuiconsole		0
-nim	TuiConsoleBufferLocal	tuicrown/tuiconsole.html#TuiConsoleBufferLocal	type TuiConsoleBufferLocal		16
-nim	TuiConsoleDimension	tuicrown/tuiconsole.html#TuiConsoleDimension	type TuiConsoleDimension		19
-nim	TuiConsoleOptions	tuicrown/tuiconsole.html#TuiConsoleOptions	type TuiConsoleOptions		22
-nim	TuiConsole	tuicrown/tuiconsole.html#TuiConsole	type TuiConsole		32
-nim	STANDARD	tuicrown/tuiconsole.html#STANDARD	ColorSystem.STANDARD		39
-nim	EIGHT_BIT	tuicrown/tuiconsole.html#EIGHT_BIT	ColorSystem.EIGHT_BIT		39
-nim	TRUECOLOR	tuicrown/tuiconsole.html#TRUECOLOR	ColorSystem.TRUECOLOR		39
-nim	ColorSystem	tuicrown/tuiconsole.html#ColorSystem	enum ColorSystem		39
-nim	TuiOptions	tuicrown/tuiconsole.html#TuiOptions	type TuiOptions		41
-nim	newTuiConsoleBufferLocal	tuicrown/tuiconsole.html#newTuiConsoleBufferLocal	proc newTuiConsoleBufferLocal(): TuiConsoleBufferLocal		53
-nim	isDigit	tuicrown/tuiconsole.html#isDigit,string	proc isDigit(s: string): bool		65
-nim	newTuiConsoleDimension	tuicrown/tuiconsole.html#newTuiConsoleDimension,int,int	proc newTuiConsoleDimension(width: int = -1; height: int = -1): TuiConsoleDimension		68
-nim	`$`	tuicrown/tuiconsole.html#$,TuiConsoleDimension	proc `$`(self: TuiConsoleDimension): string		74
-nim	newTuiConsoleOptions	tuicrown/tuiconsole.html#newTuiConsoleOptions,int	proc newTuiConsoleOptions(auto_colorize = false; tab_size = 2; record = false;\n                     markup = false; emoji = true; highlight = true;\n                     soft_wrap = false; force_terminal = false;\n                     is_interactive = false): TuiConsoleOptions		77
-nim	`$`	tuicrown/tuiconsole.html#$,TuiConsoleOptions	proc `$`(self: TuiConsoleOptions): string		100
-nim	newTuiConsole	tuicrown/tuiconsole.html#newTuiConsole,TuiConsoleOptions,string,File,int,int	proc newTuiConsole(o: TuiConsoleOptions; color_system: string = "auto";\n              file: File = nil; width: int = -1; height: int = -1): TuiConsole		113
-nim	conslock	tuicrown/tuiconsole.html#conslock.m,TuiConsole,untyped	macro conslock(c: TuiConsole; body: untyped): untyped		131
-nim	is_terminal	tuicrown/tuiconsole.html#is_terminal,TuiConsole	proc is_terminal(self: TuiConsole): bool		138
-nim	is_dumb_terminal	tuicrown/tuiconsole.html#is_dumb_terminal,TuiConsole	proc is_dumb_terminal(self: TuiConsole): bool		149
-nim	check_buffer	tuicrown/tuiconsole.html#check_buffer,TuiConsole	proc check_buffer(self: TuiConsole)		152
-nim	control	tuicrown/tuiconsole.html#control,TuiConsole,varargs[TuiControl]	proc control(self: TuiConsole; controls: varargs[TuiControl])		166
-nim	control	tuicrown/tuiconsole.html#control,TuiConsole,varargs[ControlType]	proc control(self: TuiConsole; controls: varargs[ControlType])		170
-nim	clear	tuicrown/tuiconsole.html#clear,TuiConsole	proc clear(self: TuiConsole; home = true)		174
-nim	printWithOpt	tuicrown/tuiconsole.html#printWithOpt,TuiConsole,string,string,varargs[string,]	proc printWithOpt(self: TuiConsole; sep: string = " "; endl: string = "\n";\n             args: varargs[string, `$`])		180
-nim	print	tuicrown/tuiconsole.html#print,TuiConsole,varargs[string,]	proc print(self: TuiConsole; args: varargs[string, `$`])		189
-nimgrp	$	tuicrown/tuiconsole.html#$-procs-all	proc		74
-nimgrp	control	tuicrown/tuiconsole.html#control-procs-all	proc		166
+nim	TuiConsoleBufferLocal	tuicrown/tuiconsole.html#TuiConsoleBufferLocal	type TuiConsoleBufferLocal		28
+nim	TuiConsoleDimension	tuicrown/tuiconsole.html#TuiConsoleDimension	type TuiConsoleDimension		31
+nim	TuiConsoleOptions	tuicrown/tuiconsole.html#TuiConsoleOptions	type TuiConsoleOptions		34
+nim	TuiConsole	tuicrown/tuiconsole.html#TuiConsole	type TuiConsole		45
+nim	STANDARD	tuicrown/tuiconsole.html#STANDARD	ColorSystem.STANDARD		54
+nim	EIGHT_BIT	tuicrown/tuiconsole.html#EIGHT_BIT	ColorSystem.EIGHT_BIT		54
+nim	TRUECOLOR	tuicrown/tuiconsole.html#TRUECOLOR	ColorSystem.TRUECOLOR		54
+nim	ColorSystem	tuicrown/tuiconsole.html#ColorSystem	enum ColorSystem		54
+nim	TuiOptions	tuicrown/tuiconsole.html#TuiOptions	type TuiOptions		56
+nim	newTuiConsoleBufferLocal	tuicrown/tuiconsole.html#newTuiConsoleBufferLocal	proc newTuiConsoleBufferLocal(): TuiConsoleBufferLocal		68
+nim	detectColorSystem	tuicrown/tuiconsole.html#detectColorSystem	proc detectColorSystem(): ColorSystem		71
+nim	isDigit	tuicrown/tuiconsole.html#isDigit,string	proc isDigit(s: string): bool		80
+nim	newTuiConsoleDimension	tuicrown/tuiconsole.html#newTuiConsoleDimension,int,int	proc newTuiConsoleDimension(width: int = -1; height: int = -1): TuiConsoleDimension		83
+nim	`$`	tuicrown/tuiconsole.html#$,TuiConsoleDimension	proc `$`(self: TuiConsoleDimension): string		89
+nim	newTuiConsoleOptions	tuicrown/tuiconsole.html#newTuiConsoleOptions,int	proc newTuiConsoleOptions(auto_colorize = true; tab_size = 2; record = false;\n                     markup = false; emoji = true; highlight = true;\n                     soft_wrap = false; force_terminal = false;\n                     is_interactive = false): TuiConsoleOptions		92
+nim	`$`	tuicrown/tuiconsole.html#$,TuiConsoleOptions	proc `$`(self: TuiConsoleOptions): string		115
+nim	newTuiConsole	tuicrown/tuiconsole.html#newTuiConsole,TuiConsoleOptions,string,File,int,int	proc newTuiConsole(o: TuiConsoleOptions; color_system: string = "auto";\n              file: File = nil; width: int = -1; height: int = -1): TuiConsole		128
+nim	conslock	tuicrown/tuiconsole.html#conslock.m,TuiConsole,untyped	macro conslock(c: TuiConsole; body: untyped): untyped		147
+nim	is_terminal	tuicrown/tuiconsole.html#is_terminal,TuiConsole	proc is_terminal(self: TuiConsole): bool		164
+nim	is_dumb_terminal	tuicrown/tuiconsole.html#is_dumb_terminal,TuiConsole	proc is_dumb_terminal(self: TuiConsole): bool		175
+nim	check_buffer	tuicrown/tuiconsole.html#check_buffer,TuiConsole	proc check_buffer(self: TuiConsole)		178
+nim	control	tuicrown/tuiconsole.html#control,TuiConsole,varargs[TuiControl]	proc control(self: TuiConsole; controls: varargs[TuiControl])		198
+nim	control	tuicrown/tuiconsole.html#control,TuiConsole,varargs[ControlType]	proc control(self: TuiConsole; controls: varargs[ControlType])		204
+nim	clear	tuicrown/tuiconsole.html#clear,TuiConsole	proc clear(self: TuiConsole; home = true)		210
+nim	printWithOpt	tuicrown/tuiconsole.html#printWithOpt,TuiConsole,string,string,seq[string]	proc printWithOpt(self: TuiConsole; sep: string = " "; endl: string = "\n";\n             args: seq[string])		221
+nim	printWithOpt	tuicrown/tuiconsole.html#printWithOpt,TuiConsole,string,string,varargs[string,]	proc printWithOpt(self: TuiConsole; sep: string = " "; endl: string = "\n";\n             args: varargs[string, `$`])		230
+nim	print	tuicrown/tuiconsole.html#print,TuiConsole,seq[string]	proc print(self: TuiConsole; args: seq[string])		237
+nim	print	tuicrown/tuiconsole.html#print,TuiConsole,varargs[string,]	proc print(self: TuiConsole; args: varargs[string, `$`])		242
+nim	flush	tuicrown/tuiconsole.html#flush,TuiConsole	proc flush(self: TuiConsole)		247
+nimgrp	$	tuicrown/tuiconsole.html#$-procs-all	proc		89
+nimgrp	print	tuicrown/tuiconsole.html#print-procs-all	proc		237
+nimgrp	control	tuicrown/tuiconsole.html#control-procs-all	proc		198
+nimgrp	printwithopt	tuicrown/tuiconsole.html#printWithOpt-procs-all	proc		221
