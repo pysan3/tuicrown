@@ -26,9 +26,9 @@ type
     CURSOR_MOVE_TO = "H"
     SET_WINDOW_TITLE = "TITLE"
   TuiControl* = ref object of RootObj
-    typ: ControlType
-    args: seq[int]
-    title: string
+    typ*: ControlType
+    args*: seq[int]
+    title*: string
 
 proc newTuiControl*(t: ControlType, title: string): TuiControl =
   TuiControl(typ: t, title: title)
