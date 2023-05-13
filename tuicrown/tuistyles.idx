@@ -53,38 +53,38 @@ nim	isSome	tuicrown/tuistyles.html#isSome,TuiFGType	proc isSome(self: TuiFGType)
 nim	get	tuicrown/tuistyles.html#get,TuiFGType,TuiFGType	proc get(self: TuiFGType; otherwise: TuiFGType = fgNone()): TuiFGType		4
 nim	equals	tuicrown/tuistyles.html#equals,TuiFGType,TuiFGType	proc equals(self: TuiFGType; o: TuiFGType; bothNoneReturnsTrue = false): auto		5
 nim	`==`	tuicrown/tuistyles.html#==,TuiFGType,TuiFGType	proc `==`(self: TuiFGType; o: TuiFGType): auto		8
-nim	fgColor	tuicrown/tuistyles.html#fgColor	proc fgColor(x: TuiFGType | ForegroundColor | Color = fgNone()): TuiFGType		55
+nim	fgColor	tuicrown/tuistyles.html#fgColor	proc fgColor(x: TuiFGType | ForegroundColor | Color = fgNone()): TuiFGType		73
 nim	bgNone	tuicrown/tuistyles.html#bgNone	proc bgNone(): TuiBGType		1
 nim	isNone	tuicrown/tuistyles.html#isNone,TuiBGType	proc isNone(self: TuiBGType): auto		2
 nim	isSome	tuicrown/tuistyles.html#isSome,TuiBGType	proc isSome(self: TuiBGType): auto		3
 nim	get	tuicrown/tuistyles.html#get,TuiBGType,TuiBGType	proc get(self: TuiBGType; otherwise: TuiBGType = bgNone()): TuiBGType		4
 nim	equals	tuicrown/tuistyles.html#equals,TuiBGType,TuiBGType	proc equals(self: TuiBGType; o: TuiBGType; bothNoneReturnsTrue = false): auto		5
 nim	`==`	tuicrown/tuistyles.html#==,TuiBGType,TuiBGType	proc `==`(self: TuiBGType; o: TuiBGType): auto		8
-nim	bgColor	tuicrown/tuistyles.html#bgColor	proc bgColor(x: TuiBGType | BackgroundColor | Color = bgNone()): TuiBGType		56
-nim	TuiStyles	tuicrown/tuistyles.html#TuiStyles	type TuiStyles		59
-nim	fgColor	tuicrown/tuistyles.html#fgColor,TuiStyles	proc fgColor(self: TuiStyles): auto		66
-nim	fgColor=	tuicrown/tuistyles.html#fgColor=,TuiStyles,TuiFGType	proc fgColor=(self: TuiStyles; o: TuiFGType)		68
-nim	fgColor+	tuicrown/tuistyles.html#fgColor+,TuiStyles,seq[TuiFGType]	proc fgColor+(self: TuiStyles; o: seq[TuiFGType]): auto		71
-nim	bgColor	tuicrown/tuistyles.html#bgColor,TuiStyles	proc bgColor(self: TuiStyles): auto		75
-nim	bgColor=	tuicrown/tuistyles.html#bgColor=,TuiStyles,TuiBGType	proc bgColor=(self: TuiStyles; o: TuiBGType)		77
-nim	bgColor+	tuicrown/tuistyles.html#bgColor+,TuiStyles,seq[TuiBGType]	proc bgColor+(self: TuiStyles; o: seq[TuiBGType]): auto		80
-nim	print	tuicrown/tuistyles.html#print,File,TuiStyles	proc print(f: File; self: TuiStyles)		84
-nim	newTuiStyles	tuicrown/tuistyles.html#newTuiStyles,seq[Style]	proc newTuiStyles(color: TuiFGType | ForegroundColor | Color = TuiFGType\n    TuiFGNone.init; bgColor: TuiBGType | BackgroundColor | Color = TuiBGType\n    TuiBGNone.init; styles: seq[Style] = newSeq[Style]()): TuiStyles		100
-nim	newTuiStyles	tuicrown/tuistyles.html#newTuiStyles,seq[Style]_2	proc newTuiStyles(arg: seq[Style]): TuiStyles		108
-nim	copy	tuicrown/tuistyles.html#copy,TuiStyles	proc copy(refObj: TuiStyles): auto		110
-nim	deepCopy	tuicrown/tuistyles.html#deepCopy,TuiStyles	proc deepCopy(refObj: TuiStyles): auto		114
-nim	print	tuicrown/tuistyles.html#print,TuiStyles	proc print(self: TuiStyles): string		120
-nim	`$`	tuicrown/tuistyles.html#$,TuiStyles	proc `$`(self: TuiStyles): string		127
-nim	`+=`	tuicrown/tuistyles.html#+=,TuiStyles,TuiStyles	proc `+=`(self: var TuiStyles; o: TuiStyles)		130
-nim	`-=`	tuicrown/tuistyles.html#-=,TuiStyles,TuiStyles	proc `-=`(self: var TuiStyles; o: TuiStyles)		134
-nim	`==`	tuicrown/tuistyles.html#==,TuiStyles,TuiStyles	proc `==`(self: TuiStyles; o: TuiStyles): bool		138
-nim	get	tuicrown/tuistyles.html#get,typedesc[T],string,Option[T: enum],seq[int]	proc get[T: enum](E: typedesc[T]; idx: string; default: Option[T] = none(T);\n             strFroms: seq[int] = newSeq[int]()): Option[T]		143
-nim	searchStyle	tuicrown/tuistyles.html#searchStyle,string	proc searchStyle(token: string): Option[Style]		156
-nim	searchFGBG	tuicrown/tuistyles.html#searchFGBG,typedesc[T],string	proc searchFGBG[T: enum](E: typedesc[T]; token: string): Option[T]		161
-nim	searchColor	tuicrown/tuistyles.html#searchColor,string	proc searchColor(token: string): Option[Color]		164
-nim	parseStr	tuicrown/tuistyles.html#parseStr,string,bool	proc parseStr(str: string; isBackground: bool): Option[TuiStyles]		170
-nim	newTuiStyles	tuicrown/tuistyles.html#newTuiStyles,TuiStyles,string	proc newTuiStyles(old: TuiStyles; texts: string): TuiStyles		184
-nimgrp	print	tuicrown/tuistyles.html#print-procs-all	proc		84
+nim	bgColor	tuicrown/tuistyles.html#bgColor	proc bgColor(x: TuiBGType | BackgroundColor | Color = bgNone()): TuiBGType		74
+nim	TuiStyles	tuicrown/tuistyles.html#TuiStyles	type TuiStyles		77
+nim	fgColor	tuicrown/tuistyles.html#fgColor,TuiStyles	proc fgColor(self: TuiStyles): auto		84
+nim	fgColor=	tuicrown/tuistyles.html#fgColor=,TuiStyles,TuiFGType	proc fgColor=(self: TuiStyles; o: TuiFGType)		86
+nim	fgColor+	tuicrown/tuistyles.html#fgColor+,TuiStyles,seq[TuiFGType]	proc fgColor+(self: TuiStyles; o: seq[TuiFGType]): auto		89
+nim	bgColor	tuicrown/tuistyles.html#bgColor,TuiStyles	proc bgColor(self: TuiStyles): auto		93
+nim	bgColor=	tuicrown/tuistyles.html#bgColor=,TuiStyles,TuiBGType	proc bgColor=(self: TuiStyles; o: TuiBGType)		95
+nim	bgColor+	tuicrown/tuistyles.html#bgColor+,TuiStyles,seq[TuiBGType]	proc bgColor+(self: TuiStyles; o: seq[TuiBGType]): auto		98
+nim	print	tuicrown/tuistyles.html#print,File,TuiStyles	proc print(f: File; self: TuiStyles)		102
+nim	newTuiStyles	tuicrown/tuistyles.html#newTuiStyles,seq[Style]	proc newTuiStyles(color: TuiFGType | ForegroundColor | Color = TuiFGType\n    TuiFGNone.init; bgColor: TuiBGType | BackgroundColor | Color = TuiBGType\n    TuiBGNone.init; styles: seq[Style] = newSeq[Style]()): TuiStyles		118
+nim	newTuiStyles	tuicrown/tuistyles.html#newTuiStyles,seq[Style]_2	proc newTuiStyles(arg: seq[Style]): TuiStyles		127
+nim	copy	tuicrown/tuistyles.html#copy,TuiStyles	proc copy(refObj: TuiStyles): auto		129
+nim	deepCopy	tuicrown/tuistyles.html#deepCopy,TuiStyles	proc deepCopy(refObj: TuiStyles): auto		146
+nim	print	tuicrown/tuistyles.html#print,TuiStyles	proc print(self: TuiStyles): string		164
+nim	`$`	tuicrown/tuistyles.html#$,TuiStyles	proc `$`(self: TuiStyles): string		171
+nim	`+=`	tuicrown/tuistyles.html#+=,TuiStyles,TuiStyles	proc `+=`(self: var TuiStyles; o: TuiStyles)		174
+nim	`-=`	tuicrown/tuistyles.html#-=,TuiStyles,TuiStyles	proc `-=`(self: var TuiStyles; o: TuiStyles)		179
+nim	`==`	tuicrown/tuistyles.html#==,TuiStyles,TuiStyles	proc `==`(self: TuiStyles; o: TuiStyles): bool		184
+nim	get	tuicrown/tuistyles.html#get,typedesc[T],string,Option[T: enum],seq[int]	proc get[T: enum](E: typedesc[T]; idx: string; default: Option[T] = none(T);\n             strFroms: seq[int] = newSeq[int]()): Option[T]		189
+nim	searchStyle	tuicrown/tuistyles.html#searchStyle,string	proc searchStyle(token: string): Option[Style]		202
+nim	searchFGBG	tuicrown/tuistyles.html#searchFGBG,typedesc[T],string	proc searchFGBG[T: enum](E: typedesc[T]; token: string): Option[T]		222
+nim	searchColor	tuicrown/tuistyles.html#searchColor,string	proc searchColor(token: string): Option[Color]		234
+nim	parseStr	tuicrown/tuistyles.html#parseStr,string,bool	proc parseStr(str: string; isBackground: bool): Option[TuiStyles]		245
+nim	newTuiStyles	tuicrown/tuistyles.html#newTuiStyles,TuiStyles,string	proc newTuiStyles(old: TuiStyles; texts: string): TuiStyles		259
+nimgrp	print	tuicrown/tuistyles.html#print-procs-all	proc		102
 nimgrp	bgcolor	tuicrown/tuistyles.html#bgColor-procs-all	proc		9
 nimgrp	fgcolor	tuicrown/tuistyles.html#fgColor-procs-all	proc		9
 nimgrp	to	tuicrown/tuistyles.html#to-procs-all	proc		136
@@ -92,7 +92,7 @@ nimgrp	init	tuicrown/tuistyles.html#init-procs-all	proc		141
 nimgrp	get	tuicrown/tuistyles.html#get-procs-all	proc		4
 nimgrp	equals	tuicrown/tuistyles.html#equals-procs-all	proc		5
 nimgrp	isnone	tuicrown/tuistyles.html#isNone-procs-all	proc		2
-nimgrp	newtuistyles	tuicrown/tuistyles.html#newTuiStyles-procs-all	proc		100
+nimgrp	newtuistyles	tuicrown/tuistyles.html#newTuiStyles-procs-all	proc		118
 nimgrp	==	tuicrown/tuistyles.html#==-procs-all	proc		8
 nimgrp	issome	tuicrown/tuistyles.html#isSome-procs-all	proc		3
 nimgrp	totuifgtype	tuicrown/tuistyles.html#toTuiFGType-converters-all	converter		173

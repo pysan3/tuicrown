@@ -284,12 +284,55 @@
 
   </div>
   <div class="nine columns" id="content">
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
     <div id="tocRoot"></div>
     
-    <p class="module-desc"></p>
+    <p class="module-desc"><p>This module wraps <tt class="docutils literal"><span class="pre"><span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">terminal</span><span class="Operator">.</span><span class="Identifier">ForegroundColor</span> <span class="Operator">/</span> <span class="Identifier">BackgroundColor</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">colors</span><span class="Operator">.</span><span class="Identifier">Colors</span></span></tt></p>
+<p>A pretty hacky solution is used so be careful.</p>
+<p>This module parses styles inside brackets passed like <tt class="docutils literal"><span class="pre"><span class="Punctuation">[</span><span class="Identifier">green</span> <span class="Identifier">bold</span><span class="Punctuation">]</span></span></tt>. The parsing mechanism is implemented in <a class="reference internal nimdoc" title="proc newTuiStyles (3 overloads)" href="#newTuiStyles-procs-all">newTuiStyles</a> and <a class="reference internal nimdoc" title="proc parseStr(str: string; isBackground: bool): Option[TuiStyles]" href="#parseStr,string,bool">parseStr</a>.</p>
+<ul class="simple"><li>Init:<ul class="simple"><li><a class="reference internal nimdoc" title="proc newTuiStyles (3 overloads)" href="#newTuiStyles-procs-all">newTuiStyles</a></li>
+</ul>
+</li>
+</ul>
+<p>Color and style parsing is done in this order. If none of the the styles are found, returns <tt class="docutils literal"><span class="pre"><span class="Identifier">none</span><span class="Punctuation">(</span><span class="Identifier">TuiStyles</span><span class="Punctuation">)</span></span></tt>.</p>
+<ul class="simple"><li><a class="reference internal nimdoc" title="proc searchStyle(token: string): Option[Style]" href="#searchStyle,string">searchStyle</a></li>
+<li>foreground: <a class="reference internal nimdoc" title="proc searchFGBG[T: enum](E: typedesc[T]; token: string): Option[T]" href="#searchFGBG,typedesc[T],string">searchFGBG</a></li>
+<li>background: <a class="reference internal nimdoc" title="proc searchFGBG[T: enum](E: typedesc[T]; token: string): Option[T]" href="#searchFGBG,typedesc[T],string">searchFGBG</a></li>
+<li><a class="reference internal nimdoc" title="proc searchColor(token: string): Option[Color]" href="#searchColor,string">searchColor</a></li>
+</ul>
+
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">import</span> <span class="Identifier">tuicrown</span><span class="Operator">/</span><span class="Identifier">tuistyles</span>
+<span class="Keyword">import</span> <span class="Identifier">std</span><span class="Operator">/</span><span class="Punctuation">[</span><span class="Identifier">terminal</span><span class="Punctuation">,</span> <span class="Identifier">colors</span><span class="Punctuation">]</span>
+<span class="Keyword">let</span> <span class="Identifier">redfg</span> <span class="Operator">=</span> <span class="Identifier">fgColor</span><span class="Punctuation">(</span><span class="Identifier">fgRed</span><span class="Punctuation">)</span> <span class="Comment"># Create fgColor object from `std/terminal/ForegroundColor`</span>
+<span class="Keyword">let</span> <span class="Identifier">bluefg</span> <span class="Operator">=</span> <span class="Identifier">fgColor</span><span class="Punctuation">(</span><span class="Identifier">fgBlue</span><span class="Punctuation">)</span>
+<span class="Keyword">let</span> <span class="Identifier">redbg</span> <span class="Operator">=</span> <span class="Identifier">bgColor</span><span class="Punctuation">(</span><span class="Identifier">bgRed</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;red&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">==</span> <span class="Identifier">redfg</span>
+
+<span class="Comment"># Styles can be added inplace with `+=`. (`+` is not defined)</span>
+<span class="Keyword">var</span> <span class="Identifier">st1</span> <span class="Operator">=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgRed&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">st1</span> <span class="Operator">+=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;bgRed&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">st1</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">==</span> <span class="Identifier">redfg</span> <span class="Keyword">and</span> <span class="Identifier">st1</span><span class="Operator">.</span><span class="Identifier">bgColor</span> <span class="Operator">==</span> <span class="Identifier">redbg</span>
+<span class="Comment"># Inherit other styles. Colors will be overwritten.</span>
+<span class="Keyword">var</span> <span class="Identifier">st2</span> <span class="Operator">=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Identifier">st1</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgBlue&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">st2</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">==</span> <span class="Identifier">bluefg</span> <span class="Comment"># fgRed is overwritten by fgBlue</span>
+<span class="Identifier">assert</span> <span class="Identifier">st2</span><span class="Operator">.</span><span class="Identifier">bgColor</span> <span class="Operator">==</span> <span class="Identifier">redbg</span>
+<span class="Comment"># `-=` subtracts styles</span>
+<span class="Identifier">st2</span> <span class="Operator">-=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgBlue&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">st2</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">==</span> <span class="Identifier">redfg</span> <span class="Comment"># fgRed is brought back again</span>
+
+<span class="Comment"># More ways to define colors</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgRed&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">==</span> <span class="Identifier">redfg</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;#FF0000&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">!=</span> <span class="Identifier">redfg</span> <span class="Comment"># fgRed != colorRed</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fg:red&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">==</span> <span class="Identifier">redfg</span> <span class="Comment"># `fg:`, `bg:` can be used to hardcode fore or back</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;bg:red&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">fgColor</span> <span class="Operator">!=</span> <span class="Identifier">redfg</span> <span class="Keyword">and</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;bg:red&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">bgColor</span> <span class="Operator">==</span> <span class="Identifier">redbg</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;bgRed&quot;</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">bgColor</span> <span class="Operator">==</span> <span class="Identifier">redbg</span>
+
+<span class="Comment"># Styles</span>
+<span class="Comment"># See more info at `searchStyle`</span>
+<span class="Identifier">assert</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;b&quot;</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;bold&quot;</span><span class="Punctuation">)</span></pre></p>
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
@@ -304,7 +347,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -314,7 +357,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -324,7 +367,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -335,7 +378,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/micros-0.1.12-e20fdc9585c8fbb34b6aa97688ef9f71997feafc/micros/definitions/objectdefs.nim#L55" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/micros-0.1.12-e20fdc9585c8fbb34b6aa97688ef9f71997feafc/micros/definitions/objectdefs.nim#L55" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/micros-0.1.12-e20fdc9585c8fbb34b6aa97688ef9f71997feafc/micros/definitions/objectdefs.nim#L55" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -346,7 +389,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -356,7 +399,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -366,7 +409,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -377,7 +420,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/micros-0.1.12-e20fdc9585c8fbb34b6aa97688ef9f71997feafc/micros/definitions/objectdefs.nim#L55" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/micros-0.1.12-e20fdc9585c8fbb34b6aa97688ef9f71997feafc/micros/definitions/objectdefs.nim#L55" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/micros-0.1.12-e20fdc9585c8fbb34b6aa97688ef9f71997feafc/micros/definitions/objectdefs.nim#L55" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -388,7 +431,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -398,7 +441,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L262" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -412,8 +455,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L59" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L59" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L77" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L77" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -429,8 +472,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L127" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L127" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L171" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L171" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -442,8 +485,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L130" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L130" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L174" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -455,8 +498,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L134" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L134" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L179" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L179" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -469,7 +512,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L8" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L8" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L8" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -480,7 +523,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L8" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L8" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L8" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -491,8 +534,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L138" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L138" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L184" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L184" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -504,8 +547,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L75" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L75" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L93" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L93" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -514,8 +557,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L56" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L56" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L74" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L74" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -528,8 +571,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L80" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L80" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L98" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L98" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -541,8 +584,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L77" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L77" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L95" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L95" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -554,7 +597,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -566,9 +609,19 @@
   <dt><pre><span class="Keyword">proc</span> <a href="#copy%2CTuiStyles"><span class="Identifier">copy</span></a><span class="Other">(</span><span class="Identifier">refObj</span><span class="Other">:</span> <a href="tuistyles.html#TuiStyles"><span class="Identifier">TuiStyles</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L110" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L110" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Returns the copy of <tt class="docutils literal"><span class="pre"><span class="Identifier">refObj</span></span></tt>.</p>
+<p>Result contains only the latest <tt class="docutils literal"><span class="pre"><span class="Identifier">fgColor</span></span></tt> and <tt class="docutils literal"><span class="pre"><span class="Identifier">bgColor</span></span></tt>. Therefore, the override chain of colors is not copied.</p>
+<p>Also see. <a class="reference internal nimdoc" title="proc deepCopy(refObj: TuiStyles): auto" href="#deepCopy,TuiStyles">deepCopy</a> (copies the override chain as well)</p>
+
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">import</span> <span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">terminal</span>
+<span class="Keyword">var</span> <span class="Identifier">st</span> <span class="Operator">=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgRed&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">st</span> <span class="Operator">=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Identifier">st</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgBlue&quot;</span><span class="Punctuation">)</span>
+<span class="Keyword">var</span> <span class="Identifier">new_st</span> <span class="Operator">=</span> <span class="Identifier">st</span><span class="Operator">.</span><span class="Identifier">copy</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># color chain is not copied. Only remembers top color: fgBlue</span>
+<span class="Identifier">new_st</span> <span class="Operator">-=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgBlue&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">new_st</span> <span class="Operator">==</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># nothing is left</span></pre>
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L129" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L129" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -579,9 +632,19 @@
   <dt><pre><span class="Keyword">proc</span> <a href="#deepCopy%2CTuiStyles"><span class="Identifier">deepCopy</span></a><span class="Other">(</span><span class="Identifier">refObj</span><span class="Other">:</span> <a href="tuistyles.html#TuiStyles"><span class="Identifier">TuiStyles</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L114" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L114" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Returns the copy of <tt class="docutils literal"><span class="pre"><span class="Identifier">refObj</span></span></tt>.</p>
+<p>Result contains all chain of colors for <tt class="docutils literal"><span class="pre"><span class="Identifier">fgColor</span></span></tt> and <tt class="docutils literal"><span class="pre"><span class="Identifier">bgColor</span></span></tt>.</p>
+<p>Also see. <a class="reference internal nimdoc" title="proc copy(refObj: TuiStyles): auto" href="#copy,TuiStyles">copy</a> (only copies the current applied color)</p>
+
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">import</span> <span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">terminal</span>
+<span class="Keyword">var</span> <span class="Identifier">st</span> <span class="Operator">=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgRed&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">st</span> <span class="Operator">=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Identifier">st</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgBlue&quot;</span><span class="Punctuation">)</span>
+<span class="Keyword">var</span> <span class="Identifier">new_st</span> <span class="Operator">=</span> <span class="Identifier">st</span><span class="Operator">.</span><span class="Identifier">deepCopy</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Comment"># color chain copied</span>
+<span class="Identifier">new_st</span> <span class="Operator">-=</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgBlue&quot;</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">new_st</span> <span class="Operator">==</span> <span class="Identifier">newTuiStyles</span><span class="Punctuation">(</span><span class="Keyword">nil</span><span class="Punctuation">,</span> <span class="StringLit">&quot;fgRed&quot;</span><span class="Punctuation">)</span> <span class="Comment"># fgRed remains</span></pre>
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L146" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L146" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -594,7 +657,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L5" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L5" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L5" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -605,7 +668,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L5" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L5" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L5" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -618,8 +681,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L66" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L66" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L84" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L84" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -628,8 +691,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L55" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L55" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L73" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L73" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -642,8 +705,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L71" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L71" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -655,8 +718,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L68" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L68" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L86" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L86" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -668,7 +731,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -682,7 +745,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L4" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L4" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L4" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -693,7 +756,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L4" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L4" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L4" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -704,8 +767,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L143" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L143" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L189" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L189" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -717,7 +780,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -728,7 +791,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -739,7 +802,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -749,7 +812,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -760,7 +823,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -771,7 +834,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -784,7 +847,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L2" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L2" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L2" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -794,7 +857,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L2" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L2" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L2" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -807,7 +870,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L3" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L3" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L3" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -817,7 +880,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/#L3" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/#L3" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/#L3" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -831,8 +894,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L108" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L108" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L127" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L127" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -843,8 +906,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L100" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L100" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L118" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L118" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -854,8 +917,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L184" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L184" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L259" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L259" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -868,8 +931,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L170" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L170" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L245" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L245" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -883,8 +946,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L84" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L84" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L102" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L102" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -893,8 +956,8 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L120" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L120" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L164" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L164" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -906,9 +969,12 @@
     <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L164" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L164" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Returns <tt class="docutils literal"><span class="pre"><span class="Identifier">some</span><span class="Punctuation">(</span><span class="Identifier">Color</span><span class="Punctuation">)</span></span></tt> if <tt class="docutils literal"><span class="pre"><span class="Identifier">token</span></span></tt> is parsed as a color.</p>
+<p>Style is checked with <tt class="docutils literal"><span class="pre"><span class="Identifier">isColor</span></span></tt> from <a class="reference external" href="https://nim-lang.org/docs/colors.html#isColor%2Cstring">https://nim-lang.org/docs/colors.html#isColor%2Cstring</a></p>
+<p>Available colors are listed here: <a class="reference external" href="https://nim-lang.org/docs/colors.html#10">https://nim-lang.org/docs/colors.html#10</a></p>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L234" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L234" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -919,9 +985,16 @@
   <dt><pre><span class="Keyword">proc</span> <a href="#searchFGBG%2Ctypedesc%5BT%5D%2Cstring"><span class="Identifier">searchFGBG</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Keyword">enum</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">E</span><span class="Other">:</span> <span class="Identifier">typedesc</span><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">token</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Option</span><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span></pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L161" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L161" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Returns <tt class="docutils literal"><span class="pre"><span class="Identifier">some</span><span class="Punctuation">(</span><span class="Identifier">ForegroundColor</span><span class="Punctuation">)</span></span></tt> or <tt class="docutils literal"><span class="pre"><span class="Identifier">some</span><span class="Punctuation">(</span><span class="Identifier">BackgroundColor</span><span class="Punctuation">)</span></span></tt> if <tt class="docutils literal"><span class="pre"><span class="Identifier">token</span></span></tt> is parsed as a terminal color.</p>
+<p>Style should be one of <tt class="docutils literal"><span class="pre"><span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">terminal</span><span class="Operator">/</span><span class="Punctuation">[</span><span class="Identifier">ForegroundColor</span><span class="Punctuation">,</span> <span class="Identifier">BackgroundColor</span><span class="Punctuation">]</span></span></tt> enum (matches lowercase).</p>
+<p>User can omit <tt class="docutils literal"><span class="pre"><span class="Identifier">fg</span></span></tt> / <tt class="docutils literal"><span class="pre"><span class="Identifier">bg</span></span></tt> and use just <tt class="docutils literal"><span class="pre"><span class="Identifier">red</span></span></tt> instead.</p>
+<p>Ref.</p>
+<ul class="simple"><li><a class="reference external" href="https://nim-lang.org/docs/terminal.html#BackgroundColor">https://nim-lang.org/docs/terminal.html#BackgroundColor</a></li>
+<li><a class="reference external" href="https://nim-lang.org/docs/terminal.html#ForegroundColor">https://nim-lang.org/docs/terminal.html#ForegroundColor</a></li>
+</ul>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L222" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L222" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -933,9 +1006,21 @@
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/tuicrown/tuistyles.nim#L156" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L156" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <p>Returns <tt class="docutils literal"><span class="pre"><span class="Identifier">some</span><span class="Punctuation">(</span><span class="Identifier">Style</span><span class="Punctuation">)</span></span></tt> if <tt class="docutils literal"><span class="pre"><span class="Identifier">token</span></span></tt> is parsed as a style.</p>
+<p>Style should be one of <tt class="docutils literal"><span class="pre"><span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">terminal</span><span class="Operator">/</span><span class="Identifier">Style</span></span></tt> enum (matches lowercase).</p>
+<p>User can omit <tt class="docutils literal"><span class="pre"><span class="Identifier">style</span></span></tt> and use just <tt class="docutils literal"><span class="pre"><span class="Identifier">bright</span></span></tt> instead.</p>
+<p>Some aliases are also pre-defined.</p>
+<ul class="simple"><li>&quot;b&quot;: <tt class="docutils literal"><span class="pre"><span class="Identifier">styleBlink</span></span></tt></li>
+<li>&quot;bold&quot;: <tt class="docutils literal"><span class="pre"><span class="Identifier">styleBlink</span></span></tt></li>
+<li>&quot;i&quot;: <tt class="docutils literal"><span class="pre"><span class="Identifier">styleItalic</span></span></tt></li>
+<li>&quot;r&quot;: <tt class="docutils literal"><span class="pre"><span class="Identifier">styleReverse</span></span></tt></li>
+<li>&quot;s&quot;: <tt class="docutils literal"><span class="pre"><span class="Identifier">styleStrikethrough</span></span></tt></li>
+<li>&quot;u&quot;: <tt class="docutils literal"><span class="pre"><span class="Identifier">styleUnderscore</span></span></tt></li>
+</ul>
+<p>Ref. <a class="reference external" href="https://nim-lang.org/docs/terminal.html#Style">https://nim-lang.org/docs/terminal.html#Style</a></p>
+
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/tuicrown/tuistyles.nim#L202" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/pysan3/tuicrown/edit/main/tuicrown/tuistyles.nim#L202" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -948,7 +1033,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L136" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L136" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L136" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -959,7 +1044,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -969,7 +1054,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -980,7 +1065,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -990,7 +1075,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1001,7 +1086,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L136" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L136" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L136" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1012,7 +1097,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1022,7 +1107,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1033,7 +1118,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L176" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1043,7 +1128,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1063,7 +1148,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1074,7 +1159,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1085,7 +1170,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1096,7 +1181,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1107,7 +1192,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1118,7 +1203,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1129,7 +1214,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L225" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1140,7 +1225,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.choosenim/toolchains/nim-#devel/lib/std/genasts.nim#L89" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1154,7 +1239,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1165,7 +1250,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1176,7 +1261,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1187,7 +1272,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1201,7 +1286,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1212,7 +1297,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1223,7 +1308,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L173" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1234,7 +1319,7 @@
   <dd>
     
     
-    <a href="https://github.com/pysan3/tuicrown/tree/340b441ffd9a4b3b6b3abc4b9bc6fd6450d90da0/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+    <a href="https://github.com/pysan3/tuicrown/tree/007ae19f7eb259e7619a94cdd1c2faa568be8267/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/pysan3/tuicrown/edit/main/../../../.nimble/pkgs2/fungus-0.1.13-13e95ed6f3bb37ae6490affcaba3fd9350588e5b/fungus.nim#L174" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
@@ -1251,7 +1336,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 07:58:40 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-13 10:12:42 UTC</small>
       </div>
     </div>
   </div>
