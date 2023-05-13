@@ -12,11 +12,11 @@
 ##
 ## - Styles
 ##   - https://github.com/Textualize/rich/blob/master/rich/default_styles.py
-##   - [permalink](https://github.com/Textualize/rich/blob/68224905f5dc7a3c765e04aba0460b75a95f5004/rich/default_styles.py)
+##     ([permalink](https://github.com/Textualize/rich/blob/68224905f5dc7a3c765e04aba0460b75a95f5004/rich/default_styles.py))
 ##
 ## - Regex
 ##   - https://github.com/Textualize/rich/blob/master/rich/highlighter.py
-##   - [permalink](https://github.com/Textualize/rich/blob/68224905f5dc7a3c765e04aba0460b75a95f5004/rich/highlighter.py)
+##     ([permalink](https://github.com/Textualize/rich/blob/68224905f5dc7a3c765e04aba0460b75a95f5004/rich/highlighter.py))
 
 import std/tables
 import std/options

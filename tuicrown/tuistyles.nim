@@ -5,6 +5,9 @@
 ## This module parses styles inside brackets passed like `[green bold]`.
 ## The parsing mechanism is implemented in newTuiStyles_ and parseStr_.
 ##
+## - Init:
+##   - newTuiStyles_
+##
 ## Color and style parsing is done in this order.
 ## If none of the the styles are found, returns `none(TuiStyles)`.
 ##
