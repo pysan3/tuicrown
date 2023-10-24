@@ -29,7 +29,6 @@ runnableExamples:
 ## If you have more interests on the syntax, take a look there.
 
 import std/macros
-import std/sequtils
 import std/rdstdin
 import tuicrown/tuiconsole
 import tuicrown/tuicontrol
@@ -42,7 +41,7 @@ let gConsoleErr* = newTuiConsole(newTuiConsoleOptions(), file = stderr) ## Globa
 proc print*(args: varargs[string, `$`]) =
   ## print to `stdout` with style parsing. Values will be space separated.
   runnableExamples:
-    print("[green]Hello Nim![/]")
+    print("[green]Hello Nim :crown:![/]")
     print(true, false, 100, 0.001, 1e-6)
   unpackVarargs(gConsoleOut.print, args)
 
@@ -97,4 +96,6 @@ proc error*(args: varargs[string, `$`]) =
   unpackVarargs(eprint, args)
 
 when isMainModule:
-  echo input("100, 200")
+  print "[yellow]TuiCrown :crown:[/]\n=============="
+  while true:
+    print input("Test any [green u]prompt[/] or [i blue]style[/]: ")
