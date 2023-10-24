@@ -97,7 +97,7 @@ func lookup*(self: MatchSeq, idx: int): MatchResult =
   ## where `result.optTuiStyles.isNone == true`.
   ##
   ## Ref. MatchResult_, assign_
-  var id = self.ids[idx]
+  let id = self.ids[idx]
   if self.pool.low <= id and id <= self.pool.high:
     return self.pool[id]
   return self.null
@@ -136,21 +136,19 @@ func newMatchSeq*(text_len: int): MatchSeq =
   MatchSeq(ids: newSeq[int](text_len).mapIt(-1), pool: newSeq[MatchResult](),
     null: MatchResult(text: "", optTuiStyles: none(TuiStyles), hlKey: ""))
 
-proc newTuiHighlighter*(prefix = "", highlights = newSeq[seq[string]]()): TuiHighlighter =
+proc newTuiHighlighter*(prefix = "", highlights = newSeq[Regex2]()): TuiHighlighter =
   ## Create new highlighter
   ##
   ## See reprHighlighter_ for an example.
   ##
   ## Ref. reprHighlighter_
-  result = TuiHighlighter(prefix: prefix, highlights: newSeq[Regex2](), lookup: style_lookup.pairs().toSeq.newTable())
-  for hl in highlights:
-    result.highlights.add(hl.join("|").re2())
+  TuiHighlighter(prefix: prefix, highlights: highlights, lookup: style_lookup.pairs().toSeq.newTable())
 
-func updateLookup*(self: TuiHighlighter, k: string, v: TuiStyles) =
+func updateLookup*(self: var TuiHighlighter, k: string, v: TuiStyles) =
   ## Append new regex patterns and its key.
   self.lookup[k] = v
 
-func updateLookup*(self: TuiHighlighter, t: TableRef[string, TuiStyles]) =
+func updateLookup*(self: var TuiHighlighter, t: TableRef[string, TuiStyles]) =
   ## Append multiple new regex patterns and their keys at once.
   for (k, v) in t.pairs():
     self.updateLookup(k, v)
@@ -164,23 +162,27 @@ func match*(self: TuiHighlighter, text: string): MatchSeq {.discardable.} =
   for reg in self.highlights:
     for m in text.findAll(reg):
       for name in m.namedGroups.keys:
-        var lookup = self.prefix & name
+        let lookup = self.prefix & name
         if not self.lookup.hasKey(lookup):
           continue
-        for bounds in m.group(name):
-          if bounds.a > bounds.b: continue
-          var subtext = text[bounds]
-          result.pool.add(MatchResult(text: subtext, optTuiStyles: some(self.lookup[lookup]), hlKey: lookup))
-          var idx = result.pool.high
-          for it in bounds:
-            if result.lookup(it).optTuiStyles.isNone or result.lookup(it).text.len < subtext.len:
-              result.assign(it, idx)
+        let capture = m.group(name)
+        if capture == reNonCapture:
+          continue
+        let subtext = text[capture]
+        result.pool.add(MatchResult(text: subtext, optTuiStyles: some(self.lookup[lookup]), hlKey: lookup))
+        let idx = result.pool.high
+        for it in capture:
+          if result.lookup(it).optTuiStyles.isNone or result.lookup(it).text.len < subtext.len:
+            result.assign(it, idx)
+
+func mergeStrings*(highlights: openArray[string]): string {.compileTime.} =
+  highlights.join("|")
 
 let reprHighlighter* = newTuiHighlighter("repr.", @[
-  @[r"(?P<tag_start><)(?P<tag_name>[-\w.:|]*)(?P<tag_contents>[\w\W]*)(?P<tag_end>>)"],
-  @[r"(?P<attrib_name>[\w_]{1,50})=(?P<attrib_value>""?[\w_]+""?)?"],
-  @[r"(?P<brace>[][{}()])"],
-  @[
+  [r"(?P<tag_start><)(?P<tag_name>[-\w.:|]*)(?P<tag_contents>[\w\W]*)(?P<tag_end>>)"].mergeStrings.re2,
+  [r"(?P<attrib_name>[\w_]{1,50})=(?P<attrib_value>""?[\w_]+""?)?"].mergeStrings.re2,
+  [r"(?P<brace>[][{}()])"].mergeStrings.re2,
+  [
     r"(?P<ipv4>[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})",
     r"(?P<ipv6>([A-Fa-f0-9]{1,4}::?){1,7}[A-Fa-f0-9]{1,4})",
     r"(?P<eui64>(?:[0-9A-Fa-f]{1,2}-){7}[0-9A-Fa-f]{1,2}|(?:[0-9A-Fa-f]{1,2}:){7}[0-9A-Fa-f]{1,2}|(?:[0-9A-Fa-f]{4}\.){3}[0-9A-Fa-f]{4})",
@@ -194,7 +196,7 @@ let reprHighlighter* = newTuiHighlighter("repr.", @[
     r"(?P<path>\B(/[-\w._+]+)*\/)(?P<filename>[-\w._+]*)?",
     r"(?<![\\\w])(?P<str>b?"".*?(?<!\\)"")",
     r"(?P<url>(file|https|http|ws|wss)://[-0-9a-zA-Z$_+!`(),.?/;:&=%#]*)",
-  ]
+  ].mergeStrings.re2,
 ]) ## \
   ## TuiHighlighter_ for variables and other symbols.
   ##
