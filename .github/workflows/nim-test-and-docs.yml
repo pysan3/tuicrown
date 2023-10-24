@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: nimble test -y
   pretty:
-    needs: pretty
+    needs: build
     runs-on: ubuntu-latest
     name: Nim pretty
     steps:
