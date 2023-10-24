@@ -9,7 +9,7 @@ skipDirs = @["tests", "tmp"]
 
 # Dependencies
 
-requires "nim >= 1.9.3"
+requires "nim >= 2.0.0"
 requires "fungus"
-requires "regex >= 0.20.2"
+requires "regex >= 0.21.0"
 requires "nimoji >= 0.1.5"

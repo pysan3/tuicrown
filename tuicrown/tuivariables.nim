@@ -23,8 +23,8 @@ import std/options
 import std/terminal
 import std/sequtils
 import std/strutils
-import regex
 
+import regex
 import tuistyles
 import utils
 
@@ -66,7 +66,7 @@ type
     ##
     ## Init. newTuiHighlighter_
     prefix*: string
-    highlights*: seq[Regex]
+    highlights*: seq[Regex2]
     lookup*: TableRef[string, TuiStyles]
   MatchResult* = ref object of RootObj
     ## .. importdoc:: tuistyles.nim
@@ -142,9 +142,9 @@ proc newTuiHighlighter*(prefix = "", highlights = newSeq[seq[string]]()): TuiHig
   ## See reprHighlighter_ for an example.
   ##
   ## Ref. reprHighlighter_
-  result = TuiHighlighter(prefix: prefix, highlights: newSeq[Regex](), lookup: style_lookup.pairs().toSeq.newTable())
+  result = TuiHighlighter(prefix: prefix, highlights: newSeq[Regex2](), lookup: style_lookup.pairs().toSeq.newTable())
   for hl in highlights:
-    result.highlights.add(hl.join("|").re)
+    result.highlights.add(hl.join("|").re2())
 
 func updateLookup*(self: TuiHighlighter, k: string, v: TuiStyles) =
   ## Append new regex patterns and its key.
