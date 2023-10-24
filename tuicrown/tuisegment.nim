@@ -168,7 +168,7 @@ proc fromString*(text: string): seq[TuiSegment] {.discardable.} =
     accumfrom: int = 0
   defer: result.keepItIf(it.len > 0)
   result.add(newTuiSegment())
-  for i, s in enumerate(text):
+  for (i, s) in enumerate(text):
     if s == '[':
       blockstart = if blockstart < 0: i + 1 else: -1
       if blockstart > 1:

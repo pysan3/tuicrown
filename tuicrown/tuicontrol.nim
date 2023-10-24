@@ -2,7 +2,6 @@ import std/sequtils
 import std/strutils
 import std/strformat
 import std/os
-import std/sugar
 import std/terminal
 
 import utils
@@ -34,7 +33,7 @@ proc newTuiControl*(t: ControlType, title: string): TuiControl =
   TuiControl(typ: t, title: title)
 
 proc newTuiControl*(t: ControlType, args: seq[string]): TuiControl =
-  newTuiControl(t, args.map((x: string) => $x).join(" "))
+  newTuiControl(t, args.mapIt($it).join(" "))
 
 proc newTuiControl*(t: ControlType, args: seq[int]): TuiControl =
   if t <= HIDE_CURSOR:
@@ -48,7 +47,7 @@ proc newTuiControl*(t: ControlType, args: seq[int]): TuiControl =
       y = argsWithDefault(args, 1, 1)
     return TuiControl(typ: t, args: @[x, y])
   else:
-    var targs = args.map((x) => $x)
+    var targs = args.mapIt($it)
     if targs.len == 0:
       targs.add(getAppFilename().substr(getAppDir().len + 1))
       when declared(commandLineParams):

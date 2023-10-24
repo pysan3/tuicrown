@@ -30,11 +30,11 @@ import fungus
 
 import utils
 
-adtEnum(TuiFGType):
+adtEnum TuiFGType:
   TuiFGNone
   TuiForegroundColor: ForegroundColor
   TuiFGColor: Color
-adtEnum(TuiBGType):
+adtEnum TuiBGType:
   TuiBGNone
   TuiBackgroundColor: BackgroundColor
   TuiBGColor: Color
@@ -101,7 +101,7 @@ func `bgColor+`*(self: TuiStyles, o: seq[TuiBGType]): auto =
 
 proc print*(f: File, self: TuiStyles) =
   var isBright = self.styles.anyIt(it == styleBright)
-  f.write(self.styles.map(ansiStyleCode).join(""))
+  f.write(self.styles.mapIt(it.int).map(ansiStyleCode).join(""))
   match self.bgColor:
   of TuiBackgroundColor as bg_0:
     f.setBackgroundColor(bg_0, isBright)
