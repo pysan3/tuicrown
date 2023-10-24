@@ -23,6 +23,16 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run tests
         run: nimble test -y
+  pretty:
+    needs: pretty
+    runs-on: ubuntu-latest
+    name: Nim pretty
+    steps:
+      - uses: actions/checkout@master
+      - uses: jiro4989/setup-nim-action@v1
+      - uses: juancarlospaco/nimpretty-action@main
+        with:
+          maxLineLen: 120
   deploy:
     needs: build
     runs-on: ubuntu-latest
