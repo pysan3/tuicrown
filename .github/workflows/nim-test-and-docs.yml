@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: jiro4989/setup-nim-action@v1
-      - uses: juancarlospaco/nimpretty-action@main
+      - uses: pysan3/nimpretty-action@fix-walk-args
         with:
           maxLineLen: 120
   deploy:

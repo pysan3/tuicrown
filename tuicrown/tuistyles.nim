@@ -101,7 +101,7 @@ func `bgColor+`*(self: TuiStyles, o: seq[TuiBGType]): auto =
 
 proc print*(f: File, self: TuiStyles) =
   var isBright = self.styles.anyIt(it == styleBright)
-  f.write(self.styles.mapIt(ansiStyleCode(it)).join(""))
+  f.write(self.styles.map(ansiStyleCode).join(""))
   match self.bgColor:
   of TuiBackgroundColor as bg_0:
     f.setBackgroundColor(bg_0, isBright)
