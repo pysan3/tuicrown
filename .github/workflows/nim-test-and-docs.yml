@@ -11,9 +11,8 @@ jobs:
     strategy:
       matrix:
         nim:
-          # - 'stable'
-          # - "1.9.x"
-          - "devel"
+          - 'stable'
+          # - "devel"
     name: Nim ${{ matrix.nim }} test
     steps:
       - uses: actions/checkout@v3
@@ -30,8 +29,8 @@ jobs:
     strategy:
       matrix:
         nim:
-          # - 'stable'
-          - "devel"
+          - 'stable'
+          # - "devel"
     name: Nim ${{ matrix.nim }} docsgen
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
